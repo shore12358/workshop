@@ -1,0 +1,27 @@
+co-blue        = #007df4
+co-green       = #00ae88
+co-red         = #ff3c56
+co-orange      = #ff9600
+co-blue-bright = #1b88ee
+
+radius(n)
+  border-radius (n / 10) rem
+
+text-light(font = 1.4rem, isBold = false)
+  font-size font
+  line-height: font
+  color: #999
+  if isBold
+    font-weight bold
+
+text-dark(font = 1.4rem, isBold = false)
+  font-size font
+  line-height: font
+  color #333
+  if isBold
+    font-weight bold
+
+co-flex(justify = center)
+  display flex
+  align-items center
+  justify-content justify
