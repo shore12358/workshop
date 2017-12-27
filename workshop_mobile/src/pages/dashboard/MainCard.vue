@@ -22,7 +22,7 @@
 
 <script>
     export default {
-        name: 'dashboard',
+        name: 'mainCard',
         data() {
             return {
                 a: 12,
@@ -49,7 +49,6 @@
         co-flex(space-between)
 
         .left, .middle, .right
-            flex 1
             li
                 margin-bottom 1rem
                 &:last-child
@@ -58,19 +57,20 @@
                     margin-left 0.8rem
 
         .left
+            flex 6
             text-light(, true)
             border-right: 1px dashed #e8e8e8
+            margin-right 1.2rem
             li
                 span
                     font-size 1.8rem
                     color co-blue-bright
 
         .middle, .right
+            flex 5
             text-light()
             span
                 text-dark()
-
-
 
 
 

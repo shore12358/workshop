@@ -1,17 +1,23 @@
 <template>
     <div>
-        <Dashboard></Dashboard>
-        <router-link to="/">Go to dashboard</router-link>
-        <router-link to="/task">Go to task</router-link>
+        <MainCard></MainCard>
+        <Tabs></Tabs>
+        <DashboardList></DashboardList>
+        <!--<icon name="flag"></icon>-->
     </div>
 </template>
 
 <script>
-    import Dashboard from './MainCard'
+    import MainCard from './MainCard'
+    import Tabs from '../../components/Tabs'
+    import DashboardList from './DashboardList'
+//    import icon from 'vue-awesome/components/Icon'
     export default {
         name: 'dashboard',
         components: {
-            Dashboard
+            MainCard,
+            Tabs,
+            DashboardList
         }
     }
 </script>
