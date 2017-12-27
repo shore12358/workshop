@@ -27,6 +27,6 @@ app.use(proxy({
     match: /^\/api\//i
 }));
 
-app.listen(8080, () => {
-    console.log('listening at port: 8080');
+app.listen(3159, () => {
+    console.log('listening at port: 3159');
 });
