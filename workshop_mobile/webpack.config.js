@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const __PRO__ = 'PRODUCTION';
-const PORT = 3159;
+const PORT = 8080;
 const ENTRY_PATH = path.join(__dirname, './src/main.js');
 
 const config = {
