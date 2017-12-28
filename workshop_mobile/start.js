@@ -17,7 +17,7 @@ app.use(require('koa-webpack-dev-middleware')(complier, {
     }
 }));
 app.use(require('koa-webpack-hot-middleware')(complier, {
-    // log: false,
+    log: false,
     reload: true
 }));
 

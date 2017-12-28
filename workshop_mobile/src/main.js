@@ -2,11 +2,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import 'vue-awesome/icons/flag'
+import * as Icon from 'vue-awesome'
+import 'isomorphic-fetch'
+import VueSocketio from 'vue-socket.io';
 
-import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
-Vue.config.productionTip = false
+Vue.component('Icon', Icon)
+
+
 
 new Vue({
   el: '#app',

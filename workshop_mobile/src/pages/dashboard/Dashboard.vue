@@ -1,9 +1,9 @@
 <template>
     <div>
+        <Searchbar></Searchbar>
         <MainCard></MainCard>
         <Tabs></Tabs>
         <DashboardList></DashboardList>
-        <!--<icon name="flag"></icon>-->
     </div>
 </template>
 
@@ -11,13 +11,15 @@
     import MainCard from './MainCard'
     import Tabs from '../../components/Tabs'
     import DashboardList from './DashboardList'
-//    import icon from 'vue-awesome/components/Icon'
+    import Searchbar from './Searchbar'
+
     export default {
         name: 'dashboard',
         components: {
             MainCard,
             Tabs,
-            DashboardList
+            DashboardList,
+            Searchbar
         }
     }
 </script>

@@ -39,31 +39,31 @@
     bg-color = #f2f2f2
 
     .mainCard
-        padding 1rem
+        padding 0.1rem
         background-color bg-color
 
     .mainCard-box
         background-color white
-        padding 1.3rem 1.7rem
+        padding 0.13rem 0.17rem
         radius(4)
         co-flex(space-between)
 
         .left, .middle, .right
             li
-                margin-bottom 1rem
+                margin-bottom 0.1rem
                 &:last-child
                     margin-bottom 0!important
                 span
-                    margin-left 0.8rem
+                    margin-left 0.08rem
 
         .left
             flex 6
             text-light(, true)
             border-right: 1px dashed #e8e8e8
-            margin-right 1.2rem
+            margin-right 0.12rem
             li
                 span
-                    font-size 1.8rem
+                    font-size 0.18rem
                     color co-blue-bright
 
         .middle, .right

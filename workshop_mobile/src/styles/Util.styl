@@ -6,18 +6,18 @@ co-blue-bright = #1b88ee
 co-grey        = #e8e8e8
 
 radius(n)
-  border-radius (n / 10) rem
+  border-radius (n / 100) rem
 
-text-light(font = 1.4rem, isBold = false)
+text-light(font = 0.14, isBold = false)
   font-size font
-  line-height: font
+  line-height: font + 0.04 rem
   color: #999
   if isBold
     font-weight 500
 
-text-dark(font = 1.4rem, isBold = false)
+text-dark(font = 0.14, isBold = false)
   font-size font
-  line-height: font
+  line-height: font + 0.04 rem
   color #333
   if isBold
     font-weight 500
@@ -30,4 +30,4 @@ co-flex(justify = center, direction = row)
 
 shadow-box()
   radius(3)
-  box-shadow 0 0 0.3rem rgba(0, 0, 0, 0.3)
+  box-shadow 0 0 0.03rem rgba(0, 0, 0, 0.3)

@@ -43,7 +43,7 @@
     .tabs
         co-flex()
         width 100%
-        height 4.9rem
+        height 0.49rem
         background-color #f9f9f9
         border-top #d9d9d9 1px solid
         position fixed
@@ -53,7 +53,7 @@
         .item
             flex 1
             co-flex()
-            font-size 1rem
+            font-size 0.1rem
             color co-blue-bright
 
 

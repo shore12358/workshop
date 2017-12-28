@@ -14,12 +14,14 @@
     "app"
   ],
   "dependencies": {
-    "echarts": "^3.8.5",
+    "chart.js": "^2.7.1",
     "isomorphic-fetch": "^2.2.1",
     "vue": "^2.5.13",
+    "vue-awesome": "^2.3.4",
+    "vue-chartjs": "^3.0.2",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1",
-    "vue-awesome": "^2.3.4"
+    "vue-socket.io": "^2.1.1-a",
+    "vuex": "^3.0.1"
   },
   "author": "Joan Wu",
   "license": "ISC",

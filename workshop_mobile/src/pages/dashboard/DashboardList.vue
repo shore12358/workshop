@@ -32,32 +32,32 @@
     @import "../../styles/Util.styl"
 
     .container
-        padding 1.6rem
+        padding 0.16rem
     .card
-        height 4.4rem
+        height 0.44rem
         shadow-box()
-        border-left 0.4rem solid co-blue
+        border-left 0.04rem solid co-blue
         co-flex(sapce-between)
         text-dark()
         .left, .right
             flex 1
         .left
-            padding-left 2rem
+            padding-left 0.2rem
         .right
             co-flex()
             justify-content flex-end
-            text-light(1rem)
-            padding-right 2rem
+            text-light(0.1rem)
+            padding-right 0.2rem
             .pending, .working
                 text-align center
                 p
-                    font-size 1.6rem
-                    margin-top 0.5rem
+                    font-size 0.16rem
+                    margin-top 0.05rem
 
             .pending
                 border-right 1px solid co-grey
-                margin-right 1rem
-                padding-right 1rem
+                margin-right 0.1rem
+                padding-right 0.1rem
                 p
                     color co-red
             .working
