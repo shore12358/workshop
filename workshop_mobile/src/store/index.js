@@ -1,10 +1,18 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
-import dashboard from 'Dashboard'
+
+// import dashboard from 'Dashboard'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    modules: {
-        dashboard
+    state: {
+        count: 0
+    },
+    mutations: {
+        increment (state) {
+            state.count++
+        }
     }
+
 })
