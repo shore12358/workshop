@@ -14,7 +14,7 @@ const config = {
     output: {
         publicPath: '/',
         path: path.join(__dirname, 'dist'),
-        filename: '[name].[hash]js'
+        filename: '[name].[hash].js'
     },
     module: {
         rules: [

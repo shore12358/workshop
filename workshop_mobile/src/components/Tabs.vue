@@ -1,7 +1,7 @@
 <template>
     <div class="tabs">
-        <div class="item" v-for="n in nav" :key="n.key" @click="handleTab(n.key)">
-            <img :src="n.img" alt="">
+        <div :class="`item ${focusIndex === n.key ? 'item-bright' : ''}`" v-for="n in nav" :key="n.key" @click="handleTab(n.key)">
+            <Icon :name="n.icon" class="tab-icon" scale="1.5"></Icon>
             <p>{{n.text}}</p>
         </div>
     </div>
@@ -12,26 +12,36 @@
         name: 'tabs',
         data() {
           return {
+              techId: 123,
+              focusIndex: 0,
               nav: [
                 {
                     key: 0,
-                    img: '',
+                    icon: 'home',
                     text: '看板'
                 },
                 {
                     key: 1,
-                    img: '',
+                    icon: 'user',
                     text: '任务'
                 },
             ]
           }
         },
+
         methods: {
             handleTab(key) {
-                if (key === 1) {
-                    this.$router.push({ path: 'Task' });
-                }
+                this.focusIndex = key;
+                switch (key) {
+                    case 0:
+                        this.$router.replace({ path: '/user/dashboard' });
+                        break;
+                    case 1:
+                        this.$router.replace({ path: '/user/task' });
+                        break;
+                    default:
 
+                }
             }
         }
     }
@@ -52,9 +62,12 @@
 
         .item
             flex 1
-            co-flex()
-            font-size 0.1rem
-            color co-blue-bright
+            co-flex(, column)
+            text-light(0.1rem)
+        .item-bright
+             color co-blue-bright
+        .tab-icon
+            font-size 0.16rem
 
 
 

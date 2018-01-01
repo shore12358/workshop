@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-
+        <Multiselect v-model="value" :options="options"></Multiselect>
         <div class="card">
             <div class="left">等待施工车辆</div>
             <ul class="right">
@@ -22,7 +22,8 @@
         name: 'dashboardList',
         data() {
             return {
-
+                value: '',
+                options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched']
             }
         }
     }

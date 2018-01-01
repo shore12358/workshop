@@ -1,5 +1,5 @@
 <template>
-    <div class='mainCard' @click="count">
+    <div class='mainCard'>
         <div class='mainCard-box'>
             <ul class='left'>
                 <li>钣喷车辆<span>{{a}}</span></li>
@@ -31,10 +31,7 @@
             }
         },
         methods: {
-            count() {
-                this.$store.commit('increment')
-                console.log(this.$store.state.count)
-            }
+
         }
     }
 </script>
