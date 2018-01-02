@@ -28,7 +28,7 @@ export default new Router({
 			]
 		},
 		{
-			path: '/process/:processId/orderList',
+			path: '/process/:processId/orders',
 			name: 'orderList',
 			component: OrderList
 		}

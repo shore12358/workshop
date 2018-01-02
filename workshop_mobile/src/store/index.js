@@ -7,7 +7,8 @@ export default new Vuex.Store({
 	state: {
         orders: [
             {
-                no: '沪C12345',
+                roId: 0,
+                no: '沪C12358',
                 brand: '上海通用汽车别克 凯越',
                 orderNo: 'TH18842734',
 				lineId: 0,
@@ -16,6 +17,7 @@ export default new Vuex.Store({
 
             },
             {
+                roId: 1,
                 no: '沪C12345',
                 brand: '上海通用汽车别克 凯越',
                 orderNo: 'TH18842734',
@@ -25,6 +27,7 @@ export default new Vuex.Store({
 
             },
             {
+                roId: 2,
                 no: '沪C12345',
                 brand: '上海通用汽车别克 凯越',
                 orderNo: 'TH18842734',
@@ -34,6 +37,7 @@ export default new Vuex.Store({
 
             },
             {
+                roId: 3,
                 no: '沪C12345',
                 brand: '上海通用汽车别克 凯越',
                 orderNo: 'TH18842734',

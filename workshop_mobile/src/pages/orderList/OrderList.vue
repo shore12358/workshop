@@ -17,19 +17,20 @@
                 orders: []
             }
         },
+
         computed: {
             ...mapGetters([
                 'getOrdersByProcessId'
             ]),
             processId () {
-                debugger
-                return this.$router.params.processId;
+                return this.$route.params.processId;
 
             }
         },
         created () {
-            console.log('created OrderList')
-            console.log(this.processId);
+            if ([0, 3].indexOf(this.processId) !== -1) {
+
+            }
         },
 
         mounted () {

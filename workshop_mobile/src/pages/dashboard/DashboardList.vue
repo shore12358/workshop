@@ -6,11 +6,11 @@
             <ul class="right">
                 <li class="pending">
                     等待中
-                    <p>{{getOrdersByProcessId(pi.processId).filter(item => item.status === 0).length}}</p>
+                    <p>{{ getStatusNum(pi.processId, 0) }}</p>
                 </li>
                 <li class="working">
                     施工中
-                    <p>{{getOrdersByProcessId(pi.processId).filter(item => item.status === 1).length}}</p>
+                    <p>{{ getStatusNum(pi.processId, 1) }}</p>
                 </li>
             </ul>
         </div>
@@ -37,7 +37,7 @@
             },
             getOrdersByProcessId () {
                 return this.getOrdersByLineId(this.processList.lineId);
-            }
+            },
 
         },
         data () {
@@ -49,8 +49,14 @@
         },
         methods: {
             orderListGo(processId) {
-                this.$router.push({ name: 'orderList', params: { processId } });
+                if (this.getStatusNum(processId, 0) || this.getStatusNum(processId, 1)) {
+                    this.$router.push({ name: 'orderList', params: { processId } });
+                }
+            },
+            getStatusNum (processId, status) {
+                return this.getOrdersByProcessId(processId).filter(item => item.status === status).length;
             }
+
         },
         created () {
           getLineList()

@@ -24,8 +24,6 @@
         },
         created () {
             console.log('created task')
-            const lineOrders = this.getOrdersByLineId(0)(1);
-            console.log(lineOrders)
         },
         mounted () {
             console.log('mounted task')
