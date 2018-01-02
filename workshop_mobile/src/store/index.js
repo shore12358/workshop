@@ -23,16 +23,39 @@ export default new Vuex.Store({
                 processId: 1,
                 status: 0,
 
+            },
+            {
+                no: '沪C12345',
+                brand: '上海通用汽车别克 凯越',
+                orderNo: 'TH18842734',
+                lineId: 0,
+                processId: 2,
+                status: 1,
+
+            },
+            {
+                no: '沪C12345',
+                brand: '上海通用汽车别克 凯越',
+                orderNo: 'TH18842734',
+                lineId: 1,
+                processId: 4,
+                status: 1,
+
             }
 		]
 	},
 	getters: {
-		getOrdersByProcessId: (state) => (lineId) => {
+		getOrdersByLineId: (state) => (lineId) => {
 			const lineOrders = state.orders.filter(order => order.lineId === lineId);
 			return (processId) => {
 				return lineOrders.filter(order => order.processId === processId);
 			}
-		}
+		},
+        getOrdersByProcessId: (state) => {
+		    return (processId) => {
+		        state.orders.filter(order => order.processId === processId);
+            }
+        }
 	}
 
 

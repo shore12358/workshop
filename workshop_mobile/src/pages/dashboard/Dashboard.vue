@@ -13,6 +13,7 @@
 
     export default {
         name: 'dashboard',
+
         created () {
             console.log('created db')
         },

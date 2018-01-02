@@ -11,7 +11,7 @@
     import { mapGetters } from 'vuex'
 
     export default {
-        name: 'task',
+        name: 'orderList',
         data () {
             return {
                 orders: []
@@ -19,16 +19,21 @@
         },
         computed: {
             ...mapGetters([
-                'getOrdersByLineId'
-            ])
+                'getOrdersByProcessId'
+            ]),
+            processId () {
+                debugger
+                return this.$router.params.processId;
+
+            }
         },
         created () {
-            console.log('created task')
-            const lineOrders = this.getOrdersByLineId(0)(1);
-            console.log(lineOrders)
+            console.log('created OrderList')
+            console.log(this.processId);
         },
+
         mounted () {
-            console.log('mounted task')
+            console.log('mounted OrderList')
 
         },
         components: {
@@ -37,7 +42,7 @@
         },
         methods:{
 
-        }    
+        }
     }
 </script>
 
@@ -47,10 +52,10 @@
     .container
         padding 0 0.11rem
 
-                        
-          
-        
-      
-    
-  
+
+
+
+
+
+
 </style>
