@@ -1,7 +1,7 @@
 <template>
     <div>
         <Searchbar></Searchbar>
-        <MainCard></MainCard>
+        <MainCard :oCs="getOrderCounts"></MainCard>
         <DashboardList></DashboardList>
     </div>
 </template>
@@ -10,16 +10,33 @@
     import MainCard from './MainCard'
     import DashboardList from './DashboardList'
     import Searchbar from './Searchbar'
+    import { mapActions, mapGetters } from 'vuex'
+
+    let storage = window.localStorage;
 
     export default {
         name: 'dashboard',
+        data () {
+            return {
 
+            }
+        },
         created () {
-            console.log('created db')
+            this.initAsync();
+
         },
         mounted () {
-            console.log('mounted db')
 
+        },
+        computed: {
+            ...mapGetters([
+                'getOrderCounts'
+            ])
+        },
+        methods: {
+            ...mapActions([
+                'initAsync'
+            ])
         },
         components: {
             MainCard,

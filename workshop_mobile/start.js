@@ -8,7 +8,7 @@ const path = require('path');
 const app = new Koa();
 const complier = webpack(webpackConf);
 const __PRO__ = 'PRODUCTION';
-const API_SITE = 'https://s.tuhu.cn';
+const API_SITE = 'http://172.16.20.50:84/';
 
 if (process.env.NODE_ENV === __PRO__) {
     app.use(static(path.join(__dirname, '/dist'))) ;
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === __PRO__) {
 
 app.use(proxy({
     host: API_SITE,
-    match: /^\/api\//i
+    match: /^\/rest\//i
 }));
 
 app.listen(3159, () => {

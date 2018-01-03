@@ -1,20 +1,20 @@
 <template>
-    <div class='mainCard'>
+    <div class='mainCard' >
         <div class='mainCard-box'>
             <ul class='left'>
-                <li>钣喷车辆<span>{{a}}</span></li>
-                <li>施工车辆<span>{{b}}</span></li>
-                <li>待修车辆<span>{{c}}</span></li>
+                <li>钣喷车辆<span>{{oCs.carsNum}}</span></li>
+                <li>施工车辆<span>{{oCs.processNum}}</span></li>
+                <li>待修车辆<span>{{oCs.waitingNum}}</span></li>
             </ul>
             <ul class='middle'>
-                <li>钣喷车辆<span>{{a}}</span></li>
-                <li>施工车辆<span>{{b}}</span></li>
-                <li>待修车辆<span>{{c}}</span></li>
+                <li>今天接车<span>{{oCs.todayEnterNum}}</span></li>
+                <li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>
+                <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
             </ul>
             <ul class='right'>
-                <li>钣喷车辆<span>{{a}}</span></li>
-                <li>施工车辆<span>{{b}}</span></li>
-                <li>待修车辆<span>{{c}}</span></li>
+                <li>今天完工<span>{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
+                <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
+                <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
             </ul>
         </div>
     </div>
@@ -25,11 +25,10 @@
         name: 'mainCard',
         data() {
             return {
-                a: 12,
-                b: 23,
-                c: 77
+
             }
         },
+        props: ['oCs'],
         methods: {
 
         }

@@ -53,10 +53,31 @@ const lineList = [
     },
 ];
 
+// const __PRO__ = 'PRODUCTION';
+// const TEST_SERVER = 'http://172.16.20.50:84';
+// let DEV_SERVER;
+// let server;
+//
+// server = process.env.NODE_ENV === __PRO__ ? DEV_SERVER : TEST_SERVER;
+
+const API = {
+    getAllOrders: `/rest/workshop/ro/workshop_getIndex`
+};
+
 const getAllOrders = () => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(orders), 100);
+
+    return fetch(API.getAllOrders, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            shopId: 0
+        })
     })
+        .then(res => res.json())
+
 };
 
 const getLineList = () => {

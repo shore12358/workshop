@@ -6,7 +6,7 @@
                     <Donut class="donut" :percent="80" :isExpired="0"></Donut>
                     <div>80%</div>
                 </div>
-                <span>{{o.no}}</span>
+                <span>沪C12345</span>
                 <span class="brand">上海通用汽车别克 凯越</span>
             </div>
             <ul class="part-box">
