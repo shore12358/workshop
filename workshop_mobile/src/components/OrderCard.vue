@@ -1,13 +1,13 @@
 <template>
-    <div class="orderCard">
+    <div :class="`orderCard border-${themeColor}`">
         <div class="top">
             <div class="title-wrapper">
                 <div class="img-box">
                     <Donut class="donut" :percent="80" :isExpired="0"></Donut>
                     <div>80%</div>
                 </div>
-                <span>沪C12345</span>
-                <span class="brand">上海通用汽车别克 凯越</span>
+                <span>{{order.carNumber}}</span>
+                <span class="brand">{{order.carType}}</span>
             </div>
             <ul class="part-box">
                 <li>油漆<span>高</span></li>
@@ -19,10 +19,10 @@
         <div class="bottom">
             <ul>
                 <li>工 单 号：<span>TH18834234</span></li>
-                <li>进厂日期：<span>17-11-26 15：32</span></li>
+                <li>进厂日期：<span v-transDate="order.inTime"></span></li>
             </ul>
             <ul>
-                <li>完工日期：<span class="text-orange">17-02-26 18：32</span></li>
+                <li>完工日期：<span :class="`text-${themeColor}`" v-transDate="order.planCompletedTime"></span></li>
                 <li>施 工 人：<span>17-02-26 18：32</span></li>
             </ul>
         </div>
@@ -39,7 +39,12 @@
 
             }
         },
-        // props: ['orders'],
+        computed: {
+            themeColor () {
+                return this.getOrderColor(this.currentTime, this.order.planCompletedTime);
+            }
+        },
+        props: ['order', 'currentTime', 'getOrderColor'],
         mounted () {
 
         },
@@ -56,6 +61,24 @@
     @import "../styles/Util.styl"
 
     co-padding = 0.15rem
+
+    .border-blue
+        border-top-color co-blue-bright!important
+    .border-green
+        border-top-color co-green!important
+    .border-red
+        border-top-color co-red!important
+    .border-orange
+        border-top-color co-orange!important
+
+    .text-blue
+        color co-blue!important
+    .text-green
+        color co-green!important
+    .text-red
+        color co-red!important
+    .text-orange
+        color co-orange!important
 
     .orderCard
         margin-bottom 0.11rem
@@ -113,8 +136,5 @@
                 span
                     text-dark(0.1rem)
 
-
-        .text-orange
-            color co-orange!important
 
 </style>

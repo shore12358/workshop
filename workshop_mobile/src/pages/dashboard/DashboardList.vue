@@ -49,12 +49,15 @@
         },
         methods: {
             orderListGo(processId) {
-                if (this.getStatusNum(processId, 0) || this.getStatusNum(processId, 1)) {
-                    this.$router.push({ name: 'orderList', params: { processId } });
+                const waiting_orders_num = this.getStatusNum(processId, 0),
+                      working_orders_num = this.getStatusNum(processId, 1);
+
+                if (waiting_orders_num || working_orders_num) {
+                    this.$router.push({ name: 'orderList', params: { processId }, query: { waiting_orders_num, working_orders_num } });
                 }
             },
             getStatusNum (processId, status) {
-                return this.getOrdersByProcessId(processId).filter(item => item.status === status).length;
+                return this.getOrdersByProcessId(processId).filter(item => item.roStatus === status).length;
             }
 
         },

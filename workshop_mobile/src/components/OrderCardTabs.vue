@@ -21,26 +21,18 @@
         data() {
             return {
                 focusIndex: 0,
-                tabs: [
-                    {
-                        key: 0,
-                        num: 12,
-                        text: '等待中'
-                    },
-                    {
-                        key: 1,
-                        num: 15,
-                        text: '施工中'
-                    },
-                ]
             }
         },
-        // props: [ tabs ],
+        props: [ 'tabs' ],
         methods: {
             handleTab(index) {
                 this.focusIndex = index;
+                this.$emit('tabChange', index);
 
             }
+        },
+        created () {
+//            console.log(this.tabs);
         },
         updated () {
             console.log('updated')
@@ -56,6 +48,8 @@
         margin-bottom .1rem
         li
             flex 1
+            &:last-child
+                width 50%
             co-flex(, column)
             font-size .16rem
             padding .1rem 0

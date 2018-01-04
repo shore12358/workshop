@@ -20,9 +20,9 @@ export default new Vuex.Store({
                 "isEmergency": 0,
                 "processId": 0,
                 "processStatus": 0,
-                "carNumber": "string",
+                "carNumber": "沪C12345",
                 "carColor": "string",
-                "carType": "string",
+                "carType": "上海通用汽车别克 凯越",
                 "panelRates": 0,
                 "paintRates": 0,
                 "lineId": 0,
@@ -38,13 +38,41 @@ export default new Vuex.Store({
                 "updatedTime": null
             },
             {
+                "roId": 5,
+                "roNumber": "string",
+                "shopId": 0,
+                "inTime": 1514256227000,
+                "planCompletedTime": 1514256227000,
+                "actCompletedTime": null,
+                "paintGrade": 1,
+                "isEmergency": 0,
+                "processId": 0,
+                "processStatus": 0,
+                "carNumber": "string",
+                "carColor": "string",
+                "carType": "string",
+                "panelRates": 0,
+                "paintRates": 0,
+                "lineId": 0,
+                "techId": 0,
+                "techId2": 0,
+                "isRework": 1,
+                "roStatus": 1,
+                "invalid": 0,
+                "remark": "string",
+                "createdUser": "workshop_newRo",
+                "createdTime": 1514256313000,
+                "updatedUser": null,
+                "updatedTime": null
+            },
+            {
                 roId: 1,
                 no: '沪C12345',
                 brand: '上海通用汽车别克 凯越',
                 orderNo: 'TH18842734',
                 lineId: 0,
                 processId: 1,
-                status: 0,
+                roStatus: 0,
 
             },
             {
@@ -54,7 +82,7 @@ export default new Vuex.Store({
                 orderNo: 'TH18842734',
                 lineId: 0,
                 processId: 2,
-                status: 1,
+                roStatus: 1,
 
             },
             {
@@ -64,14 +92,18 @@ export default new Vuex.Store({
                 orderNo: 'TH18842734',
                 lineId: 1,
                 processId: 4,
-                status: 1,
+                roStatus: 1,
             }
 		],
         orderCounts: {
 
-        }
+        },
+        timeGap: 0  // int(ms)
 	},
 	getters: {
+	    getTimeGap (state) {
+	        return state.timeGap;
+        },
 	    getOrderCounts (state) {
 	        return state.orderCounts;
         },
@@ -92,9 +124,9 @@ export default new Vuex.Store({
 		},
         getOrdersByProcessId: (state) => {
 		    return (processId) => {
-		        state.orders.filter(order => order.processId === processId);
+		        return state.orders.filter(order => order.processId === Number(processId));
             }
-        }
+        },
 	},
     mutations: {
 

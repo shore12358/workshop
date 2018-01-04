@@ -7,9 +7,11 @@ import store from './store/index';
 import 'isomorphic-fetch';
 // import VueSocketio from 'vue-socket.io';
 import Multiselect from 'vue-multiselect';
+import TransDate from './directives/date';
 
 Vue.component('Icon', Icon);
 Vue.component('Multiselect', Multiselect);
+Vue.directive('transDate', TransDate);
 // Vue.use(VueSocketio, 'http://comet.tuhu.work');
 
 
