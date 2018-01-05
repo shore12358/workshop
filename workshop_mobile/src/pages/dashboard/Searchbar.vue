@@ -1,16 +1,37 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <input id="searchbar" placeholder="车牌、车型、工单号" />
+            <input id="searchbar" placeholder="车牌、车型、工单号" v-model.trim="queryKey" @keypress="keyDown"/>
             <Icon name="search" class="search"></Icon>
         </div>
     </div>
 </template>
 
 <script>
+    import { mapMutations } from 'vuex';
 
     export default {
-        name: 'searchbar'
+        name: 'searchbar',
+        data () {
+            return {
+                queryKey: ''
+            };
+        },
+        methods: {
+            keyDown ($el) {
+                if ($el.keyCode === 13) {
+                    if (this.queryKey) {
+                        this.modifyQueryKey({ queryKey: this.queryKey });
+                    }
+                }
+            },
+            ...mapMutations([
+                'modifyQueryKey'
+            ]),
+        },
+        updated () {
+            console.log(this.queryKey);
+        }
     }
 </script>
 

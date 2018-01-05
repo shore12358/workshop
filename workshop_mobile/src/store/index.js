@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import io from 'socket.io-client'
 import { getAllOrders } from '../api/Api';
 
 let storage = window.localStorage;
@@ -68,7 +69,8 @@ export default new Vuex.Store({
             {
                 roId: 1,
                 no: '沪C12345',
-                brand: '上海通用汽车别克 凯越',
+                carType: "上海通用汽车别克 凯越",
+                carNumber: "沪C12345",
                 orderNo: 'TH18842734',
                 lineId: 0,
                 processId: 1,
@@ -78,7 +80,8 @@ export default new Vuex.Store({
             {
                 roId: 0,
                 no: '沪C12345',
-                brand: '上海通用汽车别克 凯越',
+                carType: "上海通用汽车别克 凯越",
+                carNumber: "沪C12345",
                 orderNo: 'TH18842734',
                 lineId: 0,
                 processId: 2,
@@ -88,7 +91,8 @@ export default new Vuex.Store({
             {
                 roId: 3,
                 no: '沪C12345',
-                brand: '上海通用汽车别克 凯越',
+                carType: "上海通用汽车别克 凯越",
+                carNumber: "沪C12345",
                 orderNo: 'TH18842734',
                 lineId: 1,
                 processId: 4,
@@ -98,7 +102,8 @@ export default new Vuex.Store({
         orderCounts: {
 
         },
-        timeGap: 0  // int(ms)
+        timeGap: 0,  // int(ms)
+        queryKey: ''
 	},
 	getters: {
 	    getTimeGap (state) {
@@ -108,33 +113,52 @@ export default new Vuex.Store({
 	        return state.orderCounts;
         },
         getOrders (state) {
-	        try {
-	            return state.orders
-            } catch (e) {
-	            return JSON.parse(storage.getItem('orders'));
+            const { queryKey } = state;
+            if (queryKey) {
+               return state.orders.filter(order => {
+                    const { carNumber, carType, roId } = order;
+                    return carNumber.indexOf(queryKey) !== -1 || carType.indexOf(queryKey) !== -1 || roId.toString().indexOf(queryKey) !== -1;
+                })
             }
+            return state.orders;
+            // try {
+	         //    return state.orders
+            // } catch (e) {
+	         //    return JSON.parse(storage.getItem('orders'));
+            // }
         },
 
         //  waiting to add localstorage
-		getOrdersByLineId: (state) => (lineId) => {
-			const lineOrders = state.orders.filter(order => order.lineId === lineId);
+		getOrdersByLineId: (state, getters) => (lineId) => {
+			const lineOrders = getters.getOrders.filter(order => order.lineId === lineId);
 			return (processId) => {
 				return lineOrders.filter(order => order.processId === processId);
 			}
 		},
-        getOrdersByProcessId: (state) => {
-		    return (processId) => {
-		        return state.orders.filter(order => order.processId === Number(processId));
-            }
+        getOrdersByProcessId: (state, getters) => (processId) => {
+            return getters.getOrders.filter(order => order.processId === Number(processId));
         },
 	},
     mutations: {
 
 	    // get all orders and counts
         init (state, payload) {
+
             // state.orders = payload.orders;
             state.orderCounts = payload.orderCounts;
-        }
+        },
+        updateFromPush (state, payload) {
+            state.orders.push(payload.order);   // order attr map to the data structure in ws api
+            state.orderCounts = payload.orderCounts;
+        },
+        modifyQueryKey (state, payload) {
+            const { queryKey } = payload;
+            if (queryKey) {
+                state.queryKey = queryKey;
+            }
+        },
+
+
     },
     actions: {
         initAsync ({ commit }) {
@@ -152,6 +176,23 @@ export default new Vuex.Store({
         },
 	    refreshOrderCounts ({ commit }) {
 
+        },
+        updateFromPushAsync ({ commit }) {
+            const socket = io('http://comet.tuhu.work?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd');
+            socket.on('connect',() => {
+                console.log('connect ' + socket.id);
+            });
+
+            socket.on('disconnect', () => {
+                console.log('disconnect ' + socket.id);
+            });
+
+            socket.on('ChatMessage', msg => {
+                console.log(msg);
+                // commit({
+                //     type: 'updateFromPush',
+                // });
+            });
         }
     }
 

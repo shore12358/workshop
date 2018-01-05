@@ -19,10 +19,7 @@
 
 <script>
     import { getLineList } from '../../api/Api'
-    import { mapGetters } from 'vuex'
-    import io from 'socket.io-client'
-
-    const socket = io('http://comet.tuhu.work');
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'dashboardList',
@@ -58,7 +55,7 @@
             },
             getStatusNum (processId, status) {
                 return this.getOrdersByProcessId(processId).filter(item => item.roStatus === status).length;
-            }
+            },
 
         },
         created () {
@@ -73,20 +70,9 @@
 
               });
 
-            socket.on('connect',() => {
-                console.log('connect ' + socket.id);
-            });
-
-            socket.emit('ChatMessage', 'test2');
-
-            socket.on('ChatMessage', msg => {
-                console.log(msg)
-            });
-
-
         },
         updated () {
-            console.log(this.line);
+
         }
     }
 </script>

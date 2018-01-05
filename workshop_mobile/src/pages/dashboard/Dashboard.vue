@@ -26,7 +26,7 @@
 
         },
         mounted () {
-
+            this.updateFromPushAsync();
         },
         computed: {
             ...mapGetters([
@@ -36,6 +36,9 @@
         methods: {
             ...mapActions([
                 'initAsync'
+            ]),
+            ...mapActions([
+                'updateFromPushAsync'
             ])
         },
         components: {
