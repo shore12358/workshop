@@ -1,36 +1,51 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <input id="searchbar" placeholder="车牌、车型、工单号" v-model.trim="queryKey" @keypress="keyDown"/>
+            <input id="searchbar" :placeholder="holderValue" v-model.trim="tempQueryKey" @keypress="keyDown" @focus="focus"/>
             <Icon name="search" class="search"></Icon>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapMutations } from 'vuex';
+    import { mapMutations, mapGetters } from 'vuex';
+
+    const HOLDER = '车牌、车型、工单号';
 
     export default {
         name: 'searchbar',
         data () {
             return {
-                queryKey: ''
+                tempQueryKey: '',
+                holderValue: ''
             };
+        },
+        computed: {
+            ...mapGetters([
+                'getQueryKey'
+            ]),
         },
         methods: {
             keyDown ($el) {
                 if ($el.keyCode === 13) {
-                    if (this.queryKey) {
-                        this.modifyQueryKey({ queryKey: this.queryKey });
+                    if (this.tempQueryKey !== this.getQueryKey) {
+                        this.modifyQueryKey({ queryKey: this.tempQueryKey });
                     }
+                }
+            },
+            focus () {
+                if (!this.tempQueryKey && this.getQueryKey) {
+                    this.modifyQueryKey({ queryKey: '' });
+                    this.holderValue = HOLDER
+
                 }
             },
             ...mapMutations([
                 'modifyQueryKey'
             ]),
         },
-        updated () {
-            console.log(this.queryKey);
+        created () {
+            this.holderValue = this.getQueryKey || HOLDER;
         }
     }
 </script>

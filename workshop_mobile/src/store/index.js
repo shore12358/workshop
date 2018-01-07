@@ -109,6 +109,9 @@ export default new Vuex.Store({
 	    getTimeGap (state) {
 	        return state.timeGap;
         },
+        getQueryKey (state) {
+	        return state.queryKey;
+        },
 	    getOrderCounts (state) {
 	        return state.orderCounts;
         },
@@ -153,9 +156,7 @@ export default new Vuex.Store({
         },
         modifyQueryKey (state, payload) {
             const { queryKey } = payload;
-            if (queryKey) {
-                state.queryKey = queryKey;
-            }
+            state.queryKey = queryKey;
         },
 
 

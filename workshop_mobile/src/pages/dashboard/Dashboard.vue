@@ -26,7 +26,7 @@
 
         },
         mounted () {
-            this.updateFromPushAsync();
+            // this.updateFromPushAsync();
         },
         computed: {
             ...mapGetters([
