@@ -31,14 +31,9 @@ const getAllOrders = () => {
 };
 
 const getLineList = () => {
-
-    return fetch(API.getLineList, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
+    return myFetch(API.getLineList, {
+        method: 'post',
+        body: {
             channel: "",
             blackbox: "",
             apiVersion: "",
@@ -46,25 +41,8 @@ const getLineList = () => {
             postData: {
                 ShopID: 1
             }
-        })
-    })
-        .then(res => res.json())
-        .catch(res => {
-            console.log(res);
-        })
-
-    // return fetch(API.getLineList, {
-    //     method: 'post',
-    //     body: {
-    //         channel: "",
-    //         blackbox: "",
-    //         apiVersion: "",
-    //         umengChannel: "",
-    //         postData: {
-    //             ShopID: 1
-    //         }
-    //     }
-    // });
+        }
+    });
 };
 
 export {
