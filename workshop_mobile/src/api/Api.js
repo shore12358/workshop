@@ -1,89 +1,70 @@
-const orders = [
-    {
-        no: '沪C12345',
-        brand: '上海通用汽车别克 凯越',
-        orderNo: 'TH18842734',
-        lineId: 0,
-        processId: 0,
-        status: 0,
+import myFetch from '../utils/fetch';
 
-    },
-    {
-        no: '沪C12345',
-        brand: '上海通用汽车别克 凯越',
-        orderNo: 'TH18842734',
-        lineId: 0,
-        processId: 1,
-        status: 0,
+const __PRO__ = 'PRODUCTION';
+const TEST_SERVER_NET = 'http://172.16.20.50:84';
+const TEST_SERVER_JAVA = 'http://shopapi.tuhu.work';
+let PRO_SERVER;
+let server_net, server_java;
 
-    }
-];
-const lineList = [
-	{
-		displayName: '标准产线',
-        lineId: 0,
-		processCollection: [
-            {
-                processId: 0,
-                text: '等待施工车辆'
-            },
-            {
-                processId: 1,
-                text: '钣金与拆装'
-            },
-            {
-                processId: 2,
-                text: '原子灰／中涂'
-            },
-		]
-	},
-    {
-        displayName: '快修产线',
-        lineId: 1,
-        processCollection: [
-            {
-                processId: 3,
-                text: '等待施工车辆'
-            },
-            {
-                processId: 4,
-                text: '钣金与拆装'
-            }
-        ]
-    },
-];
+if (process.env.NODE_ENV === __PRO__) {
 
-// const __PRO__ = 'PRODUCTION';
-// const TEST_SERVER = 'http://172.16.20.50:84';
-// let DEV_SERVER;
-// let server;
-//
-// server = process.env.NODE_ENV === __PRO__ ? DEV_SERVER : TEST_SERVER;
+} else {
+    server_net = TEST_SERVER_NET;
+    server_java = TEST_SERVER_JAVA;
+}
 
 const API = {
-    getAllOrders: `/rest/workshop/ro/workshop_getIndex`
+    getAllOrders: `${server_net}/rest/workshop/ro/getIndex`,
+    getLineList: `${server_java}/api/LineProcess/GetLineProcessList`
 };
 
 const getAllOrders = () => {
+    return myFetch(API.getAllOrders, {
+            method: 'post',
+            body: {
+                optDescription: "string",
+                optUser: "string",
+                shopId: 0
+            }
+        })
 
-    return fetch(API.getAllOrders, {
+};
+
+const getLineList = () => {
+
+    return fetch(API.getLineList, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-type': 'application/json'
         },
         body: JSON.stringify({
-            shopId: 0
+            channel: "",
+            blackbox: "",
+            apiVersion: "",
+            umengChannel: "",
+            postData: {
+                ShopID: 1
+            }
         })
     })
         .then(res => res.json())
+        .catch(res => {
+            console.log(res);
+        })
 
-};
-
-const getLineList = () => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(lineList), 100);
-    })
+    // return fetch(API.getLineList, {
+    //     method: 'post',
+    //     body: {
+    //         channel: "",
+    //         blackbox: "",
+    //         apiVersion: "",
+    //         umengChannel: "",
+    //         postData: {
+    //             ShopID: 1
+    //         }
+    //     }
+    // });
 };
 
 export {

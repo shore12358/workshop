@@ -8,7 +8,7 @@ const path = require('path');
 const app = new Koa();
 const complier = webpack(webpackConf);
 const __PRO__ = 'PRODUCTION';
-const API_SITE = 'http://172.16.20.50:84/';
+// const API_SITE = 'http://172.16.20.50:84/';
 
 if (process.env.NODE_ENV === __PRO__) {
     app.use(static(path.join(__dirname, '/dist'))) ;
@@ -27,10 +27,14 @@ if (process.env.NODE_ENV === __PRO__) {
     }));
 }
 
-app.use(proxy({
-    host: API_SITE,
-    match: /^\/rest\//i
-}));
+// app.use(proxy({
+//     host: API_SITE,
+//     match: /^\/rest\//i
+// }));
+// app.use(proxy({
+//     host: 'http://172.16.25.132:50259/',
+//     match: /^\/api\//i
+// }));
 
 app.listen(3159, () => {
     console.log('listening at port: 3159');

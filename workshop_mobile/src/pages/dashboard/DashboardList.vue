@@ -1,16 +1,16 @@
 <template>
     <div class="container">
         <Multiselect v-model="line" :options="lineOptions" placeholder="请选择" :searchable="false" :close-on-select="false" :show-labels="false" class="selectLine"></Multiselect>
-        <div class="card" v-for="pi in processList.processCollection" :key="pi.processId" @click="orderListGo(pi.processId)">
-            <div class="left">{{pi.text }}</div>
+        <div class="card" v-for="pi in processList.ProcesseList" :key="pi.ProcessID" @click="orderListGo(pi.ProcessID)">
+            <div class="left">{{pi.ProcessName}}</div>
             <ul class="right">
                 <li class="pending">
                     等待中
-                    <p>{{ getStatusNum(pi.processId, 0) }}</p>
+                    <p>{{ getStatusNum(pi.ProcessID, 0) }}</p>
                 </li>
                 <li class="working">
                     施工中
-                    <p>{{ getStatusNum(pi.processId, 1) }}</p>
+                    <p>{{ getStatusNum(pi.ProcessID, 1) }}</p>
                 </li>
             </ul>
         </div>
@@ -29,11 +29,11 @@
             ]),
             processList () {
                 return this.lineList.find((item) => {
-                    return item.displayName === this.line;
+                    return item.LineName === this.line;
                 }) || [];
             },
             getOrdersByProcessId () {
-                return this.getOrdersByLineId(this.processList.lineId);
+                return this.getOrdersByLineId(this.processList.LineID);
             },
 
         },
@@ -60,11 +60,11 @@
         },
         created () {
           getLineList()
-              .then((list) => {
-                this.lineList = list;
+              .then((res) => {
+                this.lineList = res.data;
 
-                this.lineOptions = list.map((item) => {
-                    return item.displayName;
+                this.lineOptions = this.lineList.map((item) => {
+                    return item.LineName;
                 });
                 this.line = this.lineOptions[0];
 

@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Dashboard from '../pages/dashboard/Dashboard';
 import Task from '../pages/task/Task';
 import OrderList from '../pages/orderList/OrderList';
+import OrderDetail from '../pages/orderDetail/OrderDetail';
 import Init from '../pages/Init';
 
 Vue.use(Router);
@@ -31,6 +32,11 @@ export default new Router({
 			path: '/process/:processId/orders',
 			name: 'orderList',
 			component: OrderList
+		},
+		{
+			path: '/order/:id/detail',
+			name: 'orderDetail',
+			component: OrderDetail
 		}
 	],
 	// mode: 'history'

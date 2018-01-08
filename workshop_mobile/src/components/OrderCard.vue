@@ -1,18 +1,21 @@
 <template>
-    <div :class="`orderCard border-${themeColor}`">
+    <div :class="`orderCard border-${themeColor}`" @click="detailPageGo">
         <div class="top">
             <div class="title-wrapper">
-                <div class="img-box">
-                    <Donut class="donut" :percent="80" :isExpired="0"></Donut>
-                    <div>80%</div>
+                <div class="img-waiting-box" v-if="order.roStatus === 0">
+                    <div class="circle">待派</div>
+                </div>
+                <div class="img-box" v-else-if="order.roStatus === 1">
+                    <Donut class="donut" :percent="80"></Donut>
+                    <div class="progress">80%</div>
                 </div>
                 <span>{{order.carNumber}}</span>
                 <span class="brand">{{order.carType}}</span>
             </div>
             <ul class="part-box">
-                <li>油漆<span>高</span></li>
-                <li>面积<span>12</span></li>
-                <li>部件<span>12</span></li>
+                <li>油漆<span>{{order.paintGrade === 1 ? '标准' : '高'}}</span></li>
+                <li>面积<span>{{order.paintRates}}</span></li>
+                <li>部件<span>{{order.panelRates}}</span></li>
                 <li>颜色<span class="bg-black"></span></li>
             </ul>
         </div>
@@ -52,7 +55,10 @@
             Donut
         },
         methods:{
-
+            detailPageGo () {
+                const { roId, processStatus, processId } = this.order;
+                this.$router.push({ name: 'orderDetail', params: { id: roId }, query: { processStatus, processId } });
+            }
         }
     }
 </script>
@@ -86,19 +92,23 @@
         border-top 0.06rem solid
 
         .top
-            padding-bottom co-padding
+            padding-bottom 0.06rem
             border-bottom 1px dashed co-grey
             background-color #f8f8f8
             .title-wrapper
-                padding 0 co-padding
+                padding 0.02rem co-padding 0
                 co-flex(flex-start)
                 text-dark()
-                margin-bottom cp = 0.05rem
+                margin-bottom cp = 0.02rem
                 .img-box
-                    width w = 0.5rem
+                    transform translate3d(0,-0.04rem,0)
+                .img-waiting-box
+                    co-flex()
+                .img-waiting-box, .img-box
+                    width w = 0.52rem
                     height w
                     position relative
-                    &>div
+                    .progress
                         position absolute
                         width w
                         height w
@@ -107,7 +117,13 @@
                         line-height w + 0.1 rem
                         text-align center
                         font-size 0.01rem
-
+                    .circle
+                        width wd = 74%
+                        height wd
+                        border-radius 100%
+                        background-color co-orange
+                        co-flex()
+                        color white
                 span
                     margin-left cp
                 .brand
@@ -126,7 +142,7 @@
                         margin-left 0.05rem
 
         .bottom
-            padding co-padding
+            padding co-padding co-padding 0.02rem
             text-light(0.1rem)
             ul
                 co-flex(flex-start)

@@ -2,10 +2,10 @@
     import { Doughnut } from 'vue-chartjs'
     export default {
         extends: Doughnut,
-        props: ['isExpired', 'percent'],
+        props: ['percent'],
         computed: {
             color () {
-                return this.isExpired ? '#ff3c56' : '#007df4'
+                return this.percent > 100 ? '#ff3c56' : '#007df4'
             }
         },
         mounted () {
