@@ -1,20 +1,20 @@
 <template>
-    <div class='mainCard'>
+    <div class='mainCard' >
         <div class='mainCard-box'>
             <ul class='left'>
-                <li>钣喷车辆<span>{{a}}</span></li>
-                <li>施工车辆<span>{{b}}</span></li>
-                <li>待修车辆<span>{{c}}</span></li>
+                <li>钣喷车辆<span>{{oCs.carsNum}}</span></li>
+                <li>施工车辆<span>{{oCs.processNum}}</span></li>
+                <li>待修车辆<span>{{oCs.waitingNum}}</span></li>
             </ul>
             <ul class='middle'>
-                <li>钣喷车辆<span>{{a}}</span></li>
-                <li>施工车辆<span>{{b}}</span></li>
-                <li>待修车辆<span>{{c}}</span></li>
+                <li>今天接车<span>{{oCs.todayEnterNum}}</span></li>
+                <li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>
+                <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
             </ul>
             <ul class='right'>
-                <li>钣喷车辆<span>{{a}}</span></li>
-                <li>施工车辆<span>{{b}}</span></li>
-                <li>待修车辆<span>{{c}}</span></li>
+                <li>今天完工<span>{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
+                <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
+                <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
             </ul>
         </div>
     </div>
@@ -22,13 +22,15 @@
 
 <script>
     export default {
-        name: 'dashboard',
+        name: 'mainCard',
         data() {
             return {
-                a: 12,
-                b: 23,
-                c: 77
+
             }
+        },
+        props: ['oCs'],
+        methods: {
+
         }
     }
 </script>
@@ -39,38 +41,38 @@
     bg-color = #f2f2f2
 
     .mainCard
-        padding 1rem
+        padding 0.1rem
         background-color bg-color
 
     .mainCard-box
         background-color white
-        padding 1.3rem 1.7rem
+        padding 0.13rem 0.17rem
         radius(4)
         co-flex(space-between)
 
         .left, .middle, .right
-            flex 1
             li
-                margin-bottom 1rem
+                margin-bottom 0.1rem
                 &:last-child
                     margin-bottom 0!important
                 span
-                    margin-left 0.8rem
+                    margin-left 0.08rem
 
         .left
+            flex 6
             text-light(, true)
             border-right: 1px dashed #e8e8e8
+            margin-right 0.12rem
             li
                 span
-                    font-size 1.8rem
+                    font-size 0.18rem
                     color co-blue-bright
 
         .middle, .right
+            flex 5
             text-light()
             span
                 text-dark()
-
-
 
 
 

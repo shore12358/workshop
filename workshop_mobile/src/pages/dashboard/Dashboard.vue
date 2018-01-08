@@ -1,17 +1,50 @@
 <template>
     <div>
-        <Dashboard></Dashboard>
-        <router-link to="/">Go to dashboard</router-link>
-        <router-link to="/task">Go to task</router-link>
+        <Searchbar></Searchbar>
+        <MainCard :oCs="getOrderCounts"></MainCard>
+        <DashboardList></DashboardList>
     </div>
 </template>
 
 <script>
-    import Dashboard from './MainCard'
+    import MainCard from './MainCard'
+    import DashboardList from './DashboardList'
+    import Searchbar from './Searchbar'
+    import { mapActions, mapGetters } from 'vuex'
+
+    let storage = window.localStorage;
+
     export default {
         name: 'dashboard',
+        data () {
+            return {
+
+            }
+        },
+        created () {
+            this.initAsync();
+
+        },
+        mounted () {
+            // this.updateFromPushAsync();
+        },
+        computed: {
+            ...mapGetters([
+                'getOrderCounts'
+            ])
+        },
+        methods: {
+            ...mapActions([
+                'initAsync'
+            ]),
+            ...mapActions([
+                'updateFromPushAsync'
+            ])
+        },
         components: {
-            Dashboard
+            MainCard,
+            DashboardList,
+            Searchbar
         }
     }
 </script>
