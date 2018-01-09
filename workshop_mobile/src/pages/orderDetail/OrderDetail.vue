@@ -1,9 +1,13 @@
 <template>
-    <Nav></Nav>
+    <div>
+        <Nav></Nav>
+        <Detail></Detail>
+    </div>
 </template>
 
 <script>
-    import Nav from './nav';
+    import Nav from './Nav';
+    import Detail from './Detail';
 
     export default {
         name: 'orderDetail',
@@ -27,7 +31,8 @@
 
         },
         components: {
-            Nav
+            Nav,
+            Detail
         }
 
     }

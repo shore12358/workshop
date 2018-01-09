@@ -35,11 +35,9 @@
         },
         methods: {
             ...mapActions([
-                'initAsync'
-            ]),
-            ...mapActions([
+                'initAsync',
                 'updateFromPushAsync'
-            ])
+            ]),
         },
         components: {
             MainCard,

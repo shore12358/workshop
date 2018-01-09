@@ -116,7 +116,7 @@
                         left 0
                         line-height w + 0.1 rem
                         text-align center
-                        font-size 0.01rem
+                        font-size 0.12rem
                     .circle
                         width wd = 74%
                         height wd
@@ -143,14 +143,13 @@
 
         .bottom
             padding co-padding co-padding 0.02rem
-            text-light(0.1rem)
+            text-light(0.12rem)
             ul
                 co-flex(flex-start)
                 li
                     flex 1
                     margin-bottom 0.1rem
                 span
-                    text-dark(0.1rem)
-
+                    text-dark(0.12rem)
 
 </style>

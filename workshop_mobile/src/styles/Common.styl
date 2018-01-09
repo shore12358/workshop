@@ -1,3 +1,5 @@
+@import './Util.styl'
+
 html
   font-size 100px
 
@@ -14,3 +16,19 @@ ul
 
 p
   margin 0
+
+.f-toast
+  box-sizing border-box
+  width fw = 1rem
+  height fw
+  position fixed
+  top 50%
+  left 50%
+  margin-left -(fw/2)
+  margin-top -(fw)
+  z-index 1100
+  radius(5)
+  background-color #34323d
+  color white
+  text-align center
+  padding .1rem

@@ -23,6 +23,7 @@
         position fixed
         bottom 0
         left 0
+        z-index 1000
         li
             flex 1
             co-flex()
@@ -31,6 +32,8 @@
             font-size 0.16rem
             color white
             border-right 1px solid #dae9fb
+            &:last-child
+                border-right none
 
 
 

@@ -21,7 +21,7 @@ const API = {
 const getAllOrders = () => {
     return myFetch(API.getAllOrders, {
             method: 'post',
-            body: {
+            postData: {
                 optDescription: "string",
                 optUser: "string",
                 shopId: 0
@@ -33,14 +33,8 @@ const getAllOrders = () => {
 const getLineList = () => {
     return myFetch(API.getLineList, {
         method: 'post',
-        body: {
-            channel: "",
-            blackbox: "",
-            apiVersion: "",
-            umengChannel: "",
-            postData: {
-                ShopID: 1
-            }
+        postData: {
+            ShopID: 1
         }
     });
 };
