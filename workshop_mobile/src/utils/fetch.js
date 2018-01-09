@@ -1,6 +1,42 @@
-const toastTemplate = `
-    <div>toast</div>
-`;
+class Toast {
+    constructor(type_value) {
+        this.$el = document.createElement('div');
+        this.$el.id = `toast_${Date.now()}`;
+        this.$el.innerHTML = type_value === 1 ? this.getLoadingT() : this.getErrorT();
+        this.__locked = false;
+    }
+    static locked = false;
+    static $root = document.getElementsByTagName('body')[0];
+
+    getLoadingT () {
+        return `
+            <div>loading</div>
+        `
+    }
+    getErrorT () {
+        return `
+            <div>network error</div>
+        `
+    }
+    showToast () {
+        if (!Toast.locked) {
+            Toast.$root.appendChild(this.$el);
+            this.__locked = Toast.locked = true;
+        }
+    }
+    hideToast () {
+        if (this.__locked) {
+            const el = document.getElementById(this.$el.id);
+            el.style.display = 'none';
+            setTimeout(() => { this.destroyToast(el) }, 2000);
+            this.__locked = Toast.locked = false;
+        }
+    }
+    destroyToast (el) {
+        Toast.$root.removeChild(el);
+    }
+};
+
 
 const myFetch = (url, data) => {
     return new Promise((resolve, reject) => {
