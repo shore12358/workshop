@@ -27,13 +27,29 @@ const config = {
                 test: /\.styl$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader', 'stylus-loader']
+                    use: ['css-loader', 'stylus-loader', 'postcss-loader']
                 })
             },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name (file) {
+                                return '[name].[ext]?[hash]'
+                            },
+                            // publicPath: '/',
+                            outputPath: 'images/'
+
+                        }
+                    }
+                ]
             }
         ],
     },

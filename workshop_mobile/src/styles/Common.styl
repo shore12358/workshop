@@ -17,6 +17,7 @@ ul
 p
   margin 0
 
+/* toast */
 .f-toast
   box-sizing border-box
   width fw = 1rem
@@ -32,3 +33,20 @@ p
   color white
   text-align center
   padding .1rem
+
+.f-network-error
+  height .5rem
+  padding-top .15rem
+
+@keyframes rotate {
+  0% { transform:rotate(0deg); }
+  100% { transform:rotate(360deg); }
+}
+
+.f-loading-icon
+  width fw = 70%
+  height fw
+  animation: 1s rotate infinite;
+
+
+

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import io from 'socket.io-client'
-import { getAllOrders } from '../api/Api';
+import * as R from '../api/Api';
 
 let storage = window.localStorage;
 
@@ -103,11 +103,10 @@ export default new Vuex.Store({
                 roStatus: 1,
             }
 		],
-        orderCounts: {
-
-        },
+        orderCounts: null,  // {object}
         timeGap: 0,  // int(ms)
-        queryKey: ''
+        queryKey: '',
+        lineList: [],
 	},
 	getters: {
 	    getTimeGap (state) {
@@ -117,25 +116,31 @@ export default new Vuex.Store({
 	        return state.queryKey;
         },
 	    getOrderCounts (state) {
-	        return state.orderCounts;
+	        if (state.orderCounts) {
+	            return state.orderCounts;
+            }
+	        return JSON.parse(storage.getItem('orderCounts'));
         },
         getOrders (state) {
-            const { queryKey } = state;
-            if (queryKey) {
-               return state.orders.filter(order => {
-                    const { carNumber, carType, roId } = order;
-                    return carNumber.indexOf(queryKey) !== -1 || carType.indexOf(queryKey) !== -1 || roId.toString().indexOf(queryKey) !== -1;
-                })
+	        if (state.orders.length) {
+                const { queryKey } = state;
+                if (queryKey) {
+                    return state.orders.filter(order => {
+                        const { carNumber, carType, roId } = order;
+                        return carNumber.indexOf(queryKey) !== -1 || carType.indexOf(queryKey) !== -1 || roId.toString().indexOf(queryKey) !== -1;
+                    })
+                }
+                return state.orders;
             }
-            return state.orders;
-            // try {
-	         //    return state.orders
-            // } catch (e) {
-	         //    return JSON.parse(storage.getItem('orders'));
-            // }
-        },
+            return JSON.parse(storage.getItem('orders'));
 
-        //  waiting to add localstorage
+        },
+        getLineList (state) {
+	        if (state.lineList.length) {
+	            return state.lineList;
+            }
+            return JSON.parse(storage.getItem('lineList'));
+        },
 		getOrdersByLineId: (state, getters) => (lineId) => {
 			const lineOrders = getters.getOrders.filter(order => order.lineId === lineId);
 			return (processId) => {
@@ -154,6 +159,9 @@ export default new Vuex.Store({
             // state.orders = payload.orders;
             state.orderCounts = payload.orderCounts;
         },
+        fetchLineList (state, payload) {
+            state.lineList = payload.lineList;
+        },
         updateFromPush (state, payload) {
             state.orders.push(payload.order);   // order attr map to the data structure in ws api
             state.orderCounts = payload.orderCounts;
@@ -167,7 +175,7 @@ export default new Vuex.Store({
     },
     actions: {
         initAsync ({ commit }) {
-            getAllOrders()
+            R.getAllOrders()
                 .then(res => {
                     const { workshopRos, roStats } = res.data;
                     commit({
@@ -179,8 +187,15 @@ export default new Vuex.Store({
                     storage.setItem('orderCounts', JSON.stringify(roStats));
                 })
         },
-	    refreshOrderCounts ({ commit }) {
-
+	    fetchLineListAsync ({ commit }) {
+            R.getLineList()
+                .then(res => {
+                    commit({
+                        type: 'fetchLineList',
+                        lineList: res.data
+                    });
+                    storage.setItem('lineList', JSON.stringify(res.data));
+                })
         },
         updateFromPushAsync ({ commit }) {
             const socket = io('http://comet.tuhu.work?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd');

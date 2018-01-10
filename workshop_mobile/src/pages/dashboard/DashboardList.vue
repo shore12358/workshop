@@ -25,13 +25,29 @@
         name: 'dashboardList',
         computed: {
             ...mapGetters([
-                'getOrdersByLineId'
+                'getOrdersByLineId',
+                'getLineList'
             ]),
+            ...mapGetters({
+               lineList: 'getLineList'
+            }),
+//            lineList () {
+//                return this.getLineList;
+//            },
+            lineOptions () {
+                return this.lineList.map((item) => {
+                    return item.LineName;
+                });
+            },
+            line () {
+                return this.lineOptions[0];
+            },
             processList () {
                 return this.lineList.find((item) => {
                     return item.LineName === this.line;
                 }) || [];
             },
+
             getOrdersByProcessId () {
                 return this.getOrdersByLineId(this.processList.LineID);
             },
@@ -39,9 +55,8 @@
         },
         data () {
             return {
-                lineList: [],
-                line: '',
-                lineOptions: []
+//                line: '',
+//                lineOptions: []
             }
         },
         methods: {
@@ -58,19 +73,14 @@
             },
 
         },
-        created () {
-          getLineList()
-              .then((res) => {
-                this.lineList = res.data;
-
-                this.lineOptions = this.lineList.map((item) => {
-                    return item.LineName;
-                });
-                this.line = this.lineOptions[0];
-
-              });
-
-        },
+//        created () {
+//            this.lineOptions = this.lineList.map((item) => {
+//                return item.LineName;
+//            });
+//            debugger
+//            this.line = this.lineOptions[0];
+//
+//        },
         updated () {
 
         }

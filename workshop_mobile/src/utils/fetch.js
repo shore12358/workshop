@@ -1,24 +1,27 @@
 class Toast {
     constructor(conf_obj) {
-        const { type, animTime } = conf_obj;
+        const { type, animTime, text } = conf_obj;
+        this.__locked__ = false;
+        this.type = type;
+        this.text = text || '加载中';
+        this.animTime = type === 2 ? (animTime || 1000) : null;
         this.$el = document.createElement('div');
         this.$el.id = `toast_${Date.now()}`;
         this.$el.innerHTML = type === 1 ? this.getLoadingT() : this.getErrorT();
-        this.__locked__ = false;
-        this.type = type;
-        this.animTime = type === 2 ? (animTime || 1000) : null;
     }
-
     getLoadingT () {
         return `
             <div class="f-toast">
-              加载中
+              ${this.text}
+              <img src="https://img3.tuhu.org/PeccancyCheXingYi/9b1a/bb4e/04d21e7280b2370b33fa88bc_w200_h200.png@100Q.png" class="f-loading-icon"></img>
             </div>
         `
     }
     getErrorT () {
         return `
-            <div>network error</div>
+            <div class="f-toast f-network-error">
+              网络异常
+            </div>
         `
     }
     showToast () {
@@ -49,11 +52,20 @@ Toast.$root = document.getElementsByTagName('body')[0];
 
 const myFetch = (url, data) => {
     return new Promise((resolve, reject) => {
-        const travel_time = 2 * 1000;
-        const toast_loading = new Toast({ type: 1 }); // loading...
-        const showLoadingAsync = setTimeout(() => {
-            toast_loading.showToast();
-        }, travel_time);
+        const opts = {};
+        if ('options' in data) {
+            const { options } = data;
+            opts.showToast = options.showToast;
+            opts.toastText = options.toastText;
+        }
+
+        if (opts.showToast !== false) {
+            var travel_time = 2 * 1000;
+            var toast_loading = new Toast({ type: 1, text: opts.toastText }); // loading...
+            var showLoadingAsync = setTimeout(() => {
+                toast_loading.showToast();
+            }, travel_time);
+        }
 
         const req_obj = {};
         req_obj.method = data.method.toUpperCase() || 'GET';
@@ -76,13 +88,15 @@ const myFetch = (url, data) => {
         }
         fetch(url, req_obj)
             .then(res => {
-                try {
-                    clearTimeout(showLoadingAsync);
-                } catch (e) {
+                if (opts.showToast !== false) {
+                    try {
+                        clearTimeout(showLoadingAsync);
+                    } catch (e) {
 
+                    }
+                    toast_loading.hideToast();
                 }
                 resolve(res.json());
-                toast_loading.hideToast();
             })
             .catch(() => {
                 const toast_error = new Toast({ type: 2 }); // error

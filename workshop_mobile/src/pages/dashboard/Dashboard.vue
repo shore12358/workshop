@@ -10,9 +10,7 @@
     import MainCard from './MainCard'
     import DashboardList from './DashboardList'
     import Searchbar from './Searchbar'
-    import { mapActions, mapGetters } from 'vuex'
-
-    let storage = window.localStorage;
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'dashboard',
@@ -21,23 +19,10 @@
 
             }
         },
-        created () {
-            this.initAsync();
-
-        },
-        mounted () {
-            // this.updateFromPushAsync();
-        },
         computed: {
             ...mapGetters([
                 'getOrderCounts'
             ])
-        },
-        methods: {
-            ...mapActions([
-                'initAsync',
-                'updateFromPushAsync'
-            ]),
         },
         components: {
             MainCard,

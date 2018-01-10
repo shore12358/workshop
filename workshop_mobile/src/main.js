@@ -12,6 +12,8 @@ Vue.component('Icon', Icon);
 Vue.component('Multiselect', Multiselect);
 Vue.directive('transDate', TransDate);
 
+const Bu = {};
+
 new Vue({
 	el: '#app',
 	store,
@@ -19,3 +21,4 @@ new Vue({
 	template: '<App/>',
 	components: { App }
 });
+
