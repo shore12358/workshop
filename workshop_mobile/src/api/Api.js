@@ -20,13 +20,13 @@ const API = {
 
 const getAllOrders = () => {
     return myFetch(API.getAllOrders, {
-            method: 'post',
-            postData: {
-                optDescription: "string",
-                optUser: "string",
-                shopId: 0
-            }
-        })
+        method: 'post',
+        postData: {
+            optDescription: "string",
+            optUser: "string",
+            shopId: 0
+        }
+    })
 
 };
 

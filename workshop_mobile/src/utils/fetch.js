@@ -86,6 +86,7 @@ const myFetch = (url, data) => {
             })
             .catch(() => {
                 const toast_error = new Toast({ type: 2 }); // error
+                toast_loading.hideToast();
                 toast_error.showToast();
                 reject();
             })
