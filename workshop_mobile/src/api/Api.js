@@ -24,11 +24,10 @@ const getAllOrders = () => {
         postData: {
             optDescription: "string",
             optUser: "string",
-            shopId: 0
+            shopId: 38
         },
         options: {
-
-            // showToast{Boolean}
+            showToast: false,
             toastText: '更新中'
         }
     })
@@ -39,7 +38,10 @@ const getLineList = () => {
     return myFetch(API.getLineList, {
         method: 'post',
         postData: {
-            ShopID: 1
+            ShopID: 38
+        },
+        options: {
+            showToast: false
         }
     });
 };

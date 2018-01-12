@@ -17,6 +17,7 @@
         created () {
             this.initAsync();
             this.fetchLineListAsync();
+            // this.updateFromPushAsync()
         },
         methods: {
             ...mapActions([

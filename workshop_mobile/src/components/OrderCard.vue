@@ -1,5 +1,5 @@
 <template>
-    <div :class="`orderCard border-${themeColor}`" @click="detailPageGo">
+    <div :class="`orderCard border-${themeColor} order.processStatus === 2 ? 'card-opacity' : ''`" @click="detailPageGo">
         <div class="top">
             <div class="title-wrapper">
                 <div class="img-waiting-box" v-if="order.roStatus === 0">
@@ -85,7 +85,8 @@
         color co-red!important
     .text-orange
         color co-orange!important
-
+    .card-opacity
+        opacity .5
     .orderCard
         margin-bottom 0.11rem
         shadow-box()

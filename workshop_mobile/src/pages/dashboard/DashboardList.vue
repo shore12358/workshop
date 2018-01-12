@@ -6,11 +6,11 @@
             <ul class="right">
                 <li class="pending">
                     等待中
-                    <p>{{ getStatusNum(pi.ProcessID, 0) }}</p>
+                    <p>{{ getStatusNum(pi.ProcessID, [0, 2]) }}</p>
                 </li>
-                <li class="working">
+                <li class="working" v-if="pi.ProcessID !== 0">
                     施工中
-                    <p>{{ getStatusNum(pi.ProcessID, 1) }}</p>
+                    <p>{{ getStatusNum(pi.ProcessID, [1]) }}</p>
                 </li>
             </ul>
         </div>
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-    import { getLineList } from '../../api/Api'
     import { mapGetters, mapActions } from 'vuex'
 
     export default {
@@ -26,21 +25,14 @@
         computed: {
             ...mapGetters([
                 'getOrdersByLineId',
-                'getLineList'
             ]),
             ...mapGetters({
                lineList: 'getLineList'
             }),
-//            lineList () {
-//                return this.getLineList;
-//            },
             lineOptions () {
                 return this.lineList.map((item) => {
                     return item.LineName;
                 });
-            },
-            line () {
-                return this.lineOptions[0];
             },
             processList () {
                 return this.lineList.find((item) => {
@@ -55,34 +47,25 @@
         },
         data () {
             return {
-//                line: '',
-//                lineOptions: []
+               line: '',
             }
         },
         methods: {
             orderListGo(processId) {
-                const waiting_orders_num = this.getStatusNum(processId, 0),
-                      working_orders_num = this.getStatusNum(processId, 1);
+                const waiting_orders_num = this.getStatusNum(processId, [0, 2]),
+                      working_orders_num = this.getStatusNum(processId, [1]);
 
                 if (waiting_orders_num || working_orders_num) {
                     this.$router.push({ name: 'orderList', params: { processId }, query: { waiting_orders_num, working_orders_num } });
                 }
             },
-            getStatusNum (processId, status) {
-                return this.getOrdersByProcessId(processId).filter(item => item.roStatus === status).length;
+            getStatusNum (processId, statusCollections) {
+                return this.getOrdersByProcessId(processId).filter(item => statusCollections.indexOf(item.processStatus) > -1).length;
             },
 
         },
-//        created () {
-//            this.lineOptions = this.lineList.map((item) => {
-//                return item.LineName;
-//            });
-//            debugger
-//            this.line = this.lineOptions[0];
-//
-//        },
-        updated () {
-
+        created () {
+            this.line = this.lineOptions[0];
         }
     }
 </script>
@@ -100,7 +83,7 @@
         height 0.44rem
         margin-bottom 0.1rem
         shadow-box()
-        border-left 0.04rem solid co-blue
+        border-left 0.05rem solid co-blue
         co-flex(sapce-between)
         text-dark()
         .left, .right
@@ -117,11 +100,13 @@
                 p
                     font-size 0.16rem
                     margin-top 0.05rem
+            li
+                &:not(:last-child)
+                    border-right 1px solid co-grey
+                    margin-right 0.1rem
+                    padding-right 0.1rem
 
             .pending
-                border-right 1px solid co-grey
-                margin-right 0.1rem
-                padding-right 0.1rem
                 p
                     color co-red
             .working

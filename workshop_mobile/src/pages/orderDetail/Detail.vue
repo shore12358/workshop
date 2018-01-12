@@ -109,7 +109,7 @@
         grid(d-blue)
 
     .container
-        padding 0 .1rem .6rem
+        padding 0 .1rem
     .wrapper
         margin-bottom .15rem
     .title

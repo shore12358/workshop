@@ -2,7 +2,7 @@
     <div class="container">
         <OrderCardTabs :tabs="tabs" @tabChange="tabChange"></OrderCardTabs>
         <div v-for="od in orders[tabIndex]" :key="od.roId">
-            <OrderCard :order="od" :currentTime="currentTime" :getOrderColor="getOrderColor"></OrderCard>
+            <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor"></OrderCard>
         </div>
     </div>
 </template>
@@ -14,8 +14,8 @@
     import { getOrderColor } from "../../utils/utils";
 
     const ORDER = {
-        WAITING: 0,
-        WORKING: 1
+        WAITING: [0, 2],
+        WORKING: [1]
     };
 
     export default {
@@ -29,13 +29,10 @@
         computed: {
             ...mapGetters([
                 'getOrdersByProcessId',
-                'getTimeGap'
+                'getCurrentTime'
             ]),
             getOrderColor () {
                 return getOrderColor();
-            },
-            currentTime () {
-                return Date.now() + this.getTimeGap;
             },
             processId () {
                 return this.$route.params.processId;
@@ -48,14 +45,14 @@
                 wo_num = Number(wo_num);
                 if (wa_num) {
                     tabs.push({
-                        key: ORDER.WAITING,
+                        filterKey: ORDER.WAITING,
                         num: wa_num,
                         text: '等待中'
                     })
                 }
                 if (wo_num) {
                     tabs.push({
-                        key: ORDER.WORKING,
+                        filterKey: ORDER.WORKING,
                         num: wo_num,
                         text: '施工中'
                     });
@@ -65,7 +62,7 @@
             orders () {
                 const _orders = this.getOrdersByProcessId(this.processId);
                 return this.tabs.map((item) => {
-                    return _orders.filter(order => order.roStatus === item.key)  // make sure the key in tabs is consistent with the roStatus in orders
+                    return _orders.filter(order => item.filterKey.indexOf(order.processStatus) > -1)
                 });
             }
 

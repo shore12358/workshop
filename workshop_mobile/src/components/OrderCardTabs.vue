@@ -1,6 +1,6 @@
 <template>
     <ul class="tabs">
-        <li v-for="(t, index) in tabs" :key="t.key" @click="handleTab(index)">
+        <li v-for="(t, index) in tabs" :key="index" @click="handleTab(index)">
             {{t.text}} {{t.num}}
             <span :class="`color-block ${ index === focusIndex ? 'blue-block' : '' }`" ></span>
         </li>
@@ -9,13 +9,6 @@
 </template>
 
 <script>
-    /**
-     * nav.key {number} represent for status
-     *  0: waiting
-     *  1: working
-     *  2: task-working
-     *  3: task-preparing
-     */
     export default {
         name: 'orderCardTabs',
         data() {
