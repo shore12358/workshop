@@ -18,6 +18,9 @@
             this.initAsync();
             this.fetchLineListAsync();
             // this.updateFromPushAsync()
+
+            window.localStorage.setItem('techId', 123456);
+
         },
         methods: {
             ...mapActions([

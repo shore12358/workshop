@@ -2,6 +2,7 @@
 
 html
   font-size 100px
+  -webkit-tap-highlight-color:transparent;
 
 body
   margin 0
@@ -50,5 +51,17 @@ p
   height fw
   animation: 1s rotate infinite;
 
+.multiselect__tags
+  border 0!important
+  padding: 8px 40px 0 0px;
 
+.multiselect__single
+  margin-top: .04rem;
+  letter-spacing .01rem
 
+.multiselect__select
+  padding: 4px 20px 4px 0;
+//
+.multiselect--active
+  .multiselect__select
+    transform rotate(0)!important

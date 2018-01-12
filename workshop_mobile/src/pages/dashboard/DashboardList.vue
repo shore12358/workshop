@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Multiselect v-model="line" :options="lineOptions" placeholder="请选择" :searchable="false" :close-on-select="false" :show-labels="false" class="selectLine"></Multiselect>
+        <Multiselect v-model="line" :options="lineOptions" placeholder="请选择" :searchable="false" :close-on-select="false" :show-labels="false" class="selectLine" :allow-empty="false"></Multiselect>
         <div class="card" v-for="pi in processList.ProcesseList" :key="pi.ProcessID" @click="orderListGo(pi.ProcessID)">
             <div class="left">{{pi.ProcessName}}</div>
             <ul class="right">
@@ -66,6 +66,11 @@
         },
         created () {
             this.line = this.lineOptions[0];
+        },
+        watch: {
+            lineOptions (newLineOptions) {
+                this.line = newLineOptions[0];
+            }
         }
     }
 </script>
@@ -74,10 +79,12 @@
     @import "../../styles/Util.styl"
 
     .container
-        padding 0.16rem
+        padding 0.05rem 0.16rem 0.16rem
     .selectLine
-        width 50%
-        margin-bottom 0.1rem
+        width 30%
+        margin-bottom 0.05rem
+        font-weight bold
+        color #333
 
     .card
         height 0.44rem
@@ -109,9 +116,12 @@
             .pending
                 p
                     color co-red
+                    font-weight 600
             .working
                 p
                     color co-blue-bright
+                    font-weight 600
+
 
 
 

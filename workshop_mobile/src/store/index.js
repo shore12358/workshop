@@ -18,6 +18,7 @@ export default new Vuex.Store({
                 "planCompletedTime": 1514256227000,
                 "startTime": 1514256227000,
                 "actCompletedTime": null,
+                "processEnterTime": null,
                 "paintGrade": 1,
                 "isEmergency": 0,
                 "processId": 0,
@@ -38,27 +39,28 @@ export default new Vuex.Store({
                 "createdTime": 1514256313000,
                 "updatedUser": null,
                 "updatedTime": null,
-                "processEnterTime": 1514256220000
             },
             {
-                "roId": 2,
+                "roId": 3,
                 "roNumber": "string",
                 "shopId": 0,
                 "inTime": 1514256227000,
                 "planCompletedTime": 1514256227000,
                 "startTime": 1514256227000,
+                "processEnterTime": null,
                 "actCompletedTime": null,
+                "carColorValue": 'black',
                 "paintGrade": 1,
                 "isEmergency": 0,
                 "processId": 3,
                 "processStatus": 0,
                 "carNumber": "沪C12345",
                 "carColor": "string",
-                "carType": "上海通用汽车别克 凯越",
+                "carType": "上海通用汽车别克ss 凯越",
                 "panelRates": 0,
                 "paintRates": 0,
                 "lineId": 1,
-                "techId": 0,
+                "techId": 123456,
                 "techId2": 0,
                 "isRework": 1,
                 "roStatus": 0,
@@ -68,7 +70,37 @@ export default new Vuex.Store({
                 "createdTime": 1514256313000,
                 "updatedUser": null,
                 "updatedTime": null,
-                "processEnterTime": 1514256220000
+            },
+            {
+                "roId": 4,
+                "roNumber": "string",
+                "shopId": 0,
+                "inTime": 1514256227000,
+                "planCompletedTime": 1514256227000,
+                "startTime": 1514256227000,
+                "processEnterTime": null,
+                "actCompletedTime": null,
+                "carColorValue": 'orange',
+                "paintGrade": 1,
+                "isEmergency": 0,
+                "processId": 3,
+                "processStatus": 2,
+                "carNumber": "沪C12345",
+                "carColor": "string",
+                "carType": "上海通用汽车别克aa 凯越",
+                "panelRates": 0,
+                "paintRates": 0,
+                "lineId": 1,
+                "techId": 123456,
+                "techId2": 0,
+                "isRework": 1,
+                "roStatus": 0,
+                "invalid": 0,
+                "remark": "string",
+                "createdUser": "workshop_newRo",
+                "createdTime": 1514256313000,
+                "updatedUser": null,
+                "updatedTime": null,
             },
             {
                 "roId": 5,
@@ -77,17 +109,19 @@ export default new Vuex.Store({
                 "inTime": 1514256227000,
                 "planCompletedTime": 1514256227000,
                 "actCompletedTime": null,
+                "carColorValue": 'black',
                 "paintGrade": 1,
                 "isEmergency": 0,
                 "processId": 3,
                 "processStatus": 1,
+                "processEnterTime": 1514256200000,
                 "carNumber": "string",
                 "carColor": "string",
                 "carType": "string",
                 "panelRates": 0,
                 "paintRates": 0,
                 "lineId": 1,
-                "techId": 0,
+                "techId": 123456,
                 "techId2": 0,
                 "isRework": 1,
                 "roStatus": 1,
@@ -122,6 +156,16 @@ export default new Vuex.Store({
                 return state.orders;
             }
             return JSON.parse(storage.getItem('orders')) || [];
+        },
+        getMyOrders (state) {
+            const _techId = storage.getItem('techId');
+            const orders = state.orders.length ? state.orders : JSON.parse(storage.getItem('orders'));
+            try {
+                const techId = Number(_techId);
+                return orders.filter(order => techId == order.techId || techId == order.techId2);
+            } catch (e) {
+                return [];
+            }
         },
         getOrders (state) {
 	        if (state.orders.length) {
@@ -162,8 +206,8 @@ export default new Vuex.Store({
 	    // get all orders and counts
         init (state, payload) {
 
-            // state.orders = payload.orders;
-            state.orderCounts = payload.orderCounts;
+            // state.orders && (state.orders = payload.orders);
+            payload.orderCounts && (state.orderCounts = payload.orderCounts);
             payload.timeGap && (state.timeGap = payload.timeGap);
         },
         updateOvertimeCounts (state, payload) {
@@ -174,7 +218,7 @@ export default new Vuex.Store({
             }
         },
         fetchLineList (state, payload) {
-            state.lineList = payload.lineList;
+            payload.lineList && (state.lineList = payload.lineList);
         },
         updateFromPush (state, payload) {
             state.orders.push(payload.order);   // order attr map to the data structure in ws api
@@ -202,6 +246,13 @@ export default new Vuex.Store({
                     storage.setItem('orders', JSON.stringify(workshopRos));
                     storage.setItem('orderCounts', JSON.stringify(roStats));
                 })
+                .catch(err => {
+                    commit({
+                        type: 'init',
+                        orders: storage.getItem('orders'),
+                        orderCounts: storage.getItem('orderCounts'),
+                    });
+                })
         },
 	    fetchLineListAsync ({ commit }) {
             R.getLineList()
@@ -222,6 +273,12 @@ export default new Vuex.Store({
                         storage.setItem('lineList', JSON.stringify(data));
                     }
                 })
+                .catch(err => {
+                    commit({
+                        type: 'fetchLineList',
+                        lineList: storage.getItem('lineList')
+                    });
+                });
         },
         updateFromPushAsync ({ commit }) {
             // var socket = io('path', {

@@ -1,13 +1,13 @@
 <template>
-    <div :class="`orderCard border-${themeColor} order.processStatus === 2 ? 'card-opacity' : ''`" @click="detailPageGo">
+    <div :class="`orderCard border-${themeColor} ${order.processStatus === 2 ? 'card-opacity' : ''}`" @click="detailPageGo">
         <div class="top">
             <div class="title-wrapper">
-                <div class="img-waiting-box" v-if="order.roStatus === 0">
+                <div class="img-waiting-box" v-if="!order.processEnterTime">
                     <div class="circle">待派</div>
                 </div>
-                <div class="img-box" v-else-if="order.roStatus === 1">
-                    <Donut class="donut" :percent="80"></Donut>
-                    <div class="progress">80%</div>
+                <div class="img-box" v-else>
+                    <Donut class="donut" :percent="progressRate"></Donut>
+                    <div class="progress" :class="`text-${progressRate > 100 ? 'red' : 'blue'}`">{{progressRate}}%</div>
                 </div>
                 <span>{{order.carNumber}}</span>
                 <span class="brand">{{order.carType}}</span>
@@ -16,7 +16,7 @@
                 <li>油漆<span>{{order.paintGrade === 1 ? '标准' : '高'}}</span></li>
                 <li>面积<span>{{order.paintRates}}</span></li>
                 <li>部件<span>{{order.panelRates}}</span></li>
-                <li>颜色<span class="bg-black"></span></li>
+                <li>颜色<span class="car-color-jelly" :style="`background-color: ${order.carColorValue}`"></span></li>
             </ul>
         </div>
         <div class="bottom">
@@ -45,6 +45,11 @@
         computed: {
             themeColor () {
                 return this.getOrderColor(this.currentTime, this.order.planCompletedTime);
+            },
+            progressRate () {
+                const { processEnterTime, planCompletedTime } = this.order;
+                const _rate = Math.ceil((this.currentTime - processEnterTime) * 100 / (planCompletedTime - processEnterTime));
+                return _rate > 999 ? 999 : _rate;
             }
         },
         props: ['order', 'currentTime', 'getOrderColor'],
@@ -59,7 +64,11 @@
                 const { roId, processStatus, processId } = this.order;
                 this.$router.push({ name: 'orderDetail', params: { id: roId }, query: { processStatus, processId } });
             }
+        },
+        created () {
+
         }
+
     }
 </script>
 
@@ -141,6 +150,10 @@
                     &>span
                         text-dark()
                         margin-left 0.05rem
+                .car-color-jelly
+                    width jw = .12rem
+                    height jw
+                    margin-left .08rem
 
         .bottom
             padding co-padding co-padding 0.02rem

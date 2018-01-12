@@ -28,7 +28,6 @@
 //            console.log(this.tabs);
         },
         updated () {
-            console.log('updated')
         }
     }
 </script>

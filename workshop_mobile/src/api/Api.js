@@ -27,7 +27,7 @@ const getAllOrders = () => {
             shopId: 38
         },
         options: {
-            showToast: false,
+            // showToast: false,
             toastText: '更新中'
         }
     })
@@ -41,7 +41,8 @@ const getLineList = () => {
             ShopID: 38
         },
         options: {
-            showToast: false
+            showToast: false,
+            toastText: '更新中'
         }
     });
 };

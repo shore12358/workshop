@@ -85,6 +85,7 @@
                 span
                     font-size 0.18rem
                     color co-blue-bright
+                    font-weight bold
 
         .middle, .right
             text-light()
