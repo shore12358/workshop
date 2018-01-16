@@ -6,6 +6,7 @@
 
 <script>
     import { mapActions } from 'vuex'
+    import bridge from './utils/bridge';
 
     export default {
         name: 'app',
@@ -20,6 +21,12 @@
             // this.updateFromPushAsync()
 
             window.localStorage.setItem('techId', 123456);
+
+            // window.technicianBack = (res) => {
+            //     window.localStorage.setItem('userInfo', JSON.stringify(res));
+            // };
+            //
+            // bridge.go('getTechnicianInfo', { params: '' }, 'technicianBack');
 
         },
         methods: {

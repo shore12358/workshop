@@ -13,7 +13,6 @@
         data() {
           return {
               techId: 123,
-              focusIndex: 0,
               nav: [
                 {
                     key: 0,
@@ -28,10 +27,10 @@
             ]
           }
         },
+        props: ['focusIndex'],
 
         methods: {
             handleTab(key) {
-                this.focusIndex = key;
                 switch (key) {
                     case 0:
                         this.$router.replace({ path: '/user/dashboard' });
@@ -43,7 +42,8 @@
 
                 }
             }
-        }
+        },
+
     }
 </script>
 

@@ -249,8 +249,8 @@ export default new Vuex.Store({
                 .catch(err => {
                     commit({
                         type: 'init',
-                        orders: storage.getItem('orders'),
-                        orderCounts: storage.getItem('orderCounts'),
+                        orders: JSON.parse(storage.getItem('orders')),
+                        orderCounts: JSON.parse(storage.getItem('orderCounts')),
                     });
                 })
         },
@@ -276,7 +276,7 @@ export default new Vuex.Store({
                 .catch(err => {
                     commit({
                         type: 'fetchLineList',
-                        lineList: storage.getItem('lineList')
+                        lineList: JSON.parse(storage.getItem('lineList'))
                     });
                 });
         },

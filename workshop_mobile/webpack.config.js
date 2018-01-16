@@ -9,7 +9,9 @@ const ENTRY_PATH = path.join(__dirname, './src/main.js');
 
 const config = {
     entry: {
-        app: ENTRY_PATH
+        app: ENTRY_PATH,
+        vendor: ['vue-router', 'vue-multiselect', 'vue-awesome']
+
     },
     output: {
         publicPath: '/',
@@ -53,17 +55,20 @@ const config = {
             }
         ],
     },
-    devtool: 'eval-source-map',
     resolve: {
         extensions: ['.js', '.json', '.vue'],
         alias: {
             vue: 'vue/dist/vue.js'
         }
     },
-
+    externals: {
+        vue: 'Vue',
+        vuex: 'Vuex',
+    },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'common'
+            name: ['common', 'vendor'],
+            minChunks: 2
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, './src/index.html'),
@@ -80,5 +85,6 @@ if (process.env.NODE_ENV === __PRO__) {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
     );
+    config.devtool = 'eval-source-map';
 }
 module.exports = config;

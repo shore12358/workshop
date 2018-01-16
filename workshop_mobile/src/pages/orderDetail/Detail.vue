@@ -5,40 +5,40 @@
             <ul class="basic-detail">
                 <li>
                     <span class="label w3">工 单 号：</span>
-                    <span class="content">TH12345678</span>
+                    <span class="content">{{detail.roNumber}}</span>
                 </li>
                 <li>
                     <span class="label w2">车 型：</span>
-                    <span class="content">上海通用汽车别克凯越123</span>
+                    <span class="content">{{detail.carType}}</span>
                 </li>
                 <li>
                     <span class="label w2">车 牌：</span>
-                    <span class="content">沪C12345</span>
+                    <span class="content">{{detail.carNumber}}</span>
                 </li>
                 <li>
                     <span class="label" >车身颜色：</span>
-                    <span class="content"><span class="car-color-box"></span>黑色</span>
+                    <span class="content"><span class="car-color-box" :style="`background-color: ${detail.carColorValue}`"></span>{{detail.carColorName}}</span>
                 </li>
                 <li>
                     <span class="label" >油漆档次：</span>
-                    <span class="content">高档油漆</span>
+                    <span class="content">{{detail.paintGrade === 1 ? '标准' : '高'}}</span>
                 </li>
                 <li>
                     <span class="label" >是否加急：</span>
-                    <span class="content">是</span>
+                    <span class="content">{{detail.isEmergency === 0 ? '加急' : '不加急'}}</span>
                 </li>
                 <li>
                     <span class="label" >到厂日期：</span>
-                    <span class="content">17-11-26 13:13</span>
+                    <span class="content" v-transDate="detail.inTime"></span>
                 </li>
                 <li>
                     <span class="label" >计划完工：</span>
-                    <span class="content">17-11-26 13:13</span>
+                    <span class="content" v-transDate="detail.planCompletedTime">17-11-26 13:13</span>
                 </li>
             </ul>
         </div>
 
-        <div class="wrapper">
+        <div class="wrapper" v-if="typeof detail.roPartses === 'array' && detail.roPartses.length > 0">
             <p class="title">部件定损</p>
             <div class="units-box">
                 <ul class="units-title">
@@ -62,19 +62,21 @@
             </div>
         </div>
 
-        <div class="wrapper">
+        <div class="wrapper" v-if="detail.remark">
             <p class="title">维修备注</p>
-            <p class="des-note">内容描述内容描述内容描述内容描述内容描述内容描述内容描述内容描述</p>
+            <p class="des-note">{{detail.remark}}</p>
         </div>
 
-        <div class="wrapper">
+        <div class="wrapper" v-if="typeof detail.roMaintenLogs === 'array' && detail.roMaintenLogs.length > 0">
             <p class="title">维修记录</p>
             <div class="fix-record">
-                <div class="item-box">
-                    <p>11／26 18:15 ~ 11/26 18:15 <span class="fix-label">预计</span></p>
+                <div class="item-box" v-for="(l, index) in detail.roMaintenLogs" :key="index">
+                    <p><span v-transDate="l.enterTime"></span> ~ <span v-transDate="l.leaveTime"></span>
+                        <span class="fix-label" v-if="l.processStatus">{{l.processStatus === 1 ? '预计' : '中断'}}</span>
+                    </p>
                     <ul class="text-line">
-                        <li>工序：<span>原子灰中涂</span></li>
-                        <li>施工人：<span>途小虎，途二虎</span></li>
+                        <li>工序：<span>{{getProcessName(l.processId)}}</span></li>
+                        <li>施工人：<span>{{l.techName}}{{l.techName2 ? `, ${l.techName2}`:``}}</span></li>
                     </ul>
                 </div>
             </div>
@@ -85,10 +87,34 @@
 </template>
 
 <script>
+    import { getOrderDetail } from '../../api/Api';
+    import { mapGetters } from 'vuex';
+
     export default {
         name: 'detail',
+        data () {
+            return {
+                detail: ''
+            }
+        },
+        computed: {
+            ...mapGetters([
+               'getLineList',
+            ]),
+        },
         created () {
+            getOrderDetail()
+                .then(res => {
+                    if (res.code === 10000) {
+                        this.detail = res.data;
+                    }
 
+                })
+        },
+        methods: {
+            getProcessName (id) {
+                return this.getLineList.find(line => line.ProcessID = id).ProcessName;
+            },
         }
     }
 </script>
@@ -131,7 +157,6 @@
             display: inline-block
             width w = .12rem
             height w
-            background-color black
             margin-right .05rem
         .content
             flex 3

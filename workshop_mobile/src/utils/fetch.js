@@ -71,7 +71,8 @@ const myFetch = (url, data) => {
         req_obj.method = data.method.toUpperCase() || 'GET';
         req_obj.headers = Object.assign({
             'Accept': 'application/json',
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization': `Basic `
         }, data.headers);
 
         if (['POST'].indexOf(req_obj.method) !== -1) {

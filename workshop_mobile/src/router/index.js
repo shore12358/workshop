@@ -20,10 +20,12 @@ export default new Router({
 			children: [
 				{
 					path: 'dashboard',
+					name: 'dashboard',
 					component: Dashboard
 				},
 				{
 					path: 'task',
+					name: 'task',
 					component: Task
 				}
 			]
