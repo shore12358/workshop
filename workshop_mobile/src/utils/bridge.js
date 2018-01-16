@@ -10,9 +10,9 @@ const bridge = (() => {
     }
     const getDeviceType = () => deviceType;
     /*
-     * @params nativeFn {string}
-     * @params params {object}
-     * @params cb {string}
+     * @param nativeFn {string}
+     * @param params {object}
+     * @param cb {string}
      */
     const go = (nativeFn, params, cb) => {
         switch (deviceType) {

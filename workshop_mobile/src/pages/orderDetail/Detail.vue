@@ -90,6 +90,7 @@
     import { getOrderDetail } from '../../api/Api';
     import { mapGetters } from 'vuex';
 
+
     export default {
         name: 'detail',
         data () {
@@ -101,6 +102,7 @@
             ...mapGetters([
                'getLineList',
             ]),
+
         },
         created () {
             getOrderDetail()
@@ -115,6 +117,7 @@
             getProcessName (id) {
                 return this.getLineList.find(line => line.ProcessID = id).ProcessName;
             },
+
         }
     }
 </script>

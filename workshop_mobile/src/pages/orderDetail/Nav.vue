@@ -1,6 +1,6 @@
 <template>
     <ul class="nav">
-        <li>开工</li>
+        <li class="selectable">开工</li>
         <li>中断</li>
         <li>完工</li>
     </ul>
@@ -24,17 +24,18 @@
         bottom 0
         left 0
         z-index 1000
+        .selectable
+            background-color co-blue-bright
+            color white
+            border-right 1px solid #dae9fb
         li
             flex 1
             co-flex()
             height 0.49rem
-            background-color co-blue-bright
-            font-size 0.16rem
-            color white
-            border-right 1px solid #dae9fb
+            text-light(0.16rem)
+            background: #eee;
+            border-right 1px solid rgba(255, 255, 255, .7)
             &:last-child
                 border-right none
-
-
 
 </style>

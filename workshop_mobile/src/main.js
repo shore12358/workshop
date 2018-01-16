@@ -8,11 +8,13 @@ import 'isomorphic-fetch';
 import Multiselect from 'vue-multiselect';
 import TransDate from './directives/date';
 
+import './utils/Bu';
+
 Vue.component('Icon', Icon);
 Vue.component('Multiselect', Multiselect);
 Vue.directive('transDate', TransDate);
 
-const Bu = {};
+
 
 new Vue({
 	el: '#app',

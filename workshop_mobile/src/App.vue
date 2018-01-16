@@ -6,7 +6,7 @@
 
 <script>
     import { mapActions } from 'vuex'
-    import bridge from './utils/bridge';
+    import { getProcessListByTechId } from './api/Api';
 
     export default {
         name: 'app',
@@ -20,13 +20,10 @@
             this.fetchLineListAsync();
             // this.updateFromPushAsync()
 
-            window.localStorage.setItem('techId', 123456);
-
-            // window.technicianBack = (res) => {
-            //     window.localStorage.setItem('userInfo', JSON.stringify(res));
-            // };
-            //
-            // bridge.go('getTechnicianInfo', { params: '' }, 'technicianBack');
+            getProcessListByTechId()
+                .then(res => {
+                    Bu.st.setKey('myProcessList', res.data);
+                })
 
         },
         methods: {

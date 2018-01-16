@@ -51,61 +51,65 @@ Toast.$root = document.getElementsByTagName('body')[0];
 
 
 const myFetch = (url, data) => {
-    return new Promise((resolve, reject) => {
-        const opts = {};
-        if ('options' in data) {
-            const { options } = data;
-            opts.showToast = options.showToast;
-            opts.toastText = options.toastText;
-        }
-
-        if (opts.showToast !== false) {
-            var travel_time = 2 * 1000;
-            var toast_loading = new Toast({ type: 1, text: opts.toastText }); // loading...
-            var showLoadingAsync = setTimeout(() => {
-                toast_loading.showToast();
-            }, travel_time);
-        }
-
-        const req_obj = {};
-        req_obj.method = data.method.toUpperCase() || 'GET';
-        req_obj.headers = Object.assign({
-            'Accept': 'application/json',
-            'Content-type': 'application/json',
-            'Authorization': `Basic `
-        }, data.headers);
-
-        if (['POST'].indexOf(req_obj.method) !== -1) {
-            const _body = {
-                apiVersion: '',
-                blackBox: '',
-                channel: '',
-                umengChannel: '',
-                postData: data.postData
-            };
-
-            req_obj.body = JSON.stringify(_body);
-
-        }
-        fetch(url, req_obj)
-            .then(res => {
-                if (opts.showToast !== false) {
-                    try {
-                        clearTimeout(showLoadingAsync);
-                    } catch (e) {
-
-                    }
-                    toast_loading.hideToast();
+    return Bu.st.getToken()
+        .then(token => {
+            return new Promise((resolve, reject) => {
+                const opts = {};
+                if ('options' in data) {
+                    const { options } = data;
+                    opts.showToast = options.showToast;
+                    opts.toastText = options.toastText;
                 }
-                resolve(res.json());
+
+                if (opts.showToast !== false) {
+                    var travel_time = 2 * 1000;
+                    var toast_loading = new Toast({ type: 1, text: opts.toastText }); // loading...
+                    var showLoadingAsync = setTimeout(() => {
+                        toast_loading.showToast();
+                    }, travel_time);
+                }
+
+                const req_obj = {};
+                req_obj.method = data.method.toUpperCase() || 'GET';
+                req_obj.headers = Object.assign({
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    'Authorization': `Basic ${token}`
+                }, data.headers);
+
+                if (['POST'].indexOf(req_obj.method) !== -1) {
+                    const _body = {
+                        apiVersion: '',
+                        blackBox: '',
+                        channel: '',
+                        umengChannel: '',
+                        postData: data.postData
+                    };
+
+                    req_obj.body = JSON.stringify(_body);
+
+                }
+                fetch(url, req_obj)
+                    .then(res => {
+                        if (opts.showToast !== false) {
+                            try {
+                                clearTimeout(showLoadingAsync);
+                            } catch (e) {
+
+                            }
+                            toast_loading.hideToast();
+                        }
+                        resolve(res.json());
+                    })
+                    .catch(() => {
+                        const toast_error = new Toast({ type: 2 }); // error
+                        toast_loading && toast_loading.hideToast();
+                        toast_error.showToast();
+                        reject();
+                    })
             })
-            .catch(() => {
-                const toast_error = new Toast({ type: 2 }); // error
-                toast_loading && toast_loading.hideToast();
-                toast_error.showToast();
-                reject();
-            })
-    })
+        })
+
 };
 
 export default myFetch;

@@ -60,7 +60,7 @@ export default new Vuex.Store({
                 "panelRates": 0,
                 "paintRates": 0,
                 "lineId": 1,
-                "techId": 123456,
+                "techId": 9,
                 "techId2": 0,
                 "isRework": 1,
                 "roStatus": 0,
@@ -91,7 +91,7 @@ export default new Vuex.Store({
                 "panelRates": 0,
                 "paintRates": 0,
                 "lineId": 1,
-                "techId": 123456,
+                "techId": 9,
                 "techId2": 0,
                 "isRework": 1,
                 "roStatus": 0,
@@ -121,7 +121,7 @@ export default new Vuex.Store({
                 "panelRates": 0,
                 "paintRates": 0,
                 "lineId": 1,
-                "techId": 123456,
+                "techId": 9,
                 "techId2": 0,
                 "isRework": 1,
                 "roStatus": 1,
@@ -158,7 +158,7 @@ export default new Vuex.Store({
             return JSON.parse(storage.getItem('orders')) || [];
         },
         getMyOrders (state) {
-            const _techId = storage.getItem('techId');
+            const _techId = Bu.st.getKey('techInfo').techId;
             const orders = state.orders.length ? state.orders : JSON.parse(storage.getItem('orders'));
             try {
                 const techId = Number(_techId);
@@ -200,6 +200,9 @@ export default new Vuex.Store({
         getOrdersByProcessId: (state, getters) => (processId) => {
             return getters.getOrders.filter(order => order.processId === Number(processId));
         },
+        queryOrderById: (state, getters) => (orderId) => {
+            return getters.getOrders.find(order => order.roId === Number(orderId));
+        }
 	},
     mutations: {
 

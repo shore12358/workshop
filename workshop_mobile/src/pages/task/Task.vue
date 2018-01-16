@@ -38,8 +38,8 @@
                 const _orders = [];
                 const pre_orders = this.getMyOrders.filter(order => ORDER.PREPARING.indexOf(order.processStatus) > -1);
                 const working_orders = this.getMyOrders.filter(order => ORDER.WORKING.indexOf(order.processStatus) > -1);
-                working_orders && _orders.push(working_orders);
-                pre_orders && _orders.push(pre_orders);
+                working_orders.length && _orders.push(working_orders);
+                pre_orders.length && _orders.push(pre_orders);
                 return _orders;
             },
             tabs () {
