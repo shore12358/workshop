@@ -62,10 +62,27 @@
                     //  todo: waiting
                 } else {
                     if (this.responsibleForTheProcess(pId)) {
-                        
-                    } else {
-                        return [];
+                        switch (pStatus) {
+                            case 0:
+                                if (this.technicianOk(this.order) || this.order.techId === null) {
+                                    return [1];
+                                }
+                                break;
+                            case 1:
+                                if (this.technicianOk(this.order)) {
+                                    return [2, 3];
+                                }
+                                break;
+                            case 2:
+                                if (this.technicianOk(this.order)) {
+                                    return [1];
+                                }
+                                break;
+                            default:
+
+                        }
                     }
+                    return [];
 
                 }
             }
