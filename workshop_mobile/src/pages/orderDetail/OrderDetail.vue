@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Nav></Nav>
+        <Nav :permission="permission" :pName="processInCharge" :pId="processInChargeId" :roId="orderId"></Nav>
         <Detail></Detail>
     </div>
 </template>
@@ -14,67 +14,106 @@
         name: 'orderDetail',
         data () {
             return {
-                processInCharge: ''
+                processInCharge: '',
+                processInChargeId: ''
             }
         },
         computed: {
             ...mapGetters([
-                'queryOrderById'
+                'queryOrderById',
+                'getWorkingZoneList',
             ]),
             order () {
                 return this.queryOrderById(this.orderId);
             },
             orderId () {
-                return this.$route.params.id;
+                return Number(this.$route.params.id);
             },
             processStatus () {
-                return this.$route.query.processStatus;
+                return this.order.processStatus;
             },
             processId () {
-                return this.$route.query.processId
+                return this.order.processId;
             },
-            myProcessList () {
-                return Bu.st.getKey('myProcessList');
+            workingZoneList () {
+                return this.getWorkingZoneList(this.order.lineId);
             },
-            techId () {
-                return Bu.st.getTechInfo().techId;
-            }
+            permission () {
+                return this.setPermission(this.processStatus, this.workingZoneList, this.processId);
+            },
         },
         created () {
-
+            this.techId = Bu.st.getTechInfo().techId;
+            this.myProcessList = Bu.st.getKey('myProcessList');
         },
         methods: {
             responsibleForTheProcess (pId) {
-                const { ProcessName } = this.myProcessList.find(process => pId === process.ProcessID);
-                ProcessName && (this.processInCharge = ProcessName);
+                const { ProcessName, ProcessID } = this.myProcessList.find(process => pId === process.ProcessID) || {};
+                if (ProcessID) {
+                    this.processInCharge = ProcessName;
+                    this.processInChargeId = ProcessID;
+                }
                 return !!ProcessName;
             },
-            technicianOk (order) {
+            technicianAssigned (order) {
                 return ([].push(order.techId, order.techId2)).indexOf(this.techId) > -1
             },
-
-            /*
-             *
-             * 1 start working  2 interrupt 3 finished
+            
+            /**
+             * @param pList {Array} work zone list matches current line
+             * @param pId {Number} processId of current order
+             * @return {Array} represent for possessed permission: 1 start working  2 interrupt 3 finished
              */
-            setPermission (pStatus, pList, oId, pId) {
+            setPermission (pStatus, pList, pId) {
+                debugger
                 if (pId === 0) {
-                    //  todo: waiting
+                    let process, matched = false;
+                    for (process of pList) {
+                        switch (process.ProcessNature) {
+                            case 1: // platemetal
+                                if (this.order.panelRates > 0) {
+                                    matched = true;
+                                    break;
+                                }
+                                continue;
+                            case 2: // paint
+                                if (this.order.paintRates > 0) {
+                                    matched = true;
+                                    break;
+                                }
+                                continue;
+                            case 3: // general
+                                matched = true;
+                                break;
+                            default:
+                                continue;
+
+                        }
+                        if (matched) {
+                            break;
+                        }
+                    }
+
+                    if (matched && this.responsibleForTheProcess(process.ProcessID)) {
+                        return [1]
+                    }
+                    return [];
+
                 } else {
                     if (this.responsibleForTheProcess(pId)) {
                         switch (pStatus) {
                             case 0:
-                                if (this.technicianOk(this.order) || this.order.techId === null) {
+                                if (this.technicianAssigned(this.order) || this.order.techId === null) {
                                     return [1];
                                 }
                                 break;
                             case 1:
-                                if (this.technicianOk(this.order)) {
+                                if (this.technicianAssigned(this.order)) {
                                     return [2, 3];
                                 }
                                 break;
                             case 2:
-                                if (this.technicianOk(this.order)) {
+                                if (this.technicianAssigned(this.order)) {
                                     return [1];
                                 }
                                 break;

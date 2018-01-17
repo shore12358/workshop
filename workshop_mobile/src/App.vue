@@ -18,7 +18,7 @@
         created () {
             this.initAsync();
             this.fetchLineListAsync();
-            // this.updateFromPushAsync()
+            this.updateFromPushAsync();
 
             getProcessListByTechId()
                 .then(res => {

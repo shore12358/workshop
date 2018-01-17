@@ -1,17 +1,35 @@
 <template>
     <ul class="nav">
-        <li class="selectable">开工</li>
-        <li>中断</li>
-        <li>完工</li>
+        <li :class="`${permissionOk(1) ? 'selectable': ''}`" @click="operationPageGo(1)">开工</li>
+        <li :class="`${permissionOk(2) ? 'selectable': ''}`" @click="operationPageGo(2)">中断</li>
+        <li :class="`${permissionOk(3) ? 'selectable': ''}`" @click="operationPageGo(3)">完工</li>
     </ul>
 </template>
 
 <script>
     export default {
         name: 'nav',
-        created () {
+        props: ['permission', 'pName', 'pId', 'roId'],
+        methods: {
+            permissionOk (num) {
+                return this.permission.indexOf(num) > -1;
+            },
+            operationPageGo (num) {
+                if (this.permissionOk(num)) {
+                    const { roId, pId, pName } = this;
+                    switch (num) {
+                        case 1:
+                            this.$router.push({ name: 'startUp', params: { roId }, query: { pId, pName } });
+                            break;
+                        case 2:
+                        case 3:
+                        default:
 
+                    }
+                }
+            }
         }
+
     }
 </script>
 

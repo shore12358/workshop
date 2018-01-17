@@ -15,7 +15,9 @@ const API = {
     getAllOrders: `${server_java}/rest/workshop/ro/getIndex`,
     getOrderDetail: `${server_java}/rest/workshop/ro/getRoDetail`,
     getLineList: `${server_net}/api/LineProcess/GetLineProcessList`,
-    getProcessListByTechId: `${server_net}/api/LineProcess/GetProcessListByEmployeeID`
+    getProcessListByTechId: `${server_net}/api/LineProcess/GetProcessListByEmployeeID`,
+    getTechListByProcessId: `${server_net}/api/TechnicianGroup/GetTechnicianListByProcessID`,
+    processStartUp: `${server_java}/rest/workshop/ro/startProcess`
 
 };
 
@@ -69,11 +71,30 @@ const getProcessListByTechId = () => {
     });
 };
 
+const getTechListByProcessId = (pId) => {
+    return Bu.fetch(API.getTechListByProcessId, {
+        method: 'post',
+        postData: {
+            ShopID: 38,
+            ProcessID: pId
+        }
+    });
+};
+
+const processStartUp = (postData) => {
+    return Bu.fetch(API.processStartUp, {
+        method: 'post',
+        postData
+    });
+}
+
 export {
     getAllOrders,
     getLineList,
     getOrderDetail,
-    getProcessListByTechId
+    getProcessListByTechId,
+    getTechListByProcessId,
+    processStartUp
 }
 
 
