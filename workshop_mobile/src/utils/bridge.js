@@ -9,7 +9,8 @@ const bridge = (() => {
         deviceType = 0;
     }
     const getDeviceType = () => deviceType;
-    /*
+
+    /**
      * @param nativeFn {string}
      * @param params {object}
      * @param cb {string}

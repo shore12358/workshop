@@ -47,8 +47,7 @@
                 return Bu.st.getTechInfo();
             },
             techAssigned () {
-                const techIdFromOrder = [];
-                techIdFromOrder.push(this.order.techId, this.order.techId2);
+                const techIdFromOrder = new Array(this.order.techId, this.order.techId2);
                 return techIdFromOrder.filter(techId => techId !== null && techId !== this.me.techId).pop();
             }
         },

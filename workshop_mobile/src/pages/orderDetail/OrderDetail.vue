@@ -56,7 +56,7 @@
                 return !!ProcessName;
             },
             technicianAssigned (order) {
-                return ([].push(order.techId, order.techId2)).indexOf(this.techId) > -1
+                return (new Array(order.techId, order.techId2)).indexOf(this.techId) > -1
             },
             
             /**
