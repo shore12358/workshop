@@ -21,43 +21,68 @@
                 </li>
                 <li>
                     <span class="label" >油漆档次：</span>
-                    <span class="content">{{detail.paintGrade === 1 ? '标准' : '高'}}</span>
+                    <span class="content" v-show="typeof detail.paintGrade === 'number'">{{detail.paintGrade === 1 ? '标准' : '高'}}</span>
                 </li>
                 <li>
                     <span class="label" >是否加急：</span>
-                    <span class="content">{{detail.isEmergency === 0 ? '加急' : '不加急'}}</span>
+                    <span class="content" v-show="typeof detail.isEmergency === 'number'">{{detail.isEmergency === 0 ? '加急' : '不加急'}}</span>
                 </li>
                 <li>
                     <span class="label" >到厂日期：</span>
-                    <span class="content" v-transDate="detail.inTime"></span>
+                    <span class="content" v-transDate="detail.inTime" v-show="detail.inTime"></span>
                 </li>
                 <li>
                     <span class="label" >计划完工：</span>
-                    <span class="content" v-transDate="detail.planCompletedTime">17-11-26 13:13</span>
+                    <span class="content" v-transDate="detail.planCompletedTime" v-show="detail.planCompletedTime"></span>
                 </li>
             </ul>
         </div>
 
-        <div class="wrapper" v-if="typeof detail.roPartses === 'array' && detail.roPartses.length > 0">
+        <div class="wrapper" v-if="detail.roPartses instanceof Array && detail.roPartses.length > 0">
             <p class="title">部件定损</p>
-            <div class="units-box">
+            <div class="units-box" v-if="plateMetalUnits.length > 0">
                 <ul class="units-title">
                     <li>钣金项目</li>
                     <li>钣金数</li>
                     <li>损伤程度</li>
                 </ul>
-                <ul class="units-item">
-                    <li>左前翼子板</li>
-                    <li>2.0</li>
-                    <li>轻</li>
-                </ul>
-                <div class="units-suite">
-                    <ul class="item">
-                        <li>改装套件</li>
-                        <li>2.0</li>
-                        <li></li>
+                <div v-for="pu in plateMetalUnits" :key="pu.partsId">
+                    <div class="units-suite" v-if="pu.partsId === -1">
+                        <ul class="item">
+                            <li>{{pu.partsName}}</li>
+                            <li>{{pu.partsCount}}</li>
+                            <li></li>
+                        </ul>
+                        <p class="des-note">{{pu.remark}}</p>
+                    </div>
+                    <ul class="units-item" v-else>
+                        <li>{{pu.partsName}}</li>
+                        <li>{{pu.partsCount}}</li>
+                        <li>{{pu.partsDegreeName}}</li>
                     </ul>
-                    <p class="des-note">内容描述内容描述内容描述内容描述内容描述内容描述内容描述内容描述</p>
+                </div>
+            </div>
+            <div class="units-box" v-if="paintUnits.length > 0">
+                <ul class="units-title">
+                    <li>油漆项目</li>
+                    <li>漆面数</li>
+                    <li>损伤程度</li>
+                </ul>
+
+                <div v-for="pu in paintUnits" :key="pu.partsId">
+                    <div class="units-suite" v-if="pu.partsId === -1">
+                        <ul class="item">
+                            <li>{{pu.partsName}}</li>
+                            <li>{{pu.partsCount}}</li>
+                            <li></li>
+                        </ul>
+                        <p class="des-note">{{pu.remark}}</p>
+                    </div>
+                    <ul class="units-item" v-else>
+                        <li>{{pu.partsName}}</li>
+                        <li>{{pu.partsCount}}</li>
+                        <li>{{pu.partsDegreeName}}</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -95,23 +120,33 @@
         name: 'detail',
         data () {
             return {
-                detail: ''
+
             }
         },
+        props: ['detail'],
         computed: {
             ...mapGetters([
                'getLineList',
             ]),
+            plateMetalUnits () {
+                try {
+                    return this.detail.roPartses.filter(unit => unit.partsType === 2);
+                } catch (e) {
+                    return [];
+                }
+            },
+            paintUnits () {
+                try {
+                    return this.detail.roPartses.filter(unit => unit.partsType === 1);
+                } catch (e) {
+                    return [];
+                }
+            }
 
         },
         created () {
-            getOrderDetail()
-                .then(res => {
-                    if (res.code === 10000) {
-                        this.detail = res.data;
-                    }
 
-                })
+
         },
         methods: {
             getProcessName (id) {
@@ -165,7 +200,8 @@
             flex 3
             co-flex(flex-start)
 
-
+    .units-box
+        margin-bottom .02rem
     .units-title, .units-item
         co-flex(flex-start)
         li

@@ -38,31 +38,38 @@
                 return this.$route.params.processId;
 
             },
+            ordersFromProcess () {
+                return this.getOrdersByProcessId(this.processId);
+            },
+            waitingNum () {
+               const cc = this.ordersFromProcess.filter(order => ORDER.WAITING.indexOf(order.processStatus) > -1).length;
+               return cc
+            },
+            workingNum () {
+                return this.ordersFromProcess.filter(order => ORDER.WORKING.indexOf(order.processStatus) > -1).length;
+            },
             tabs () {
                 const tabs = [];
-                let { waiting_orders_num: wa_num, working_orders_num: wo_num } = this.$route.query;
-                wa_num = Number(wa_num);
-                wo_num = Number(wo_num);
-                if (wa_num) {
+
+                if (this.waitingNum) {
                     tabs.push({
                         filterKey: ORDER.WAITING,
-                        num: wa_num,
+                        num: this.waitingNum,
                         text: '等待中'
                     })
                 }
-                if (wo_num) {
+                if (this.workingNum) {
                     tabs.push({
                         filterKey: ORDER.WORKING,
-                        num: wo_num,
+                        num: this.workingNum,
                         text: '施工中'
                     });
                 }
                 return tabs;
             },
             orders () {
-                const _orders = this.getOrdersByProcessId(this.processId);
                 return this.tabs.map((item) => {
-                    return _orders.filter(order => item.filterKey.indexOf(order.processStatus) > -1)
+                    return this.ordersFromProcess.filter(order => item.filterKey.indexOf(order.processStatus) > -1)
                 });
             }
 

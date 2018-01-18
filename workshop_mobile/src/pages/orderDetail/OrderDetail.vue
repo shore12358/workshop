@@ -1,21 +1,23 @@
 <template>
     <div>
-        <Nav :permission="permission" :pName="processInCharge" :pId="processInChargeId" :roId="orderId"></Nav>
-        <Detail></Detail>
+        <Nav :permission="permission" @completeWork="completeWork" @startUpGo="startUpGo"></Nav>
+        <Detail :detail="detail"></Detail>
     </div>
 </template>
 
 <script>
     import Nav from './Nav';
     import Detail from './Detail';
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapMutations } from 'vuex';
+    import { processCompleted, getOrderDetail } from '../../api/Api';
 
     export default {
         name: 'orderDetail',
         data () {
             return {
                 processInCharge: '',
-                processInChargeId: ''
+                processInChargeId: '',
+                detail: {}
             }
         },
         computed: {
@@ -45,8 +47,20 @@
         created () {
             this.techId = Bu.st.getTechInfo().techId;
             this.myProcessList = Bu.st.getKey('myProcessList');
+            getOrderDetail(this.orderId)
+                .then(res => {
+                    if (res.code === 10000) {
+                        this.detail = res.data;
+                    }
+
+                })
         },
         methods: {
+            ...mapMutations([
+                'modifyProcessStatusByOrderId',
+                'removeOrder'
+
+            ]),
             responsibleForTheProcess (pId) {
                 const { ProcessName, ProcessID } = this.myProcessList.find(process => pId === process.ProcessID) || {};
                 if (ProcessID) {
@@ -65,7 +79,6 @@
              * @return {Array} represent for possessed permission: 1 start working  2 interrupt 3 finished
              */
             setPermission (pStatus, pList, pId) {
-                debugger
                 if (pId === 0) {
                     let process, matched = false;
                     for (process of pList) {
@@ -124,7 +137,18 @@
                     return [];
 
                 }
-            }
+            },
+            completeWork () {
+                processCompleted({ processId: this.processInChargeId, roId: this.orderId})
+                    .then(res => {
+                        if (res.code === 10000) {
+                            this.$router.replace({ path: '/user/dashboard' });
+                        }
+                    });
+            },
+            startUpGo () {
+                this.$router.push({ name: 'startUp', params: { roId: this.orderId }, query: { pId: this.processInChargeId, pName: this.processInCharge } });
+            },
         },
         components: {
             Nav,

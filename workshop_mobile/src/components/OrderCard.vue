@@ -21,7 +21,7 @@
         </div>
         <div class="bottom">
             <ul>
-                <li>工 单 号：<span>TH18834234</span></li>
+                <li>工 单 号：<span>{{order.roNumber}}</span></li>
                 <li>进厂日期：<span v-transDate="order.inTime"></span></li>
             </ul>
             <ul>
@@ -62,7 +62,7 @@
         methods:{
             detailPageGo () {
                 const { roId, processStatus, processId } = this.order;
-                this.$router.push({ name: 'orderDetail', params: { id: roId }, query: { processStatus, processId } });
+                this.$router.push({ name: 'orderDetail', params: { id: roId } });
             }
         },
         created () {

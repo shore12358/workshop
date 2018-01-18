@@ -18,7 +18,7 @@
 
 <script>
     import { getTechListByProcessId, processStartUp } from '../../api/Api';
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapMutations } from 'vuex'
 
     export default {
         name: 'startUp',
@@ -68,6 +68,9 @@
                 })
         },
         methods: {
+            ...mapMutations([
+                'modifyProcessStatusByOrderId'
+            ]),
             handleItem (tech) {
                 if (tech.choosen) {
                     tech.choosen = false;
@@ -87,8 +90,16 @@
                     techId2: anotherTech.EmployeeID,
                     techName: this.me.techName,
                     techName2: anotherTech.EmployeeName
-                }
-                // processStartUp(postData);
+                };
+                 processStartUp(postData)
+                    .then(res => {
+                        if (res.code === 10000) {
+                            const payload = {};
+                            Object.assign(payload, postData, { processStatus: 1 });
+                            this.modifyProcessStatusByOrderId(payload);
+                            this.$router.go(-1);
+                        }
+                    });
             },
             detailGo () {
                 this.$router.go(-1);
@@ -116,7 +127,6 @@
             margin-bottom .2rem
         .technician-list, .btn-group
             overflow hidden
-            co-flex(space-between)
         .technician-item, .btn
             float left
             width 47%

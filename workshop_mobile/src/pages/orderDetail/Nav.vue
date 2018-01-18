@@ -9,20 +9,21 @@
 <script>
     export default {
         name: 'nav',
-        props: ['permission', 'pName', 'pId', 'roId'],
+        props: ['permission'],
         methods: {
             permissionOk (num) {
                 return this.permission.indexOf(num) > -1;
             },
             operationPageGo (num) {
                 if (this.permissionOk(num)) {
-                    const { roId, pId, pName } = this;
                     switch (num) {
                         case 1:
-                            this.$router.push({ name: 'startUp', params: { roId }, query: { pId, pName } });
+                            this.$emit('startUpGo');
                             break;
                         case 2:
                         case 3:
+                            this.$emit('completeWork');
+                            break;
                         default:
 
                     }

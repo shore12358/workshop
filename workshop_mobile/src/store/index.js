@@ -9,130 +9,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-        orders: [
-            // {
-            //     "roId": 2,
-            //     "roNumber": "string",
-            //     "shopId": 0,
-            //     "inTime": 1514256227000,
-            //     "planCompletedTime": 1514256227000,
-            //     "startTime": 1514256227000,
-            //     "actCompletedTime": null,
-            //     "processEnterTime": null,
-            //     "paintGrade": 1,
-            //     "isEmergency": 0,
-            //     "processId": 0,
-            //     "processStatus": 0,
-            //     "carNumber": "沪C12345",
-            //     "carColor": "string",
-            //     "carType": "上海通用汽车别克 凯越",
-            //     "panelRates": 1,
-            //     "paintRates": 0,
-            //     "lineId": 1,
-            //     "techId": 0,
-            //     "techId2": 0,
-            //     "isRework": 1,
-            //     "roStatus": 0,
-            //     "invalid": 0,
-            //     "remark": "string",
-            //     "createdUser": "workshop_newRo",
-            //     "createdTime": 1514256313000,
-            //     "updatedUser": null,
-            //     "updatedTime": null,
-            // },
-            // {
-            //     "roId": 3,
-            //     "roNumber": "string",
-            //     "shopId": 0,
-            //     "inTime": 1514256227000,
-            //     "planCompletedTime": 1514256227000,
-            //     "startTime": 1514256227000,
-            //     "processEnterTime": null,
-            //     "actCompletedTime": null,
-            //     "carColorValue": 'black',
-            //     "paintGrade": 1,
-            //     "isEmergency": 0,
-            //     "processId": 3,
-            //     "processStatus": 0,
-            //     "carNumber": "沪C12345",
-            //     "carColor": "string",
-            //     "carType": "上海通用汽车别克ss 凯越",
-            //     "panelRates": 0,
-            //     "paintRates": 0,
-            //     "lineId": 1,
-            //     "techId": 9,
-            //     "techId2": 0,
-            //     "isRework": 1,
-            //     "roStatus": 0,
-            //     "invalid": 0,
-            //     "remark": "string",
-            //     "createdUser": "workshop_newRo",
-            //     "createdTime": 1514256313000,
-            //     "updatedUser": null,
-            //     "updatedTime": null,
-            // },
-            // {
-            //     "roId": 4,
-            //     "roNumber": "string",
-            //     "shopId": 0,
-            //     "inTime": 1514256227000,
-            //     "planCompletedTime": 1514256227000,
-            //     "startTime": 1514256227000,
-            //     "processEnterTime": null,
-            //     "actCompletedTime": null,
-            //     "carColorValue": 'orange',
-            //     "paintGrade": 1,
-            //     "isEmergency": 0,
-            //     "processId": 3,
-            //     "processStatus": 2,
-            //     "carNumber": "沪C12345",
-            //     "carColor": "string",
-            //     "carType": "上海通用汽车别克aa 凯越",
-            //     "panelRates": 0,
-            //     "paintRates": 0,
-            //     "lineId": 1,
-            //     "techId": 9,
-            //     "techId2": 0,
-            //     "isRework": 1,
-            //     "roStatus": 0,
-            //     "invalid": 0,
-            //     "remark": "string",
-            //     "createdUser": "workshop_newRo",
-            //     "createdTime": 1514256313000,
-            //     "updatedUser": null,
-            //     "updatedTime": null,
-            // },
-            // {
-            //     "roId": 5,
-            //     "roNumber": "string",
-            //     "shopId": 0,
-            //     "inTime": 1514256227000,
-            //     "planCompletedTime": 1514256227000,
-            //     "actCompletedTime": null,
-            //     "carColorValue": 'black',
-            //     "paintGrade": 1,
-            //     "isEmergency": 0,
-            //     "processId": 3,
-            //     "processStatus": 1,
-            //     "processEnterTime": 1514256200000,
-            //     "carNumber": "string",
-            //     "carColor": "string",
-            //     "carType": "string",
-            //     "panelRates": 0,
-            //     "paintRates": 0,
-            //     "lineId": 1,
-            //     "techId": 9,
-            //     "techId2": 0,
-            //     "isRework": 1,
-            //     "roStatus": 1,
-            //     "invalid": 0,
-            //     "remark": "string",
-            //     "createdUser": "workshop_newRo",
-            //     "createdTime": 1514256313000,
-            //     "updatedUser": null,
-            //     "updatedTime": null
-            // }
-		],
+        orders: [],
         orderCounts: null,  // {object}
         timeGap: 0,  // int(ms)
         queryKey: '',
@@ -197,6 +74,7 @@ export default new Vuex.Store({
 		getOrdersByLineId: (state, getters) => (lineId) => {
 			const lineOrders = getters.getOrders.filter(order => order.lineId === lineId);
 			return (processId) => {
+			    // debugger
 				return lineOrders.filter(order => order.processId === processId);
             }
 		},
@@ -211,7 +89,6 @@ export default new Vuex.Store({
 
 	    // get all orders and counts
         init (state, payload) {
-
             state.orders && (state.orders = payload.orders);
             payload.orderCounts && (state.orderCounts = payload.orderCounts);
             payload.timeGap && (state.timeGap = payload.timeGap);
@@ -227,14 +104,55 @@ export default new Vuex.Store({
             payload.lineList && (state.lineList = payload.lineList);
         },
         updateFromPush (state, payload) {
-            state.orders.push(payload.order);   // order attr map to the data structure in ws api
-            state.orderCounts = payload.orderCounts;
-        },
+            const { workshopRo, roStats } = payload.content;
+            try {
+                switch (payload.crudType) {
+                    case 1:
+                        state.orders.push(workshopRo);
+                        break;
+                    case 3:
+                        state.orders.forEach((order, index, orders) => {
+                            if (order.roId === workshopRo.roId) {
+                                orders[index] = workshopRo;
+                            }
+                        });
+                        break;
+                    case 4:
+                        state.orders.forEach((order, index, orders) => {
+                            if (order.roId === workshopRo.roId) {
+                                orders.splice(index, 1);
+                            }
+                        });
+                        break;
+                    default:
+
+                }
+                state.orderCounts = roStats;
+            } catch (e) {
+
+            }
+            Bu.st.setKey('orders', state.orders);
+            Bu.st.setKey('orderCounts', state.orderCounts);
+        }
+
+
+        ,
         modifyQueryKey (state, payload) {
             const { queryKey } = payload;
             state.queryKey = queryKey;
         },
+        modifyProcessStatusByOrderId (state, payload) {
+            const attrs = {};
+            Object.assign(attrs, payload);
+            delete attrs.type;
+            try {
+                const order = state.orders.find(order => order.roId === Number(payload.roId));
+                Object.assign(order, attrs);
+            } catch (e) {
 
+            }
+            Bu.st.setKey('orders', state.orders);
+        },
 
     },
     actions: {
@@ -287,6 +205,25 @@ export default new Vuex.Store({
                 });
         },
         updateFromPushAsync ({ commit }) {
+
+            const socket = io('http://comet.tuhu.work/banpen?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd&channel=shop&ua=pc&module=tab&shopId=38&userId=testUserWQ');
+            socket.on('connect', () => {
+                console.log('connect socket');
+            });
+            socket.on('disconnect', () => {
+                console.log('disconnect');
+            });
+            socket.on('error',(msg) => {
+                console.log(`error ${msg}`);
+            });
+            socket.on('PushMessage', function(msg){
+                console.log("PushMessage", msg);
+                let cc = {
+                    type: 'updateFromPush',
+                    ...JSON.parse(msg).msg
+                };
+                commit(cc);
+            });
             // var socket = io('path', {
             //     polling: {
             //         extra: token
@@ -296,22 +233,6 @@ export default new Vuex.Store({
             //     body:
             //      condition: ['定点推送']
             // })
-            const socket = io('http://comet.tuhu.work?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd');
-            socket.on('connect', () => {
-                console.log('connect ' + socket.id);
-            });
-
-            socket.on('disconnect', () => {
-                console.log('disconnect ' + socket.id);
-            });
-
-            socket.on('PushMessage', msg => {
-                console.log(msg);
-                debugger
-                // commit({
-                //     type: 'updateFromPush',
-                // });
-            });
             //  token 失效 客户端onError 重连
             //  client use series id to make sure push info completed,
             //  resend the request if doesn't meet the des above
