@@ -2,7 +2,7 @@
     <div class="container">
         <OrderCardTabs :tabs="tabs" @tabChange="tabChange"></OrderCardTabs>
         <div v-for="od in orders[tabIndex]" :key="od.roId">
-            <OrderCard :order="od" :currentTime="currentTime" :getOrderColor="getOrderColor"></OrderCard>
+            <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor"></OrderCard>
         </div>
     </div>
 </template>
@@ -14,8 +14,8 @@
     import { getOrderColor } from "../../utils/utils";
 
     const ORDER = {
-        WAITING: 0,
-        WORKING: 1
+        WAITING: [0, 2],
+        WORKING: [1]
     };
 
     export default {
@@ -28,45 +28,48 @@
 
         computed: {
             ...mapGetters([
-                'getOrdersByProcessId',
-                'getTimeGap'
+                'getLineOrdersByProcessId',
+                'getCurrentTime'
             ]),
             getOrderColor () {
                 return getOrderColor();
             },
-            currentTime () {
-                return Date.now() + this.getTimeGap;
-            },
             processId () {
                 return this.$route.params.processId;
-
+            },
+            lineId () {
+                return this.$route.query.lineId;
+            },
+            ordersFromProcess () {
+                return this.getLineOrdersByProcessId(this.lineId, this.processId);
+            },
+            waitingOrders () {
+               return this.ordersFromProcess.filter(order => ORDER.WAITING.indexOf(order.processStatus) > -1);
+            },
+            workingOrders () {
+                return this.ordersFromProcess.filter(order => ORDER.WORKING.indexOf(order.processStatus) > -1);
             },
             tabs () {
                 const tabs = [];
-                let { waiting_orders_num: wa_num, working_orders_num: wo_num } = this.$route.query;
-                wa_num = Number(wa_num);
-                wo_num = Number(wo_num);
-                if (wa_num) {
+                let _len;
+                if (_len = this.waitingOrders.length) {
                     tabs.push({
-                        key: ORDER.WAITING,
-                        num: wa_num,
+                        filterKey: ORDER.WAITING,
+                        num: _len,
                         text: '等待中'
                     })
                 }
-                if (wo_num) {
+                if (_len = this.workingOrders.length) {
                     tabs.push({
-                        key: ORDER.WORKING,
-                        num: wo_num,
+                        filterKey: ORDER.WORKING,
+                        num: _len,
                         text: '施工中'
                     });
                 }
                 return tabs;
             },
             orders () {
-                const _orders = this.getOrdersByProcessId(this.processId);
-                return this.tabs.map((item) => {
-                    return _orders.filter(order => order.roStatus === item.key)  // make sure the key in tabs is consistent with the roStatus in orders
-                });
+                return [this.waitingOrders, this.workingOrders].filter(order => order.length);
             }
 
         },

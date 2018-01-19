@@ -12,7 +12,7 @@
                 <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
             </ul>
             <ul class='right'>
-                <li>今天完工<span>{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
+                <li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
                 <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
                 <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
             </ul>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+    import { mapGetters, mapMutations } from 'vuex';
     export default {
         name: 'mainCard',
         data() {
@@ -28,9 +29,25 @@
 
             }
         },
+        computed: {
+            ...mapGetters([
+                'getOverTimeNum',
+            ])
+        },
         props: ['oCs'],
         methods: {
-
+            ...mapMutations([
+                'updateOvertimeCounts'
+            ]),
+        },
+        created () {
+            const REFRESH_TIME = 10 * 1000;
+            this.countInterval = setInterval(() => {
+                this.updateOvertimeCounts({ overTimeNum: this.getOverTimeNum });
+            }, REFRESH_TIME)
+        },
+        beforeDestroy () {
+            clearInterval(this.countInterval);
         }
     }
 </script>
@@ -48,9 +65,11 @@
         background-color white
         padding 0.13rem 0.17rem
         radius(4)
+        box-shadow 0 0 0.04rem rgba(0, 0, 0, 0.1)
         co-flex(space-between)
 
         .left, .middle, .right
+            flex 1
             li
                 margin-bottom 0.1rem
                 &:last-child
@@ -59,17 +78,16 @@
                     margin-left 0.08rem
 
         .left
-            flex 6
             text-light(, true)
             border-right: 1px dashed #e8e8e8
-            margin-right 0.12rem
+            margin-right 0.2rem
             li
                 span
                     font-size 0.18rem
                     color co-blue-bright
+                    font-weight bold
 
         .middle, .right
-            flex 5
             text-light()
             span
                 text-dark()

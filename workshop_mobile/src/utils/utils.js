@@ -3,10 +3,9 @@
  *
  * @param currentTime {number} should be timeStamp
  * @param planTime {number} should be timeStamp
- * @return {number} 1: red 2: yellow 3: green 4: blue
+ * @return {number} 1: red 2: orange 3: green 4: blue
  */
 const getOrderColor = () => {
-
     const ONE_DAY_MS = 24 * 60 * 60 * 1000;
     let today_str, today;
 
@@ -22,7 +21,7 @@ const getOrderColor = () => {
             return 'red';
         }
         if ((planTime - today) < ONE_DAY_MS) {
-            return 'yellow';
+            return 'orange';
         }
         if ((planTime - today) < 2 * ONE_DAY_MS) {
             return 'green';

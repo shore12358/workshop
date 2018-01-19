@@ -1,16 +1,18 @@
 <template>
     <div class="container">
-        <Multiselect v-model="line" :options="lineOptions" placeholder="请选择" :searchable="false" :close-on-select="false" :show-labels="false" class="selectLine"></Multiselect>
-        <div class="card" v-for="pi in processList.ProcesseList" :key="pi.ProcessID" @click="orderListGo(pi.ProcessID)">
+        <Multiselect v-model="line" :options="lineOptions" placeholder="请选择" :searchable="false" :close-on-select="false" :show-labels="false" class="selectLine" :allow-empty="false"></Multiselect>
+        <div class="card" v-for="(pi, index) in processList.ProcesseList" :key="pi.ProcessID" @click="orderListGo(pi.ProcessID, index)">
             <div class="left">{{pi.ProcessName}}</div>
             <ul class="right">
                 <li class="pending">
                     等待中
-                    <p>{{ getStatusNum(pi.ProcessID, 0) }}</p>
+                    <!--<p>{{ getStatusNum(pi.ProcessID, [0, 2]) }}</p>-->
+                    <p>{{processListNum[index].wa_num}}</p>
                 </li>
-                <li class="working">
+                <li class="working" v-if="pi.ProcessID !== 0">
                     施工中
-                    <p>{{ getStatusNum(pi.ProcessID, 1) }}</p>
+                    <!--<p>{{ getStatusNum(pi.ProcessID, [1]) }}</p>-->
+                    <p>{{processListNum[index].wo_num}}</p>
                 </li>
             </ul>
         </div>
@@ -18,61 +20,68 @@
 </template>
 
 <script>
-    import { getLineList } from '../../api/Api'
     import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'dashboardList',
         computed: {
             ...mapGetters([
-                'getOrdersByLineId'
+                'getOrdersByLineId',
             ]),
+            ...mapGetters({
+               lineList: 'getLineList'
+            }),
+            lineOptions () {
+                return this.lineList.map((item) => {
+                    return item.LineName;
+                });
+            },
             processList () {
                 return this.lineList.find((item) => {
                     return item.LineName === this.line;
                 }) || [];
             },
-            getOrdersByProcessId () {
+
+            getLineOrders () {
                 return this.getOrdersByLineId(this.processList.LineID);
             },
+            processListNum () {
+                return this.processList.ProcesseList.map(pi => {
+                    return {
+                        wa_num: this.getStatusNum(pi.ProcessID, [0, 2]),
+                        wo_num: this.getStatusNum(pi.ProcessID, [1]),
+                    }
+                });
+            },
+
 
         },
         data () {
             return {
-                lineList: [],
-                line: '',
-                lineOptions: []
+               line: '',
             }
         },
         methods: {
-            orderListGo(processId) {
-                const waiting_orders_num = this.getStatusNum(processId, 0),
-                      working_orders_num = this.getStatusNum(processId, 1);
-
-                if (waiting_orders_num || working_orders_num) {
-                    this.$router.push({ name: 'orderList', params: { processId }, query: { waiting_orders_num, working_orders_num } });
+            orderListGo(processId, index) {
+                if (this.processListNum[index].wa_num || this.processListNum[index].wo_num) {
+                    this.$router.push({ name: 'orderList', params: { processId }, query: { lineId: this.processList.LineID } });
                 }
             },
-            getStatusNum (processId, status) {
-                return this.getOrdersByProcessId(processId).filter(item => item.roStatus === status).length;
+            getStatusNum (processId, statusCollections) {
+                return this.getLineOrdersByProcessId(processId).filter(item => statusCollections.indexOf(item.processStatus) > -1).length;
+            },
+            getLineOrdersByProcessId (processId) {
+                return this.getLineOrders.filter(order => order.processId === processId);
             },
 
         },
         created () {
-          getLineList()
-              .then((res) => {
-                this.lineList = res.data;
-
-                this.lineOptions = this.lineList.map((item) => {
-                    return item.LineName;
-                });
-                this.line = this.lineOptions[0];
-
-              });
-
+            this.line = this.lineOptions[0];
         },
-        updated () {
-
+        watch: {
+            lineOptions (newLineOptions) {
+                this.line = newLineOptions[0];
+            }
         }
     }
 </script>
@@ -81,16 +90,18 @@
     @import "../../styles/Util.styl"
 
     .container
-        padding 0.16rem
+        padding 0.05rem 0.16rem 0.16rem
     .selectLine
-        width 50%
-        margin-bottom 0.1rem
+        width 30%
+        margin-bottom 0.05rem
+        font-weight bold
+        color #333
 
     .card
         height 0.44rem
         margin-bottom 0.1rem
         shadow-box()
-        border-left 0.04rem solid co-blue
+        border-left 0.05rem solid co-blue
         co-flex(sapce-between)
         text-dark()
         .left, .right
@@ -107,16 +118,21 @@
                 p
                     font-size 0.16rem
                     margin-top 0.05rem
+            li
+                &:not(:last-child)
+                    border-right 1px solid co-grey
+                    margin-right 0.1rem
+                    padding-right 0.1rem
 
             .pending
-                border-right 1px solid co-grey
-                margin-right 0.1rem
-                padding-right 0.1rem
                 p
                     color co-red
+                    font-weight 600
             .working
                 p
                     color co-blue-bright
+                    font-weight 600
+
 
 
 
