@@ -41,36 +41,33 @@
             ordersFromProcess () {
                 return this.getOrdersByProcessId(this.processId);
             },
-            waitingNum () {
-               const cc = this.ordersFromProcess.filter(order => ORDER.WAITING.indexOf(order.processStatus) > -1).length;
-               return cc
+            waitingOrders () {
+               return this.ordersFromProcess.filter(order => ORDER.WAITING.indexOf(order.processStatus) > -1);
             },
-            workingNum () {
-                return this.ordersFromProcess.filter(order => ORDER.WORKING.indexOf(order.processStatus) > -1).length;
+            workingOrders () {
+                return this.ordersFromProcess.filter(order => ORDER.WORKING.indexOf(order.processStatus) > -1);
             },
             tabs () {
                 const tabs = [];
-
-                if (this.waitingNum) {
+                let _len;
+                if (_len = this.waitingOrders.length) {
                     tabs.push({
                         filterKey: ORDER.WAITING,
-                        num: this.waitingNum,
+                        num: _len,
                         text: '等待中'
                     })
                 }
-                if (this.workingNum) {
+                if (_len = this.workingOrders.length) {
                     tabs.push({
                         filterKey: ORDER.WORKING,
-                        num: this.workingNum,
+                        num: _len,
                         text: '施工中'
                     });
                 }
                 return tabs;
             },
             orders () {
-                return this.tabs.map((item) => {
-                    return this.ordersFromProcess.filter(order => item.filterKey.indexOf(order.processStatus) > -1)
-                });
+                return [this.waitingOrders, this.workingOrders].filter(order => order.length);
             }
 
         },

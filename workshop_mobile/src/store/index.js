@@ -71,13 +71,10 @@ export default new Vuex.Store({
 	        const current_time = getters.getCurrentTime;
 	        return getters.getAllOrders.filter(order => current_time > order.planCompletedTime).length;
         },
-		getOrdersByLineId: (state, getters) => (lineId) => {
-			const lineOrders = getters.getOrders.filter(order => order.lineId === lineId);
-			return (processId) => {
-			    // debugger
-				return lineOrders.filter(order => order.processId === processId);
-            }
-		},
+        getOrdersByLineId: (state, getters) => (lineId) => {
+            return getters.getOrders.filter(order => order.lineId === lineId);
+        },
+
         getOrdersByProcessId: (state, getters) => (processId) => {
             return getters.getOrders.filter(order => order.processId === Number(processId));
         },
@@ -105,24 +102,22 @@ export default new Vuex.Store({
         },
         updateFromPush (state, payload) {
             const { workshopRo, roStats } = payload.content;
+            let i;
             try {
                 switch (payload.crudType) {
                     case 1:
-                        state.orders.push(workshopRo);
+                        state.orders = [...state.orders, workshop];
                         break;
                     case 3:
-                        state.orders.forEach((order, index, orders) => {
+                        state.orders = state.orders.map(order => {
                             if (order.roId === workshopRo.roId) {
-                                orders[index] = workshopRo;
+                                return workshopRo
                             }
+                            return order;
                         });
                         break;
                     case 4:
-                        state.orders.forEach((order, index, orders) => {
-                            if (order.roId === workshopRo.roId) {
-                                orders.splice(index, 1);
-                            }
-                        });
+                        state.orders = state.orders.filter(order => order.roId !== workshopRo.roId);
                         break;
                     default:
 
@@ -133,21 +128,21 @@ export default new Vuex.Store({
             }
             Bu.st.setKey('orders', state.orders);
             Bu.st.setKey('orderCounts', state.orderCounts);
-        }
-
-
-        ,
+        },
         modifyQueryKey (state, payload) {
             const { queryKey } = payload;
             state.queryKey = queryKey;
         },
         modifyProcessStatusByOrderId (state, payload) {
-            const attrs = {};
-            Object.assign(attrs, payload);
+            const attrs = Object.assign({}, payload);
             delete attrs.type;
             try {
-                const order = state.orders.find(order => order.roId === Number(payload.roId));
-                Object.assign(order, attrs);
+                state.orders = state.orders.map(order => {
+                    if (order.roId === Number(payload.roId)) {
+                        return Object.assign(order, attrs);
+                    }
+                    return order;
+                });
             } catch (e) {
 
             }
@@ -205,7 +200,6 @@ export default new Vuex.Store({
                 });
         },
         updateFromPushAsync ({ commit }) {
-
             const socket = io('http://comet.tuhu.work/banpen?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd&channel=shop&ua=pc&module=tab&shopId=38&userId=testUserWQ');
             socket.on('connect', () => {
                 console.log('connect socket');
@@ -218,11 +212,10 @@ export default new Vuex.Store({
             });
             socket.on('PushMessage', function(msg){
                 console.log("PushMessage", msg);
-                let cc = {
+                commit({
                     type: 'updateFromPush',
                     ...JSON.parse(msg).msg
-                };
-                commit(cc);
+                });
             });
             // var socket = io('path', {
             //     polling: {

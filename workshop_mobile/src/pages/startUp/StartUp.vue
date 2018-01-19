@@ -94,9 +94,7 @@
                  processStartUp(postData)
                     .then(res => {
                         if (res.code === 10000) {
-                            const payload = {};
-                            Object.assign(payload, postData, { processStatus: 1 });
-                            this.modifyProcessStatusByOrderId(payload);
+                            this.modifyProcessStatusByOrderId(Object.assign({}, postData, { processStatus: 1 }));
                             this.$router.go(-1);
                         }
                     });
