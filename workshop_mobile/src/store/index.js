@@ -72,9 +72,11 @@ export default new Vuex.Store({
 	        return getters.getAllOrders.filter(order => current_time > order.planCompletedTime).length;
         },
         getOrdersByLineId: (state, getters) => (lineId) => {
-            return getters.getOrders.filter(order => order.lineId === lineId);
+            return getters.getOrders.filter(order => order.lineId === Number(lineId));
         },
-
+        getLineOrdersByProcessId: (state, getters) => (lineId, processId) => {
+            return getters.getOrdersByLineId(lineId).filter(order => order.processId === Number(processId));
+        },
         getOrdersByProcessId: (state, getters) => (processId) => {
             return getters.getOrders.filter(order => order.processId === Number(processId));
         },

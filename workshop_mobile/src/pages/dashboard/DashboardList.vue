@@ -63,11 +63,8 @@
         },
         methods: {
             orderListGo(processId, index) {
-                const waiting_orders_num = this.processListNum[index].wa_num,
-                      working_orders_num = this.processListNum[index].wo_num;
-
-                if (waiting_orders_num || working_orders_num) {
-                    this.$router.push({ name: 'orderList', params: { processId }, query: { waiting_orders_num, working_orders_num } });
+                if (this.processListNum[index].wa_num || this.processListNum[index].wo_num) {
+                    this.$router.push({ name: 'orderList', params: { processId }, query: { lineId: this.processList.LineID } });
                 }
             },
             getStatusNum (processId, statusCollections) {

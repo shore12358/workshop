@@ -28,7 +28,7 @@
 
         computed: {
             ...mapGetters([
-                'getOrdersByProcessId',
+                'getLineOrdersByProcessId',
                 'getCurrentTime'
             ]),
             getOrderColor () {
@@ -36,10 +36,12 @@
             },
             processId () {
                 return this.$route.params.processId;
-
+            },
+            lineId () {
+                return this.$route.query.lineId;
             },
             ordersFromProcess () {
-                return this.getOrdersByProcessId(this.processId);
+                return this.getLineOrdersByProcessId(this.lineId, this.processId);
             },
             waitingOrders () {
                return this.ordersFromProcess.filter(order => ORDER.WAITING.indexOf(order.processStatus) > -1);
