@@ -7,10 +7,12 @@ import store from './store/index';
 import 'isomorphic-fetch';
 import Multiselect from 'vue-multiselect';
 import TransDate from './directives/date';
+import Popout from './components/Popout';
 
 import './utils/Bu';
 
 Vue.component('Icon', Icon);
+Vue.component('Popout', Popout);
 Vue.component('Multiselect', Multiselect);
 Vue.directive('transDate', TransDate);
 

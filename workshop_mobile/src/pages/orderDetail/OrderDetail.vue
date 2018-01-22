@@ -1,7 +1,8 @@
 <template>
     <div>
-        <Nav :permission="permission" @completeWork="completeWork" @startUpGo="startUpGo"></Nav>
+        <Nav :permission="permission" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo"></Nav>
         <Detail :detail="detail"></Detail>
+        <Popout @confirm="confirm" @cancel="cancel" :pod="popout_conf" v-show="showPopout"></Popout>
     </div>
 </template>
 
@@ -17,7 +18,12 @@
             return {
                 processInCharge: '',
                 processInChargeId: '',
-                detail: {}
+                detail: {},
+                popout_conf: {
+                    title: '工单完工',
+                    text: '您确定此项工序完工了吗？',
+                },
+                showPopout: false
             }
         },
         computed: {
@@ -45,7 +51,7 @@
             },
         },
         created () {
-            this.techId = Bu.st.getTechInfo().techId;
+            this.techId = Bu.st.getTechInfoSync().techId;
             this.myProcessList = Bu.st.getKey('myProcessList');
             getOrderDetail(this.orderId)
                 .then(res => {
@@ -138,6 +144,16 @@
 
                 }
             },
+            confirm () {
+                this.completeWork();
+                this.showPopout = false;
+            },
+            cancel () {
+                this.showPopout = false;
+            },
+            popoutGo () {
+                this.showPopout = true;
+            },
             completeWork () {
                 processCompleted({ processId: this.processInChargeId, roId: this.orderId})
                     .then(res => {
@@ -147,7 +163,10 @@
                     });
             },
             startUpGo () {
-                this.$router.push({ name: 'startUp', params: { roId: this.orderId }, query: { pId: this.processInChargeId, pName: this.processInCharge } });
+                this.$router.push({ name: 'startUp', params: { oId: this.orderId, pId: this.processInChargeId }, query: { pName: this.processInCharge } });
+            },
+            interruptGo () {
+                this.$router.push({ name: 'interrupt', params: { oId: this.orderId, pId: this.processInChargeId } });
             },
         },
         components: {
@@ -157,7 +176,3 @@
 
     }
 </script>
-
-<style lang="stylus" scoped>
-
-</style>
