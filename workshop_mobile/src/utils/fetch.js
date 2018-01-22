@@ -53,6 +53,7 @@ Toast.$root = document.getElementsByTagName('body')[0];
 const myFetch = (url, data) => {
     return Bu.st.getToken()
         .then(token => {
+            console.log('token', token);
             return new Promise((resolve, reject) => {
                 const opts = {};
                 if ('options' in data) {
@@ -103,7 +104,14 @@ const myFetch = (url, data) => {
                     })
                     .catch(() => {
                         const toast_error = new Toast({ type: 2 }); // error
-                        toast_loading && toast_loading.hideToast();
+                        if (opts.showToast !== false) {
+                            try {
+                                clearTimeout(showLoadingAsync);
+                            } catch (e) {
+
+                            }
+                            toast_loading.hideToast();
+                        }
                         toast_error.showToast();
                         reject();
                     })

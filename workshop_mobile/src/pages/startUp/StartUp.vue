@@ -32,10 +32,10 @@
                 'queryOrderById'
             ]),
             roId () {
-                return Number(this.$route.params.id);
+                return Number(this.$route.params.oId);
             },
             pId () {
-                return Number(this.$route.query.pId);
+                return Number(this.$route.params.pId);
             },
             pName () {
                 return this.$route.query.pName;
@@ -44,7 +44,7 @@
                 return this.queryOrderById(this.roId);
             },
             me () {
-                return Bu.st.getTechInfo();
+                return Bu.st.getTechInfoSync();
             },
             techAssigned () {
                 const techIdFromOrder = new Array(this.order.techId, this.order.techId2);
@@ -57,7 +57,6 @@
                     if (res.code == 10000) {
                         const _techList = [];
                         res.data.forEach(group => _techList.push(...group.Technicians));
-                        console.log(res.data);
                         this.techList = _techList
                             .filter(tech => tech.EmployeeID !== this.me.techId)
                             .map((tech, index) => {
@@ -112,6 +111,7 @@
 
 <style lang="stylus" scoped>
     @import "../../styles/Util.styl"
+    @import "../../styles/Btn.styl"
 
     .container
         padding: .2rem
@@ -125,7 +125,7 @@
             margin-bottom .2rem
         .technician-list, .btn-group
             overflow hidden
-        .technician-item, .btn
+        .technician-item
             float left
             width 47%
             box-sizing border-box
@@ -145,24 +145,6 @@
             width auto;
             height .25rem;
             color #ccc
-
-        .btn-group
-            position fixed
-            left 0
-            bottom .2rem
-            width 89%
-            padding: 0 .2rem
-        .btn
-            line-height .45rem
-            text-align center
-            radius(5)
-        .btn-default
-            color co-blue
-            border 1px solid co-blue
-        .btn-confirm
-            color white
-            background-color co-blue
-            border 1px solid co-blue
 
         .item-checked
             border 1px solid co-blue

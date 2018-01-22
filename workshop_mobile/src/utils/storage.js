@@ -15,8 +15,25 @@ class Storage {
         } catch (e) {
 
         }
+        if (this.initTechInfoOk) {
+            this.initTechInfoOk(this.techInfo);
+            this.initTechInfoOk = null;
+        }
     }
     getTechInfo () {
+        return new Promise ((resolve, reject) => {
+            let _techInfo;
+            if (this.techInfo) {
+                return resolve(this.techInfo);
+            } else if (_techInfo = JSON.parse(localStorage.getItem('techInfo'))) {
+                return resolve(_techInfo);
+            } else {
+                this.initTechInfoOk = resolve;
+
+            }
+        });
+    }
+    getTechInfoSync () {
         return this.techInfo ? this.techInfo : JSON.parse(localStorage.getItem('techInfo'));
     }
     fetchTechInfo () {
@@ -24,6 +41,7 @@ class Storage {
     }
 
     setToken (token) {
+        console.log('setToken', token, typeof token);
         this.userToken = typeof token === 'string' ? token : token.toString();
         if (this.initTokenOk) {
             this.initTokenOk(this.userToken);
@@ -33,6 +51,7 @@ class Storage {
     getToken () {
         return new Promise ((resolve, reject) => {
             if (this.userToken) {
+                console.log('get', this.userToken)
                 return resolve(this.userToken);
             }
             this.initTokenOk = resolve;

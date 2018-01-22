@@ -1,8 +1,6 @@
 <template>
     <ul class="nav">
-        <li :class="`${permissionOk(1) ? 'selectable': ''}`" @click="operationPageGo(1)">开工</li>
-        <li :class="`${permissionOk(2) ? 'selectable': ''}`" @click="operationPageGo(2)">中断</li>
-        <li :class="`${permissionOk(3) ? 'selectable': ''}`" @click="operationPageGo(3)">完工</li>
+        <li v-for="(ot, index) in ['开工', '中断', '完工']" :key="index" :class="`${permissionOk(index + 1) ? 'selectable': ''}`" @click="operationPageGo(index + 1)">{{ot}}</li>
     </ul>
 </template>
 
@@ -21,8 +19,10 @@
                             this.$emit('startUpGo');
                             break;
                         case 2:
+                            this.$emit('interruptGo');
+                            break;
                         case 3:
-                            this.$emit('completeWork');
+                            this.$emit('popoutGo');
                             break;
                         default:
 

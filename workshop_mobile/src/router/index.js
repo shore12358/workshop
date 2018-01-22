@@ -5,6 +5,7 @@ import Task from '../pages/task/Task';
 import OrderList from '../pages/orderList/OrderList';
 import OrderDetail from '../pages/orderDetail/OrderDetail';
 import StartUp from '../pages/startUp/StartUp';
+import Interrupt from '../pages/interrupt/Interrupt';
 import Init from '../pages/Init';
 
 Vue.use(Router);
@@ -42,9 +43,14 @@ export default new Router({
 			component: OrderDetail
 		},
         {
-            path: '/order/:id/startUp',
+            path: '/order/:oId/process/:pId/startUp',
             name: 'startUp',
             component: StartUp
+        },
+        {
+            path: '/order/:oId/process/:pId/interrupt',
+            name: 'interrupt',
+            component: Interrupt
         },
 	],
 	// mode: 'history'

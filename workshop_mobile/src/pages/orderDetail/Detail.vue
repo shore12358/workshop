@@ -146,7 +146,6 @@
         },
         created () {
 
-
         },
         methods: {
             getProcessName (id) {

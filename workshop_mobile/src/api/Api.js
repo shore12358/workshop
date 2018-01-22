@@ -1,6 +1,6 @@
 const __PRO__ = 'PRODUCTION';
 const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
-const TEST_SERVER_NET = 'http://shopapi.tuhu.work';
+const TEST_SERVER_NET = 'https://shopapi.tuhu.work';
 let PRO_SERVER;
 let server_net, server_java;
 
@@ -18,7 +18,9 @@ const API = {
     getProcessListByTechId: `${server_net}/api/LineProcess/GetProcessListByEmployeeID`,
     getTechListByProcessId: `${server_net}/api/TechnicianGroup/GetTechnicianListByProcessID`,
     processStartUp: `${server_java}/rest/workshop/ro/startProcess`,
-    processCompleted: `${server_java}/rest/workshop/ro/completeProcess`
+    processCompleted: `${server_java}/rest/workshop/ro/completeProcess`,
+    queryItemMasters: `${server_java}/rest/workshop/item/queryItemMasters`,
+    pauseProcess: `${server_java}/rest/workshop/ro/pauseProcess`
 };
 
 const getAllOrders = () => {
@@ -62,13 +64,18 @@ const getOrderDetail = (id) => {
 };
 
 const getProcessListByTechId = () => {
-    const { techId } = Bu.st.getTechInfo();
-    return Bu.fetch(API.getProcessListByTechId, {
-        method: 'post',
-        postData: {
-            EmployeeID: techId
-        }
+    return Bu.st.getTechInfo()
+        .then(techInfo => {
+            const { techId } = techInfo;
+            console.log('tech', JSON.stringify(techInfo))
+            return Bu.fetch(API.getProcessListByTechId, {
+                method: 'post',
+                postData: {
+                    EmployeeID: techId
+                }
+            });
     });
+
 };
 
 const getTechListByProcessId = (pId) => {
@@ -95,6 +102,25 @@ const processCompleted = (postData) => {
     });
 };
 
+/**
+ * @param itemType {Number}: 1 for rework reason 2 for interrupt reason 3 for car color
+ *
+ */
+const queryItemMasters = itemType => {
+    return Bu.fetch(API.queryItemMasters, {
+        method: 'post',
+        postData: {
+            itemType
+        }
+    })
+};
+
+const pauseProcess = (postData) => {
+    return Bu.fetch(API.pauseProcess, {
+        method: 'post',
+        postData
+    })
+};
 export {
     getAllOrders,
     getLineList,
@@ -103,6 +129,8 @@ export {
     getTechListByProcessId,
     processStartUp,
     processCompleted,
+    queryItemMasters,
+    pauseProcess
 }
 
 
