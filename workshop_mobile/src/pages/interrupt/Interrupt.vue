@@ -1,10 +1,11 @@
 <template>
     <div class="container">
-        <Multiselect v-model="selectReason" :options="interruptOptions" placeholder="选择中断原因" :searchable="false" :close-on-select="false" :show-labels="false" class="selectReason" :allow-empty="false"></Multiselect>
+        <Multiselect v-model.trim="selectReason" :options="interruptOptions" placeholder="选择中断原因" :searchable="false" :close-on-select="true" :show-labels="false" class="selectReason" :allow-empty="false"></Multiselect>
         <div class="input-wrapper">
-            <textarea id="reason-input" placeholder="请输入中断原因（限150字）" v-model="inputReason" @keyup="keyup"></textarea>
+            <textarea id="reason-input" placeholder="请输入中断原因（限150字）" v-model.trim="inputReason" @keyup="keyup" :disabled="inputDisabled"></textarea>
             <div class="tip">{{inputReason.length}}/150</div>
         </div>
+        <Toast :text="toast_conf.text" v-show="toast_conf.shown"></Toast>
         <div class="btn-group">
             <div class="btn btn-default" @click="detailGo">取消</div>
             <div class="btn btn-confirm" @click="validate">确定</div>
@@ -13,13 +14,19 @@
 </template>
 <script>
     import { queryItemMasters, pauseProcess } from '../../api/Api';
+    import { mapMutations } from 'vuex';
+
     export default {
         name: 'interrupt',
         data () {
             return {
                 interruptOptions: [],
                 selectReason: '',
-                inputReason: ''
+                inputReason: '',
+                toast_conf: {
+                    text: '',
+                    shown: false
+                },
             }
         },
         computed: {
@@ -29,6 +36,9 @@
             pId () {
                 return Number(this.$route.params.pId);
             },
+            inputDisabled () {
+                return this.selectReason !== '其他'
+            }
         },
         created () {
             queryItemMasters(2)
@@ -39,6 +49,9 @@
                 });
         },
         methods: {
+            ...mapMutations([
+                'updateFromPush'
+            ]),
             detailGo () {
                 this.$router.go(-1);
             },
@@ -47,34 +60,43 @@
                     this.inputReason = this.inputReason.slice(0, 150);
                 }
             },
+
+            showToast (text) {
+                this.toast_conf = Object.assign({}, { text, shown: true });
+                setTimeout(() => {
+                    this.toast_conf = Object.assign(this.toast_conf, { shown: false });
+                }, 1500);
+            },
             validate () {
-                const select_reason = this.selectReason.trim();
-                switch (select_reason) {
+                switch (this.selectReason) {
                     case '其他':
                         if (this.inputReason.length >= 4) {
                             this.interrupt(this.inputReason);
                         } else {
-                            // TODO: input charactor lengh is not enough
+                            this.showToast(`未达到<br/>输入字数`);
                         }
                         break;
                     case '':
-                        // TODO: choose please
+                        this.showToast(`请选择<br/>或输入原因`);
                         break;
                     default:
-                        this.interrupt(select_reason);
+                        this.interrupt(this.selectReason);
                 }
 
             },
-            interrupt (selectReason) {
+            interrupt (reason) {
                 const postData = {
                     processId: this.pId,
                     roId: this.roId,
-                    ops: selectReason
+                    ops: reason
                 };
-//                pauseProcess(postData)
-//                    .then(res => {
-//                        // TODO handel temporary data
-//                    })
+                pauseProcess(postData)
+                    .then(res => {
+                        if (res.code === 10000) {
+                            this.updateFromPush({ content: res.data, crudType: 3 });
+                            this.$router.go(-1);
+                        }
+                    })
 
             }
         }
@@ -84,7 +106,6 @@
 <style lang="stylus" scoped>
     @import "../../styles/Util.styl"
     @import "../../styles/Btn.styl"
-
 
     pd = .2rem;
     bbc = #e1e1e1

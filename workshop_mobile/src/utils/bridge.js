@@ -22,6 +22,7 @@ const bridge = (() => {
                     nativeFn,
                     params,
                     resData => {
+                        console.log('resData', resData)
                         eval(cb)(resData);
                     }
                 );

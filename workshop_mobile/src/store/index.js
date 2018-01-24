@@ -104,7 +104,6 @@ export default new Vuex.Store({
         },
         updateFromPush (state, payload) {
             const { workshopRo, roStats } = payload.content;
-            let i;
             try {
                 switch (payload.crudType) {
                     case 1:
@@ -135,21 +134,21 @@ export default new Vuex.Store({
             const { queryKey } = payload;
             state.queryKey = queryKey;
         },
-        modifyProcessStatusByOrderId (state, payload) {
-            const attrs = Object.assign({}, payload);
-            delete attrs.type;
-            try {
-                state.orders = state.orders.map(order => {
-                    if (order.roId === Number(payload.roId)) {
-                        return Object.assign(order, attrs);
-                    }
-                    return order;
-                });
-            } catch (e) {
-
-            }
-            Bu.st.setKey('orders', state.orders);
-        },
+        // modifyProcessStatusByOrderId (state, payload) {
+        //     const attrs = Object.assign({}, payload);
+        //     delete attrs.type;
+        //     try {
+        //         state.orders = state.orders.map(order => {
+        //             if (order.roId === Number(payload.roId)) {
+        //                 return Object.assign(order, attrs);
+        //             }
+        //             return order;
+        //         });
+        //     } catch (e) {
+        //
+        //     }
+        //     Bu.st.setKey('orders', state.orders);
+        // },
 
     },
     actions: {
@@ -203,7 +202,7 @@ export default new Vuex.Store({
         },
         updateFromPushAsync ({ commit }) {
 
-            const socket = io(`http://comet.tuhu.work/banpen?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd&channel=shop&ua=pc&module=tab&shopId=38&userId=WQ${Date.now()}`);
+            const socket = io(`https://comet.tuhu.work/banpen?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd&channel=shop&ua=pc&module=tab&shopId=38&userId=WQ${Date.now()}`);
             socket.on('connect', () => {
                 console.log('connect socket');
             });

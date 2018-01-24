@@ -10,8 +10,7 @@ const ENTRY_PATH = path.join(__dirname, './src/main.js');
 const config = {
     entry: {
         app: ENTRY_PATH,
-        vendor: ['vue-router', 'vue-multiselect', 'vue-awesome']
-
+        // vendor: ['vue-router', 'vue-multiselect', 'vue-awesome']
     },
     output: {
         publicPath: '/',
@@ -71,7 +70,7 @@ const config = {
             minChunks: 2
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, './src/index.html'),
+            template: path.join(__dirname, './src/_index.html'),
         }),
         new ExtractTextPlugin('[name].css')
     ]

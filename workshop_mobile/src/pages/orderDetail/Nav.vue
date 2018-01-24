@@ -19,7 +19,8 @@
                             this.$emit('startUpGo');
                             break;
                         case 2:
-                            this.$emit('interruptGo');
+//                            this.$emit('interruptGo');
+                            this.$emit('reworkGo');
                             break;
                         case 3:
                             this.$emit('popoutGo');

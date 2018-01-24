@@ -68,6 +68,7 @@
              color co-blue-bright
         .tab-icon
             font-size 0.16rem
+        z-index 1100
 
 
 
