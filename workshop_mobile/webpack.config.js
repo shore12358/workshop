@@ -86,4 +86,5 @@ if (process.env.NODE_ENV === __PRO__) {
     );
     config.devtool = 'eval-source-map';
 }
+
 module.exports = config;
