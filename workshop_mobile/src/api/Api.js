@@ -20,7 +20,9 @@ const API = {
     processStartUp: `${server_java}/rest/workshop/ro/startProcess`,
     processCompleted: `${server_java}/rest/workshop/ro/completeProcess`,
     queryItemMasters: `${server_java}/rest/workshop/item/queryItemMasters`,
-    pauseProcess: `${server_java}/rest/workshop/ro/pauseProcess`
+    pauseProcess: `${server_java}/rest/workshop/ro/pauseProcess`,
+    getReworkInfo: `${server_java}/rest/workshop/ro/getRoReworkPage`,
+
 };
 
 const getAllOrders = () => {
@@ -121,6 +123,19 @@ const pauseProcess = (postData) => {
         postData
     })
 };
+
+const getReworkInfo = (roId) => {
+    return Bu.fetch(API.getReworkInfo, {
+        method: 'post',
+        postData: {
+            roId
+        }
+    })
+};
+
+
+
+
 export {
     getAllOrders,
     getLineList,
@@ -130,7 +145,8 @@ export {
     processStartUp,
     processCompleted,
     queryItemMasters,
-    pauseProcess
+    pauseProcess,
+    getReworkInfo
 }
 
 

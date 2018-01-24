@@ -18,6 +18,7 @@ ul
 
 p, h1, h2, h3, h4, h5
   margin 0
+  font-weight normal
 
 /* toast */
 .f-toast
@@ -37,9 +38,13 @@ p, h1, h2, h3, h4, h5
   padding .1rem
 
 .f-network-error
-  height fe = 0.5rem
-  margin-top -(fe)
-  padding-top .15rem
+  height 0.5rem
+.f-toast-tip
+  height auto
+
+.f-network-error, .f-toast-tip
+  margin-top -0.5rem
+  padding .15rem
 
 @keyframes rotate {
   0% { transform:rotate(0deg); }
@@ -66,8 +71,8 @@ p, h1, h2, h3, h4, h5
   .multiselect__select
     transform rotate(0)!important
 
-/*page interrupt*/
-  .selectReason
+/*page operations*/
+  .selectReason, .selectReProcess
     border-bottom 1px solid #e1e1e1!important
     margin-bottom .2rem
     .multiselect__single

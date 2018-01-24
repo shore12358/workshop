@@ -6,6 +6,7 @@ import OrderList from '../pages/orderList/OrderList';
 import OrderDetail from '../pages/orderDetail/OrderDetail';
 import StartUp from '../pages/startUp/StartUp';
 import Interrupt from '../pages/interrupt/Interrupt';
+import Rework from '../pages/rework/Rework';
 import Init from '../pages/Init';
 
 Vue.use(Router);
@@ -51,6 +52,11 @@ export default new Router({
             path: '/order/:oId/process/:pId/interrupt',
             name: 'interrupt',
             component: Interrupt
+        },
+        {
+            path: '/order/:oId/process/:pId/rework',
+            name: 'rework',
+            component: Rework
         },
 	],
 	// mode: 'history'

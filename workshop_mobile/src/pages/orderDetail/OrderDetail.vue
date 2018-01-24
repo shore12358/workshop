@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Nav :permission="permission" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo"></Nav>
+        <Nav :permission="permission" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo" @reworkGo="reworkGo"></Nav>
         <Detail :detail="detail"></Detail>
         <Popout @confirm="confirm" @cancel="cancel" :pod="popout_conf" v-show="showPopout"></Popout>
     </div>
@@ -63,8 +63,7 @@
         },
         methods: {
             ...mapMutations([
-                'modifyProcessStatusByOrderId',
-                'removeOrder'
+                'updateFromPush',
 
             ]),
             responsibleForTheProcess (pId) {
@@ -158,6 +157,8 @@
                 processCompleted({ processId: this.processInChargeId, roId: this.orderId})
                     .then(res => {
                         if (res.code === 10000) {
+                            debugger
+                            this.updateFromPush({ content: res.data, crudType: 3 });
                             this.$router.replace({ path: '/user/dashboard' });
                         }
                     });
@@ -167,6 +168,9 @@
             },
             interruptGo () {
                 this.$router.push({ name: 'interrupt', params: { oId: this.orderId, pId: this.processInChargeId } });
+            },
+            reworkGo () {
+                this.$router.push({ name: 'rework', params: { oId: this.orderId, pId: this.processInChargeId } });
             },
         },
         components: {

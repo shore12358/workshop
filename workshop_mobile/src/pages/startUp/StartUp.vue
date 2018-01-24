@@ -68,7 +68,7 @@
         },
         methods: {
             ...mapMutations([
-                'modifyProcessStatusByOrderId'
+                'updateFromPush'
             ]),
             handleItem (tech) {
                 if (tech.choosen) {
@@ -93,7 +93,7 @@
                  processStartUp(postData)
                     .then(res => {
                         if (res.code === 10000) {
-                            this.modifyProcessStatusByOrderId(Object.assign({}, postData, { processStatus: 1 }));
+                            this.updateFromPush({ content: res.data, crudType: 3 });
                             this.$router.go(-1);
                         }
                     });
@@ -132,8 +132,6 @@
             margin-right .15rem
             &:nth-child(even)
                 margin-right 0
-
-        .technician-item
             padding 0 .1rem
             line-height .38rem
             background-color #f9f9f9
