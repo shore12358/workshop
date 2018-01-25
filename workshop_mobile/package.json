@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node start.js",
     "build": "node build.js",
-    "build:local": "rm -rf ./dist && export NODE_ENV=PRODUCTION webpack --config webpack.config.js -p && npm run start",
     "lint": "./node_modules/.bin/eslint ./src",
     "lint:fix": "./node_modules/.bin/eslint ./src --fix"
   },
