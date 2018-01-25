@@ -13,7 +13,7 @@ const config = {
         vendor: ['vue-router', 'vue-multiselect', 'vue-awesome']
     },
     output: {
-        publicPath: '/',
+        publicPath: '/WorkShopH5/',
         path: path.join(__dirname, 'dist'),
         filename: '[name].[hash].js'
     },
@@ -76,7 +76,13 @@ const config = {
     ]
 };
 if (process.env.NODE_ENV === __PRO__) {
-
+    config.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    )
     // TODO
 } else {
     config.entry.app = [`webpack-hot-middleware/client?path=http://localhost:${PORT}/__webpack_hmr&reload=true`, ENTRY_PATH];
