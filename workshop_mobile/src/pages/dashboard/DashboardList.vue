@@ -6,12 +6,10 @@
             <ul class="right">
                 <li class="pending">
                     等待中
-                    <!--<p>{{ getStatusNum(pi.ProcessID, [0, 2]) }}</p>-->
                     <p>{{processListNum[index].wa_num}}</p>
                 </li>
                 <li class="working" v-if="pi.ProcessID !== 0">
                     施工中
-                    <!--<p>{{ getStatusNum(pi.ProcessID, [1]) }}</p>-->
                     <p>{{processListNum[index].wo_num}}</p>
                 </li>
             </ul>

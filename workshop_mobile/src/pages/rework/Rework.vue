@@ -1,41 +1,38 @@
 <template>
     <div class="container">
         <Multiselect v-model.trim="reProcess" :options="reProcessOptions" placeholder="选择返工工序" :searchable="false" :close-on-select="true" :show-labels="false" class="selectReProcess" :allow-empty="false"></Multiselect>
-        <h5 class="title">主要责任技师：</h5>
-        <div class="list-item">
-            面漆：途小虎、途二虎
-            <Icon name="check-circle" class="icon-check" ></Icon>
-        </div>
-
-        <h5 class="title">返工项目-钣金：</h5>
-        <div class="list-item">
-            左前翼子板
-            <Icon name="check-circle" class="icon-check" ></Icon>
-        </div>
-        <div class="list-item">
-            左前翼子板
-            <Icon name="check-circle" class="icon-check" ></Icon>
-        </div>
-        <div class="list-item">
-            <div class="suite-wrapper">
-                改装套件
-                <p>问题描述问题描述问题描述问题描述问题描述
-                    问题描述问题描述
-                </p>
+        <div v-if="possessesFetch.length > 0">
+            <h5 class="title">主要责任技师：</h5>
+            <div :class="`list-item ${tech.choosen ? 'item-checked' : ''}`" v-for="tech in techList" :key="tech.processId" @click="handleTech(tech)">
+                {{tech.processName}}：{{tech.techName}}{{tech.techName2 ? `、${tech.techName2}` : ''}}
+                <Icon name="check-circle" class="icon-check" ></Icon>
             </div>
-            <Icon name="check-circle" class="icon-check" ></Icon>
         </div>
 
-        <h5 class="title">返工项目-油漆：</h5>
-
-
+        <div v-if="unitsPlatmetal.length > 0">
+            <h5 class="title">返工项目-钣金：</h5>
+            <div :class="`list-item ${unit.choosen ? 'item-checked' : ''}`" v-for="unit in unitsPlatmetal" :key="unit.partsId" @click="handelUnit(unit)">
+                <div class="list-box">
+                    {{unit.partsName}}
+                    <p v-if="unit.remark">{{unit.remark}}</p>
+                </div>
+                <Icon name="check-circle" class="icon-check" ></Icon>
+            </div>
+        </div>
+        <div v-if="unitsPaint.length > 0">
+            <h5 class="title">返工项目-油漆：</h5>
+            <div :class="`list-item ${unit.choosen ? 'item-checked' : ''}`" v-for="unit in unitsPaint" :key="unit.partsId" @click="handelUnit(unit)">
+                <div class="list-box">
+                    {{unit.partsName}}
+                    <p v-if="unit.remark">{{unit.remark}}</p>
+                </div>
+                <Icon name="check-circle" class="icon-check" ></Icon>
+            </div>
+        </div>
 
         <h5 class="title">选择返工原因（多选）</h5>
         <div>
-            <span class="reason-item" v-for="it in reasonOptions" :key="it.itemId">{{it.itemName}}</span>
-            <!--<span class="reason-item">钣金位置未校正</span>-->
-            <!--<span class="reason-item">钣金位置未校正</span>-->
-            <!--<span class="reason-item">钣金位置未校正</span>-->
+            <span :class="`reason-item ${it.choosen ? 'reason-item-picked' : ''}`" v-for="it in reasonOptions" :key="it.itemId" @click>{{it.itemName}}</span>
         </div>
         <textarea id="reason-input" placeholder="请输入返工原因（限150字）" v-model.trim="inputReason" @keyup="keyup"></textarea>
 
@@ -56,16 +53,30 @@
                 reasonOptions: [],
                 inputReason: '',
                 possessesFetch: [],
-                unitsFetch: [],
+                unitsPlatmetal: [],
+                unitsPaint: []
             }
         },
         computed: {
             roId () {
                 return Number(this.$route.params.oId);
             },
+            pId () {
+                return Number(this.$route.params.pId);
+            },
             reProcessOptions () {
                 return this.possessesFetch.map(possess => possess.processName)
             },
+            techList () {
+                const start_rework_process = this.possessesFetch.find(process => process.processName.trim() === this.reProcess);
+                return this.possessesFetch
+                    .filter(possess => possess.processId > start_rework_process.processId && possess.processId < this.pId)
+                    .map(item => {
+                        item.choosen = false;
+                        return item;
+                    });
+            },
+
 
         },
         methods: {
@@ -74,21 +85,48 @@
                     this.inputReason = this.inputReason.slice(0, 150);
                 }
             },
+            handleTech (tech) {
+                if (tech.choosen) {
+                    tech.choosen = false;
+                    return;
+                }
+                this.techList = this.techList.map(_tech => {
+                    _tech.choosen = _tech.processId === tech.processId ? true : false;
+                    return _tech;
+                })
+            },
+            handelUnit (unit) {
+                unit.choosen = !unit.choosen;
+            },
 
         },
         created () {
+
             queryItemMasters(1)
                 .then(res => {
                     if (res.code === 10000) {
                         this.reasonOptions = res.data;
                     }
                 });
-            getReworkInfo(this.roId)
+            getReworkInfo(this.roId, this.pId)
                 .then(res => {
                     if (res.code === 10000) {
                         const data = res.data;
+                        const units = data.roPartses;
                         this.possessesFetch = data.processes;
-                        this.unitsFetch = data.roPartses;
+                        this.unitsPlatmetal = units
+                            .filter(unit => unit.partsType === 2)
+                            .map(unit => {
+                                unit.choosen = false;
+                                return unit;
+                            });
+                        this.unitsPaint = units
+                            .filter(unit => unit.partsType === 1)
+                            .map(unit => {
+                                unit.choosen = false;
+                                return unit;
+                            });
+                        debugger
 
                     }
                 });
@@ -114,6 +152,9 @@
         background-color #f9f9f9
         border 1px solid bbc
         margin 0 .1rem .1rem 0
+    .reason-item-picked
+        color white
+        background-color co-blue
     #reason-input
         border 1px solid bbc
         background-color #f9f9f9
@@ -131,7 +172,7 @@
         border 1px solid #e1e1e1
         co-flex(space-between)
         margin-bottom .12rem
-        .suite-wrapper
+        .list-box
             flex 1
             p
                 text-light(.13rem)

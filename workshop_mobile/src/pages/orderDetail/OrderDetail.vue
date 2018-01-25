@@ -154,10 +154,9 @@
                 this.showPopout = true;
             },
             completeWork () {
-                processCompleted({ processId: this.processInChargeId, roId: this.orderId})
+                processCompleted({ processId: this.processInChargeId, roId: this.orderId })
                     .then(res => {
                         if (res.code === 10000) {
-                            debugger
                             this.updateFromPush({ content: res.data, crudType: 3 });
                             this.$router.replace({ path: '/user/dashboard' });
                         }

@@ -1,3 +1,4 @@
+import '../static/WebViewJavascriptBridge';
 import fetch from './fetch';
 import storage from './storage';
 

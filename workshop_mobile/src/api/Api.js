@@ -124,11 +124,12 @@ const pauseProcess = (postData) => {
     })
 };
 
-const getReworkInfo = (roId) => {
+const getReworkInfo = (roId, processId) => {
     return Bu.fetch(API.getReworkInfo, {
         method: 'post',
         postData: {
-            roId
+            roId,
+            processId,
         }
     })
 };
