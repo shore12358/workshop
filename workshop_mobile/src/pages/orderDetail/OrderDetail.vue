@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Nav :permission="permission" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo" @reworkGo="reworkGo"></Nav>
+        <Nav :permission="permission" :isQualityProcess="isQualityProcess" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo" @reworkGo="reworkGo"></Nav>
         <Detail :detail="detail"></Detail>
         <Popout @confirm="confirm" @cancel="cancel" :pod="popout_conf" v-show="showPopout"></Popout>
     </div>
@@ -30,6 +30,7 @@
             ...mapGetters([
                 'queryOrderById',
                 'getWorkingZoneList',
+                'getLineList',
             ]),
             order () {
                 return this.queryOrderById(this.orderId);
@@ -43,6 +44,21 @@
             processId () {
                 return this.order.processId;
             },
+            isQualityProcess () {
+                for (let line of this.getLineList) {
+                    for (let process of line.ProcesseList) {
+                        if (process.ProcessID === this.processId) {
+                            if (process.IsQualityProcess) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return false;
+            },
+
             workingZoneList () {
                 return this.getWorkingZoneList(this.order.lineId);
             },

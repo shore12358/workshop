@@ -1,13 +1,20 @@
 <template>
     <ul class="nav">
-        <li v-for="(ot, index) in ['开工', '中断', '完工']" :key="index" :class="`${permissionOk(index + 1) ? 'selectable': ''}`" @click="operationPageGo(index + 1)">{{ot}}</li>
+        <li v-for="(ot, index) in navText" :key="index" :class="`${permissionOk(index + 1) ? 'selectable': ''}`" @click="operationPageGo(index + 1)">{{ot}}</li>
     </ul>
 </template>
 
 <script>
     export default {
         name: 'nav',
-        props: ['permission'],
+        props: ['permission', 'isQualityProcess'],
+        computed: {
+            navText () {
+                let _process = this.isQualityProcess ? '返工' : '中断';
+                return new Array('开工', _process, '完工');
+            },
+
+        },
         methods: {
             permissionOk (num) {
                 return this.permission.indexOf(num) > -1;
@@ -19,8 +26,11 @@
                             this.$emit('startUpGo');
                             break;
                         case 2:
-//                            this.$emit('interruptGo');
-                            this.$emit('reworkGo');
+                            if (this.isQualityProcess) {
+                                this.$emit('reworkGo');
+                            } else {
+                                this.$emit('interruptGo');
+                            }
                             break;
                         case 3:
                             this.$emit('popoutGo');

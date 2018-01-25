@@ -26,7 +26,7 @@
             </ul>
             <ul>
                 <li>完工日期：<span :class="`text-${themeColor}`" v-transDate="order.planCompletedTime"></span></li>
-                <li>施 工 人：<span>17-02-26 18：32</span></li>
+                <li>施 工 人：<span></span></li>
             </ul>
         </div>
     </div>
