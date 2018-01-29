@@ -46,8 +46,8 @@
                     <li>钣金数</li>
                     <li>损伤程度</li>
                 </ul>
-                <div v-for="pu in plateMetalUnits" :key="pu.partsId">
-                    <div class="units-suite" v-if="pu.partsId === -1">
+                <div v-for="pu in plateMetalUnits" :key="pu.partsDegree">
+                    <div class="units-suite" v-if="pu.partsDegree === -1">
                         <ul class="item">
                             <li>{{pu.partsName}}</li>
                             <li>{{pu.partsCount}}</li>
@@ -69,8 +69,8 @@
                     <li>损伤程度</li>
                 </ul>
 
-                <div v-for="pu in paintUnits" :key="pu.partsId">
-                    <div class="units-suite" v-if="pu.partsId === -1">
+                <div v-for="pu in paintUnits" :key="pu.partsDegree">
+                    <div class="units-suite" v-if="pu.partsDegree === -1">
                         <ul class="item">
                             <li>{{pu.partsName}}</li>
                             <li>{{pu.partsCount}}</li>
@@ -92,7 +92,7 @@
             <p class="des-note">{{detail.remark}}</p>
         </div>
 
-        <div class="wrapper" v-if="typeof detail.roMaintenLogs === 'array' && detail.roMaintenLogs.length > 0">
+        <div class="wrapper" v-if="detail.roMaintenLogs instanceof Array && detail.roMaintenLogs.length > 0">
             <p class="title">维修记录</p>
             <div class="fix-record">
                 <div class="item-box" v-for="(l, index) in detail.roMaintenLogs" :key="index">

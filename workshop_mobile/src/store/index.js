@@ -134,21 +134,6 @@ export default new Vuex.Store({
             const { queryKey } = payload;
             state.queryKey = queryKey;
         },
-        // modifyProcessStatusByOrderId (state, payload) {
-        //     const attrs = Object.assign({}, payload);
-        //     delete attrs.type;
-        //     try {
-        //         state.orders = state.orders.map(order => {
-        //             if (order.roId === Number(payload.roId)) {
-        //                 return Object.assign(order, attrs);
-        //             }
-        //             return order;
-        //         });
-        //     } catch (e) {
-        //
-        //     }
-        //     Bu.st.setKey('orders', state.orders);
-        // },
 
     },
     actions: {

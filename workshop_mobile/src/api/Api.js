@@ -23,6 +23,7 @@ const API = {
     pauseProcess: `${server_java}/rest/workshop/ro/pauseProcess`,
     getReworkInfo: `${server_java}/rest/workshop/ro/getRoReworkPage`,
     reworkProcess: `${server_java}/rest/workshop/ro/reworkProcess`,
+    getUserHeaderImg: `${server_net}/api/TechnicianGroup/GetUserHeaderImg`,
 
 };
 
@@ -142,6 +143,14 @@ const reworkProcess = postData => {
     })
 };
 
+const getUserHeaderImg = (TechnicianId) => {
+    return Bu.fetch(API.getUserHeaderImg, {
+        method: 'post',
+        postData: {
+            TechnicianId
+        }
+    });
+};
 
 
 export {
@@ -155,7 +164,8 @@ export {
     queryItemMasters,
     pauseProcess,
     getReworkInfo,
-    reworkProcess
+    reworkProcess,
+    getUserHeaderImg
 }
 
 
