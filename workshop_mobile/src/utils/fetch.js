@@ -53,7 +53,6 @@ Toast.$root = document.getElementsByTagName('body')[0];
 const myFetch = (url, data) => {
     return Bu.st.getToken()
         .then(token => {
-            console.log('token', token);
             return new Promise((resolve, reject) => {
                 const opts = {};
                 if ('options' in data) {
@@ -75,7 +74,7 @@ const myFetch = (url, data) => {
                 req_obj.headers = Object.assign({
                     'Accept': 'application/json',
                     'Content-type': 'application/json',
-                    'Authorization': `Basic ${token}`
+                    'Authorization': `Bearer ${token}`
                 }, data.headers);
 
                 if (['POST'].indexOf(req_obj.method) !== -1) {
