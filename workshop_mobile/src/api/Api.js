@@ -28,32 +28,42 @@ const API = {
 };
 
 const getAllOrders = () => {
-    return Bu.fetch(API.getAllOrders, {
-        method: 'post',
-        postData: {
-            optDescription: "string",
-            optUser: "string",
-            shopId: 38
-        },
-        options: {
-            // showToast: false,
-            toastText: '更新中'
-        }
-    })
+    return Bu.st.getTechInfo()
+        .then(techInfo => {
+            const { shopId } = techInfo;
+            return Bu.fetch(API.getAllOrders, {
+                method: 'post',
+                postData: {
+                    optDescription: "string",
+                    optUser: "string",
+                    shopId
+                },
+                options: {
+                    // showToast: false,
+                    toastText: '更新中'
+                }
+            })
+        });
+
 
 };
 
 const getLineList = () => {
-    return Bu.fetch(API.getLineList, {
-        method: 'post',
-        postData: {
-            ShopID: 38
-        },
-        options: {
-            // showToast: false,
-            toastText: '更新中'
-        }
-    });
+    return Bu.st.getTechInfo()
+        .then(techInfo => {
+            const { shopId } = techInfo;
+            return Bu.fetch(API.getLineList, {
+                method: 'post',
+                postData: {
+                    ShopID: shopId
+                },
+                options: {
+                    // showToast: false,
+                    toastText: '更新中'
+                }
+            });
+        });
+
 };
 
 const getOrderDetail = (id) => {

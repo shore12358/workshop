@@ -23,8 +23,12 @@
             getProcessListByTechId()
                 .then(res => {
                     Bu.st.setKey('myProcessList', res.data);
-                })
+                });
 
+            Bu.st.getTechInfo()
+                .then(techInfo => {
+                    Bu.setHeadline(techInfo.shopName);
+                });
         },
         methods: {
             ...mapActions([
