@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <input id="searchbar" :placeholder="holderValue" v-model.trim="tempQueryKey" @keypress="keyDown" @focus="focus"/>
+            <input id="searchbar" :placeholder="holderValue" v-model.trim="tempQueryKey"  @focus="focus"/>
             <Icon name="search" class="search"></Icon>
         </div>
     </div>
@@ -26,13 +26,6 @@
             ]),
         },
         methods: {
-            keyDown ($el) {
-                if ($el.keyCode === 13) {
-                    if (this.tempQueryKey !== this.getQueryKey) {
-                        this.modifyQueryKey({ queryKey: this.tempQueryKey });
-                    }
-                }
-            },
             focus () {
                 if (!this.tempQueryKey && this.getQueryKey) {
                     this.modifyQueryKey({ queryKey: '' });
@@ -46,7 +39,12 @@
         },
         created () {
             this.holderValue = this.getQueryKey || HOLDER;
-        }
+        },
+        watch: {
+            tempQueryKey (key) {
+                this.modifyQueryKey({ queryKey: key });
+            }
+        },
     }
 </script>
 

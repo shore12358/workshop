@@ -85,6 +85,7 @@ if (process.env.NODE_ENV === __PRO__) {
     )
     // TODO
 } else {
+    config.output.publicPath = '/';
     config.entry.app = [`webpack-hot-middleware/client?path=http://localhost:${PORT}/__webpack_hmr&reload=true`, ENTRY_PATH];
     config.plugins.push(
         new webpack.HotModuleReplacementPlugin(),

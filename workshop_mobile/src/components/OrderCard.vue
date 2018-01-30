@@ -3,7 +3,10 @@
         <div class="top">
             <div class="title-wrapper">
                 <div class="img-waiting-box" v-if="!order.processEnterTime">
-                    <div class="circle">待派</div>
+                    <div class="profile-wrapper" v-if="order.techId || order.techId">
+                        <img :src="profilePic" alt="">
+                    </div>
+                    <div class="circle" v-else>待派</div>
                 </div>
                 <div class="img-box" v-else>
                     <Donut class="donut" :percent="progressRate"></Donut>
@@ -26,20 +29,21 @@
             </ul>
             <ul>
                 <li>完工日期：<span :class="`text-${themeColor}`" v-transDate="order.planCompletedTime"></span></li>
-                <li>施 工 人：<span></span></li>
+                <li v-show="order.techName || order.techName2">施 工 人：<span>{{order.techName + (order.techName2 ? '、' + order.techName2 : '')}}</span></li>
             </ul>
         </div>
     </div>
 </template>
 
 <script>
-    import Donut from './Donut'
+    import Donut from './Donut';
+    import { getUserHeaderImg } from '../api/Api';
 
     export default {
         name: 'orderCard',
         data () {
             return{
-
+                profilePic: '',
             }
         },
         computed: {
@@ -52,7 +56,7 @@
                 return _rate > 999 ? 999 : _rate;
             }
         },
-        props: ['order', 'currentTime', 'getOrderColor'],
+        props: ['order', 'currentTime', 'getOrderColor', 'techPic'],
         mounted () {
 
         },
@@ -63,10 +67,25 @@
             detailPageGo () {
                 const { roId, processStatus, processId } = this.order;
                 this.$router.push({ name: 'orderDetail', params: { id: roId } });
-            }
+            },
         },
         created () {
-
+            const { techId, techId2 } = this.order;
+            const __techId = techId || techId2;
+            let _profile = (this.techPic && this.techPic[__techId]) || '';
+            if (_profile) {
+                this.profilePic = _profile;
+            } else {
+                getUserHeaderImg(__techId)
+                    .then(res => {
+                        if (res.code === 10000) {
+                            const url = res.data;
+                            this.techPic = this.techPic || {};
+                            this.profilePic = this.techPic[__techId] = url;
+                            Bu.st.setKey('techPic', this.techPic);
+                        }
+                    })
+            }
         }
 
     }
@@ -127,13 +146,20 @@
                         line-height w + 0.1 rem
                         text-align center
                         font-size 0.12rem
-                    .circle
+                    .circle, .profile-wrapper
                         width wd = 74%
                         height wd
                         border-radius 100%
-                        background-color co-orange
                         co-flex()
+                    .circle
+                        background-color co-orange
                         color white
+                    .profile-wrapper
+                        background-color co-grey
+                        overflow hidden
+                        img
+                            width 100%
+
                 span
                     margin-left cp
                 .brand
