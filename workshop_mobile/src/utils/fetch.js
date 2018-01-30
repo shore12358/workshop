@@ -100,7 +100,23 @@ const myFetch = (url, data) => {
                             }
                             toast_loading.hideToast();
                         }
-                        resolve(res.json());
+                        switch (res.status) {
+                            case 401:
+                                Bu.st.fetchToken();
+                                return myFetch(url, data)
+                                    .then(res => {
+                                        resolve(res.json());
+                                    })
+                                    .catch(() => {
+                                        reject();
+                                    });
+                                break;
+                            case 200:
+                                resolve(res.json());
+                                break;
+                            default:
+
+                        }
                     })
                     .catch(() => {
                         const toast_error = new Toast({ type: 2 }); // error
