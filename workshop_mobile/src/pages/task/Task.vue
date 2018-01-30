@@ -1,9 +1,13 @@
 <template>
     <div class="container">
         <OrderCardTabs :tabs="tabs" @tabChange="tabChange"></OrderCardTabs>
-        <div v-for="od in orders[tabIndex]" :key="od.roId">
-            <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor"></OrderCard>
+        <div v-infinite-scroll="load" infinite-scroll-disabled="loading" infinite-scroll-distance="10" class="scroll-container">
+            <div v-for="od in _orders[tabIndex]" :key="od.roId">
+                <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor" :techPic="techPic"></OrderCard>
+            </div>
+            <Loading :loading="loading"></Loading>
         </div>
+
     </div>
 </template>
 
@@ -17,12 +21,17 @@
         PREPARING: [0, 2],
         WORKING: [1]
     };
+    const PAGE_SIZE = 6;
 
     export default {
         name: 'task',
         data () {
             return {
-                tabIndex: 0
+                tabIndex: 0,
+                pageIndex: [1, 1],
+                loading: false,
+                locked: [false, false],
+                techPic: null,
             }
         },
         computed: {
@@ -34,38 +43,45 @@
             getOrderColor () {
                 return getOrderColor();
             },
-            orders () {
-                const _orders = [];
-                const pre_orders = this.getMyOrders.filter(order => ORDER.PREPARING.indexOf(order.processStatus) > -1);
-                const working_orders = this.getMyOrders.filter(order => ORDER.WORKING.indexOf(order.processStatus) > -1);
-                working_orders.length && _orders.push(working_orders);
-                pre_orders.length && _orders.push(pre_orders);
-                return _orders;
+            workingOrders () {
+                return this.getMyOrders.filter(order => ORDER.WORKING.indexOf(order.processStatus) > -1);
+            },
+            preOrders () {
+                return this.getMyOrders.filter(order => ORDER.PREPARING.indexOf(order.processStatus) > -1);
+            },
+            _orders () {
+                return [this.workingOrders.slice(0, this.pageIndex[0] * PAGE_SIZE), this.preOrders.slice(0, this.pageIndex[1] * PAGE_SIZE)].filter(order => order.length);
+
             },
             tabs () {
-                const _tabs = this.orders.map(order => { return { num: order.length } });
-                const tabs_conf = [
-                    {
+                const tabs = [];
+                let _len;
+                if (_len = this.workingOrders.length) {
+                    tabs.push({
                         filterKey: ORDER.WORKING,
-                        text: '在做任务'
-                    },
-                    {
+                        text: '在做任务',
+                        num: _len,
+                    })
+                }
+                if (_len = this.preOrders.length) {
+                    tabs.push({
                         filterKey: ORDER.PREPARING,
-                        text: '预派任务'
-                    }
-                ];
-                const tabs = _tabs.map((tab, index) => {
-                    return Object.assign(tab, tabs_conf[index]);
-                });
+                        text: '预派任务',
+                        num: _len,
+                    });
+                }
                 return tabs;
             },
         },
         created () {
-
-        },
-        mounted () {
-
-
+            const map = ['workingOrders', 'preOrders'];
+            this.locked = this.locked.map((val, i) => {
+                if (PAGE_SIZE >= this[map[i]].length) {
+                    return true;
+                }
+                return false;
+            });
+            this.techPic = Bu.st.getKey('techPic');
         },
         components: {
             OrderCard,
@@ -74,6 +90,25 @@
         methods:{
             tabChange (index) {
                 this.tabIndex = index;
+            },
+            load () {
+                const ANIM_TIME = 300;
+                if (!this.locked[this.tabIndex]) {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.pageIndex = this.pageIndex.map((val, i) => {
+                            if (i === this.tabIndex) {
+                                const orderCollection = i === 0 ? 'workingOrders': 'preOrders';
+                                if (++val * PAGE_SIZE >= this[orderCollection].length) {
+                                    this.locked[i] = true;
+                                }
+                            }
+                            return val;
+                        });
+                        this.loading = false;
+                    }, ANIM_TIME);
+                }
+
             }
         }
     }
@@ -84,11 +119,7 @@
 
     .container
         padding 0 0.11rem
-
-                        
-          
-        
-      
-    
+    .scroll-container
+        height 100%
   
 </style>

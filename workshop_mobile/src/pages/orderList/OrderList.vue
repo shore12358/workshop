@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <OrderCardTabs :tabs="tabs" @tabChange="tabChange"></OrderCardTabs>
-        <div v-infinite-scroll="load" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="" infinite-scroll-distance="10" class="scroll-container">
+        <div v-infinite-scroll="load" infinite-scroll-disabled="loading" infinite-scroll-distance="10" class="scroll-container">
             <div v-for="od in _orders[tabIndex]" :key="od.roId">
                 <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor" :techPic="techPic"></OrderCard>
             </div>
@@ -21,7 +21,7 @@
         WAITING: [0, 2],
         WORKING: [1]
     };
-    const PAGE_SIZE = 4;
+    const PAGE_SIZE = 6;
 
     export default {
         name: 'orderList',
@@ -53,7 +53,7 @@
                 return this.getLineOrdersByProcessId(this.lineId, this.processId);
             },
             waitingOrders () {
-               return this.ordersFromProcess.filter(order => ORDER.WAITING.indexOf(order.processStatus) > -1);
+                return this.ordersFromProcess.filter(order => ORDER.WAITING.indexOf(order.processStatus) > -1);
             },
             workingOrders () {
                 return this.ordersFromProcess.filter(order => ORDER.WORKING.indexOf(order.processStatus) > -1);
