@@ -49,6 +49,9 @@
             lineId () {
                 return this.$route.query.lineId;
             },
+            processName () {
+                return this.$route.query.processName;
+            },
             ordersFromProcess () {
                 return this.getLineOrdersByProcessId(this.lineId, this.processId);
             },
@@ -116,6 +119,7 @@
         },
         created () {
             const map = ['waitingOrders', 'workingOrders'];
+            Bu.setHeadline(this.processName);
             this.locked = this.locked.map((val, i) => {
                 if (PAGE_SIZE >= this[map[i]].length) {
                     return true;
@@ -123,7 +127,6 @@
                 return false;
             });
             this.techPic = Bu.st.getKey('techPic');
-
 
         },
     }

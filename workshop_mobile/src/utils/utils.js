@@ -31,6 +31,11 @@ const getOrderColor = () => {
 
 };
 
+const setHeadline = (headline) => {
+    document.title = typeof headline === 'string' ? headline : '';
+};
+
 export {
-    getOrderColor
+    getOrderColor,
+    setHeadline
 };
