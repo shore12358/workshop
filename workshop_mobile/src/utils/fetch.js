@@ -102,9 +102,9 @@ const myFetch = (url, data) => {
                         switch (res.status) {
                             case 401:
                                 Bu.st.fetchToken();
-                                return myFetch(url, data)
+                                myFetch(url, data)
                                     .then(res => {
-                                        resolve(res.json());
+                                        resolve(res);
                                     })
                                     .catch(() => {
                                         reject();
