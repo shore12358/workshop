@@ -81,7 +81,6 @@ const getProcessListByTechId = () => {
     return Bu.st.getTechInfo()
         .then(techInfo => {
             const { techId } = techInfo;
-            console.log('tech', JSON.stringify(techInfo))
             return Bu.fetch(API.getProcessListByTechId, {
                 method: 'post',
                 postData: {
