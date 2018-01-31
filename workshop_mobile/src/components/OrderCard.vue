@@ -72,6 +72,9 @@
         created () {
             const { techId, techId2 } = this.order;
             const __techId = techId || techId2;
+            if (!__techId) {
+                return;
+            }
             let _profile = (this.techPic && this.techPic[__techId]) || '';
             if (_profile) {
                 this.profilePic = _profile;
