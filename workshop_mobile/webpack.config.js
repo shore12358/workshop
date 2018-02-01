@@ -13,8 +13,7 @@ const config = {
         vendor: ['vue-router', 'vue-multiselect', 'isomorphic-fetch', 'socket.io-client']
     },
     output: {
-        // publicPath: '/WorkShopH5/',
-        publicPath: '/',
+        publicPath: '/WorkShopH5/',
         path: path.join(__dirname, 'dist'),
         filename: '[name].[hash].js'
     },

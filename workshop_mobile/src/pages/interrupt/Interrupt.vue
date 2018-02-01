@@ -37,7 +37,7 @@
                 return Number(this.$route.params.pId);
             },
             inputDisabled () {
-                return this.selectReason !== '其他'
+                return ['其他', '其它'].indexOf(this.selectReason) === -1;
             }
         },
         created () {

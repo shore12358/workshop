@@ -49,14 +49,14 @@
                 <div v-for="pu in plateMetalUnits" :key="pu.partsDegree">
                     <div class="units-suite" v-if="pu.partsDegree === -1">
                         <ul class="item">
-                            <li>{{pu.partsName}}</li>
+                            <li>{{pu.partsName}}<span class="rework-text" v-if="pu.reworked">(返)</span></li>
                             <li>{{pu.partsCount}}</li>
                             <li></li>
                         </ul>
                         <p class="des-note">{{pu.remark}}</p>
                     </div>
                     <ul class="units-item" v-else>
-                        <li>{{pu.partsName}}</li>
+                        <li>{{pu.partsName}}<span class="rework-text" v-if="pu.reworked">(返)</span></li>
                         <li>{{pu.partsCount}}</li>
                         <li>{{pu.partsDegreeName}}</li>
                     </ul>
@@ -72,14 +72,14 @@
                 <div v-for="pu in paintUnits" :key="pu.partsDegree">
                     <div class="units-suite" v-if="pu.partsDegree === -1">
                         <ul class="item">
-                            <li>{{pu.partsName}}</li>
+                            <li>{{pu.partsName}}<span class="rework-text" v-if="pu.reworked">(返)</span></li>
                             <li>{{pu.partsCount}}</li>
                             <li></li>
                         </ul>
                         <p class="des-note">{{pu.remark}}</p>
                     </div>
                     <ul class="units-item" v-else>
-                        <li>{{pu.partsName}}</li>
+                        <li>{{pu.partsName}}<span class="rework-text" v-if="pu.reworked">(返)</span></li>
                         <li>{{pu.partsCount}}</li>
                         <li>{{pu.partsDegreeName}}</li>
                     </ul>
@@ -97,10 +97,10 @@
             <div class="fix-record">
                 <div class="item-box" v-for="(l, index) in detail.roMaintenLogs" :key="index">
                     <p><span v-transDate="l.enterTime"></span> ~ <span v-transDate="l.leaveTime"></span>
-                        <span class="fix-label" v-if="l.processStatus">{{l.processStatus === 1 ? '预计' : '中断'}}</span>
+                        <span class="fix-label" v-if="l.tag">{{l.tag}}</span>
                     </p>
                     <ul class="text-line">
-                        <li>工序：<span>{{getProcessName(l.processId)}}</span></li>
+                        <li>工序：<span>{{l.processName}}</span></li>
                         <li>施工人：<span>{{l.techName}}{{l.techName2 ? `, ${l.techName2}`:``}}</span></li>
                     </ul>
                 </div>
@@ -113,8 +113,6 @@
 
 <script>
     import { getOrderDetail } from '../../api/Api';
-    import { mapGetters } from 'vuex';
-
 
     export default {
         name: 'detail',
@@ -125,9 +123,6 @@
         },
         props: ['detail'],
         computed: {
-            ...mapGetters([
-               'getLineList',
-            ]),
             plateMetalUnits () {
                 try {
                     return this.detail.roPartses.filter(unit => unit.partsType === 2);
@@ -148,9 +143,6 @@
 
         },
         methods: {
-            getProcessName (id) {
-                return this.getLineList.find(line => line.ProcessID = id).ProcessName;
-            },
 
         }
     }
@@ -213,6 +205,9 @@
         blue-grid()
     .units-item li
         grey-grid()
+        align-self stretch
+        display flex
+        align-items center
     .units-suite
         background-color d-grey
         .item
@@ -220,6 +215,9 @@
             li
                 flex 1
                 grey-grid()
+                align-self stretch
+                display flex
+                align-items center
         p
             grey-grid()
     .des-note
@@ -253,5 +251,8 @@
         text-align center
         font-size .1rem
         color co-blue
+    .rework-text
+        color #f57c33
+        padding-left .03rem
 
 </style>
