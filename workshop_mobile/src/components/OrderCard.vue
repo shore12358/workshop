@@ -2,15 +2,15 @@
     <div :class="`orderCard border-${themeColor} ${order.processStatus === 2 ? 'card-opacity' : ''}`" @click="detailPageGo">
         <div class="top">
             <div class="title-wrapper">
-                <div class="img-waiting-box" v-if="!order.processEnterTime">
+                <div class="img-box" v-if="order.processStatus === 1">
+                    <Donut class="donut" :percent="progressRate"></Donut>
+                    <div class="progress" :class="`text-${progressRate > 100 ? 'red' : 'blue'}`">{{progressRate}}%</div>
+                </div>
+                <div class="img-waiting-box" v-else>
                     <div class="profile-wrapper" v-if="order.techId || order.techId">
                         <img :src="profilePic" alt="">
                     </div>
                     <div class="circle" v-else>待派</div>
-                </div>
-                <div class="img-box" v-else>
-                    <Donut class="donut" :percent="progressRate"></Donut>
-                    <div class="progress" :class="`text-${progressRate > 100 ? 'red' : 'blue'}`">{{progressRate}}%</div>
                 </div>
                 <span>{{order.carNumber}}</span>
                 <span class="brand">{{order.carType}}</span>
@@ -51,8 +51,8 @@
                 return this.getOrderColor(this.currentTime, this.order.planCompletedTime);
             },
             progressRate () {
-                const { processEnterTime, planCompletedTime } = this.order;
-                const _rate = Math.ceil((this.currentTime - processEnterTime) * 100 / (planCompletedTime - processEnterTime));
+                const { processEnterTime, processPlanFinishedTime } = this.order;
+                const _rate = Math.ceil((this.currentTime - processEnterTime) * 100 / (processPlanFinishedTime - processEnterTime));
                 return _rate > 999 ? 999 : _rate;
             }
         },

@@ -133,6 +133,7 @@
             &:nth-child(even)
                 margin-right 0
             padding 0.08rem .1rem
+            line-height .38rem
             background-color #f9f9f9
             border 1px solid #e1e1e1
             co-flex(space-between)

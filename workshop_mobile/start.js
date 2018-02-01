@@ -1,5 +1,4 @@
 
-// process.env.NODE_ENV = 'PRODUCTION'
 const Koa =  require('koa');
 const static = require('koa-static');
 const proxy = require('koa-proxy');

@@ -49,8 +49,8 @@ export default new Vuex.Store({
                 const { queryKey } = state;
                 if (queryKey) {
                     return state.orders.filter(order => {
-                        const { carNumber, carType, roId } = order;
-                        return carNumber.indexOf(queryKey) !== -1 || carType.indexOf(queryKey) !== -1 || roId.toString().indexOf(queryKey) !== -1;
+                        const { carNumber, carType, roNumber } = order;
+                        return carNumber.indexOf(queryKey) !== -1 || carType.indexOf(queryKey) !== -1 || roNumber.toString().indexOf(queryKey) !== -1;
                     })
                 }
                 return state.orders;
