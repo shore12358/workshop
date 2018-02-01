@@ -84,8 +84,10 @@
                         if (res.code === 10000) {
                             const url = res.data;
                             this.techPic = this.techPic || {};
-                            this.profilePic = this.techPic[__techId] = url;
-                            Bu.st.setKey('techPic', this.techPic);
+                            this.profilePic = url;
+                            const _techPic = Object.assign({}, this.techPic);
+                            _techPic[__techId] = url;
+                            Bu.st.setKey('techPic', _techPic);
                         }
                     })
             }

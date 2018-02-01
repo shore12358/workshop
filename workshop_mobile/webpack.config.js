@@ -4,16 +4,17 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const __PRO__ = 'PRODUCTION';
-const PORT = 3159;
+const PORT = 5626;
 const ENTRY_PATH = path.join(__dirname, './src/main.js');
 
 const config = {
     entry: {
         app: ENTRY_PATH,
-        vendor: ['vue-router', 'vue-multiselect', 'vue-awesome']
+        vendor: ['vue-router', 'vue-multiselect', 'isomorphic-fetch', 'socket.io-client']
     },
     output: {
-        publicPath: '/WorkShopH5/',
+        // publicPath: '/WorkShopH5/',
+        publicPath: '/',
         path: path.join(__dirname, 'dist'),
         filename: '[name].[hash].js'
     },
@@ -21,7 +22,6 @@ const config = {
         rules: [
             {
                 test: /\.vue$/,
-                exclude: /node_modules/,
                 loader: 'vue-loader',
             },
             {
@@ -46,7 +46,7 @@ const config = {
                                 return '[name].[ext]?[hash]'
                             },
                             // publicPath: '/',
-                            outputPath: 'images/'
+                            outputPath: 'static/images/'
 
                         }
                     }
@@ -83,7 +83,6 @@ if (process.env.NODE_ENV === __PRO__) {
             }
         })
     )
-    // TODO
 } else {
     config.output.publicPath = '/';
     config.entry.app = [`webpack-hot-middleware/client?path=http://localhost:${PORT}/__webpack_hmr&reload=true`, ENTRY_PATH];

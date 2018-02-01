@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node start.js",
     "build": "node build.js",
+    "clean": "rm -rf ./dist",
     "lint": "./node_modules/.bin/eslint ./src",
     "lint:fix": "./node_modules/.bin/eslint ./src --fix"
   },
