@@ -2,7 +2,6 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import * as Icon from 'vue-awesome';
 import infiniteScroll from 'vue-infinite-scroll';
 import store from './store/index';
 import 'isomorphic-fetch';
@@ -11,6 +10,12 @@ import TransDate from './directives/date';
 import Popout from './components/Popout';
 import Toast from './components/Toast';
 import Loading from './components/Loading';
+
+import Icon from 'vue-awesome/components/Icon';
+import 'vue-awesome/icons/search';
+import 'vue-awesome/icons/home';
+import 'vue-awesome/icons/user';
+import 'vue-awesome/icons/check-circle';
 
 import './utils/Bu';
 
@@ -32,3 +37,4 @@ new Vue({
 	components: { App }
 });
 
+// search home user check-circle

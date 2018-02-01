@@ -1,3 +1,5 @@
+
+// process.env.NODE_ENV = 'PRODUCTION'
 const Koa =  require('koa');
 const static = require('koa-static');
 const proxy = require('koa-proxy');
@@ -36,6 +38,6 @@ if (process.env.NODE_ENV === __PRO__) {
 //     match: /^\/api\//i
 // }));
 
-app.listen(3159, () => {
-    console.log('listening at port: 3159');
+app.listen(5626, () => {
+    console.log('listening at port: 5626');
 });
