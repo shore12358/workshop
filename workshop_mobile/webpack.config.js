@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const __PRO__ = 'PRODUCTION';
-const PORT = 3159;
+const PORT = 5626;
 const ENTRY_PATH = path.join(__dirname, './src/main.js');
 
 const config = {
@@ -13,8 +13,8 @@ const config = {
         vendor: ['vue-router', 'vue-multiselect', 'isomorphic-fetch', 'socket.io-client']
     },
     output: {
-        publicPath: '/WorkShopH5/',
-        // publicPath: '/',
+        // publicPath: '/WorkShopH5/',
+        publicPath: '/',
         path: path.join(__dirname, 'dist'),
         filename: '[name].[hash].js'
     },

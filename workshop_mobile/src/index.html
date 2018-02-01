@@ -11,8 +11,15 @@
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.6/dist/vue-multiselect.min.css">
     <title></title>
     <script type="text/javascript">
-        const img = new Image();
-        img.src = `https://img3.tuhu.org/PeccancyCheXingYi/9b1a/bb4e/04d21e7280b2370b33fa88bc_w200_h200.png@100Q.png`;
+        const imgUrls = [
+            'https://img3.tuhu.org/PeccancyCheXingYi/9b1a/bb4e/04d21e7280b2370b33fa88bc_w200_h200.png@100Q.png',
+            'https://img3.tuhu.org/PeccancyCheXingYi/4ffe/b332/7a87bec61b47fbdb9f9eabf4_w324_h193.png@100Q.png'
+        ];
+        for (let imgUrl of imgUrls) {
+            const img = new Image();
+            img.src = imgUrl;
+
+        }
     </script>
 </head>
 <body>

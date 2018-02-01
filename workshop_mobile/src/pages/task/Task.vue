@@ -1,12 +1,19 @@
 <template>
     <div class="container">
-        <OrderCardTabs :tabs="tabs" @tabChange="tabChange"></OrderCardTabs>
-        <div v-infinite-scroll="load" infinite-scroll-disabled="loading" infinite-scroll-distance="10" class="scroll-container">
-            <div v-for="od in _orders[tabIndex]" :key="od.roId">
-                <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor" :techPic="techPic"></OrderCard>
+        <div v-if="!getMyOrders.length">
+            <OrderCardTabs :tabs="tabs" @tabChange="tabChange"></OrderCardTabs>
+            <div v-infinite-scroll="load" infinite-scroll-disabled="loading" infinite-scroll-distance="10" class="scroll-container">
+                <div v-for="od in _orders[tabIndex]" :key="od.roId">
+                    <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor" :techPic="techPic"></OrderCard>
+                </div>
+                <Loading :loading="loading"></Loading>
             </div>
-            <Loading :loading="loading"></Loading>
         </div>
+        <div v-else class="blank-page">
+            <img src="https://img3.tuhu.org/PeccancyCheXingYi/4ffe/b332/7a87bec61b47fbdb9f9eabf4_w324_h193.png@100Q.png" alt="">
+            <p>您目前没有在做任务哦！</p>
+        </div>
+
 
     </div>
 </template>
@@ -121,5 +128,12 @@
         padding 0 0.11rem
     .scroll-container
         height 100%
+    .blank-page
+        text-align center
+        img
+            width 1.38rem
+            margin-top 1.1rem
+            margin-bottom .16rem
+
   
 </style>
