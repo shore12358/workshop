@@ -4,7 +4,8 @@
         <p class="note">协同技师：</p>
         <div class="technician-list">
             <div :class="`technician-item ${tech.choosen ? 'item-checked' : ''}`" v-for="tech in techList" :key="tech.EmployeeID" @click="handleItem(tech)">
-                {{tech.EmployeeName}}
+                <div>{{tech.EmployeeName}}
+                </div>
                 <Icon name="check-circle" class="icon-check" ></Icon>
             </div>
         </div>
@@ -134,12 +135,12 @@
             &:nth-child(even)
                 margin-right 0
             padding 0.08rem .1rem
-            line-height .38rem
             background-color #f9f9f9
             border 1px solid #e1e1e1
             co-flex(space-between)
             margin-bottom .12rem
-
+            &>div
+                flex 1
         .icon-check
             width auto;
             height .25rem;
