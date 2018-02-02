@@ -100,8 +100,8 @@
                         <span class="fix-label" v-if="l.tag">{{l.tag}}</span>
                     </p>
                     <ul class="text-line">
-                        <li>工序：<span>{{l.processName}}</span></li>
-                        <li>施工人：<span>{{l.techName}}{{l.techName2 ? `, ${l.techName2}`:``}}</span></li>
+                        <li class="tl-process">工序：<span>{{l.processName}}</span></li>
+                        <li class="tl-tech">施工人：<span>{{l.techName}}{{l.techName2 ? `, ${l.techName2}`:``}}</span></li>
                     </ul>
                 </div>
             </div>
@@ -239,18 +239,21 @@
                 radius(fw * 100)
             .text-line
                 co-flex()
-                margin .05rem 0
-                li
-                    flex 1
+                text-dark(, true)
+                margin .08rem 0
+                .tl-process
+                    flex 2
+                .tl-tech
+                    flex 3
                 span
-                    text-light()
+                    font-weight normal
     .fix-label
-        padding .02rem .06rem
-        radius(3)
-        border 1px solid co-blue
+        padding 0.01rem .04rem
+        radius(2)
+        border 1px solid co-blue-bright
         text-align center
-        font-size .1rem
-        color co-blue
+        font-size .09rem
+        color co-blue-bright
     .rework-text
         color #f57c33
         padding-left .03rem

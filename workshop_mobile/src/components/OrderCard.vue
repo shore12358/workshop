@@ -28,7 +28,7 @@
                 <li>进厂日期：<span v-transDate="order.inTime"></span></li>
             </ul>
             <ul>
-                <li>完工日期：<span :class="`text-${themeColor}`" v-transDate="order.planCompletedTime"></span></li>
+                <li>计划完工：<span :class="`text-${themeColor}`" v-transDate="order.planCompletedTime"></span></li>
                 <li v-show="order.techName || order.techName2">施 工 人：<span>{{order.techName + (order.techName2 ? '、' + order.techName2 : '')}}</span></li>
             </ul>
         </div>
@@ -52,7 +52,7 @@
             },
             progressRate () {
                 const { processEnterTime, processPlanFinishedTime } = this.order;
-                const _rate = Math.ceil((this.currentTime - processEnterTime) * 100 / (processPlanFinishedTime - processEnterTime));
+                const _rate = Math.max(0, Math.ceil((this.currentTime - processEnterTime) * 100 / (processPlanFinishedTime - processEnterTime)));
                 return _rate > 999 ? 999 : _rate;
             }
         },
@@ -134,12 +134,18 @@
                 co-flex(flex-start)
                 text-dark()
                 margin-bottom cp = 0.02rem
+                &>span
+                    height .18rem;
+                    overflow hidden;
+                    white-space nowrap;
+                    text-overflow ellipsis;
                 .img-box
                     transform translate3d(0,-0.04rem,0)
                 .img-waiting-box
                     co-flex()
                 .img-waiting-box, .img-box
-                    width w = 0.52rem
+                    min-width w = 0.52rem
+                    max-width w
                     height w
                     position relative
                     .progress
@@ -169,6 +175,7 @@
                     margin-left cp
                 .brand
                     text-light()
+                    margin-left .05rem
             .part-box
                 co-flex()
                 li
