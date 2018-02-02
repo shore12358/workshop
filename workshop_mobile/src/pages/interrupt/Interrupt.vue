@@ -41,6 +41,7 @@
             }
         },
         created () {
+            Bu.setHeadline('中断操作原因');
             queryItemMasters(2)
                 .then(res => {
                     if (res.code === 10000) {
