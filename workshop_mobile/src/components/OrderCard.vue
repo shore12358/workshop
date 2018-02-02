@@ -1,6 +1,10 @@
 <template>
     <div :class="`orderCard border-${themeColor} ${order.processStatus === 2 ? 'card-opacity' : ''}`" @click="detailPageGo">
         <div class="top">
+            <div class="tag-wrapper">
+                <span class="tag-urgent" v-if="!order.isEmergency">加急
+                </span><span class="tag-rework" v-if="!order.rework">返工</span>
+            </div>
             <div class="title-wrapper">
                 <div class="img-box" v-if="order.processStatus === 1">
                     <Donut class="donut" :percent="progressRate"></Donut>
@@ -124,11 +128,28 @@
         margin-bottom 0.11rem
         shadow-box()
         border-top 0.06rem solid
-
         .top
             padding-bottom 0.06rem
             border-bottom 1px dashed co-grey
             background-color #f8f8f8
+            position relative
+            .tag-wrapper
+                position absolute
+                top 0
+                right 0
+            .tag-urgent, .tag-rework
+                width .3rem
+                height h = .16rem
+                line-height h
+                text-align center
+                font-size .1rem
+                display inline-block
+            .tag-urgent
+                color #ff3c56
+                background-color rgba(255,65,90,0.1)
+            .tag-rework
+                color #ff4901
+                background-color rgba(255,150,0,0.10)
             .title-wrapper
                 padding 0.02rem co-padding 0
                 co-flex(flex-start)

@@ -2,7 +2,7 @@
     <div class="container">
         <Multiselect v-model.trim="selectReason" :options="interruptOptions" placeholder="选择中断原因" :searchable="false" :close-on-select="true" :show-labels="false" class="selectReason" :allow-empty="false"></Multiselect>
         <div class="input-wrapper">
-            <textarea id="reason-input" placeholder="请输入中断原因（限150字）" v-model.trim="inputReason" @keyup="keyup" :disabled="inputDisabled"></textarea>
+            <textarea id="reason-input" placeholder="请输入中断原因（限150字）" v-model.trim="inputReason" @keyup="keyup" :disabled="!selectReason"></textarea>
             <div class="tip">{{inputReason.length}}/150</div>
         </div>
         <Toast :text="toast_conf.text" v-show="toast_conf.shown"></Toast>
@@ -36,9 +36,6 @@
             pId () {
                 return Number(this.$route.params.pId);
             },
-            inputDisabled () {
-                return ['其他', '其它'].indexOf(this.selectReason) === -1;
-            }
         },
         created () {
             Bu.setHeadline('中断操作原因');
@@ -69,8 +66,9 @@
                 }, 1500);
             },
             validate () {
-                switch (this.selectReason) {
-                    case '其他':
+                const _selectReason = ['其他', '其它'].indexOf(this.selectReason) > -1 ? '其它' : this.selectReason;
+                switch (_selectReason) {
+                    case '其它':
                         if (this.inputReason.length >= 4) {
                             this.interrupt(this.inputReason);
                         } else {
@@ -81,15 +79,19 @@
                         this.showToast(`请选择<br/>或输入原因`);
                         break;
                     default:
-                        this.interrupt(this.selectReason);
+                        if (this.inputReason && this.inputReason.length < 4) {
+                            this.showToast(`未达到<br/>输入字数`)
+                            break;
+                        }
+                        this.interrupt(`${_selectReason},${this.inputReason}`);
                 }
 
             },
             interrupt (reason) {
                 const postData = {
+                    optDescription: reason,
                     processId: this.pId,
                     roId: this.roId,
-                    ops: reason
                 };
                 pauseProcess(postData)
                     .then(res => {
