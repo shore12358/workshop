@@ -176,6 +176,7 @@
             },
         },
         created () {
+            Bu.setHeadline('返工操作选择');
             queryItemMasters(1)
                 .then(res => {
                     if (res.code === 10000) {

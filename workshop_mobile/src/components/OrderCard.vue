@@ -1,6 +1,10 @@
 <template>
     <div :class="`orderCard border-${themeColor} ${order.processStatus === 2 ? 'card-opacity' : ''}`" @click="detailPageGo">
         <div class="top">
+            <div class="tag-wrapper">
+                <span class="tag-urgent" v-if="!order.isEmergency">加急
+                </span><span class="tag-rework" v-if="!order.rework">返工</span>
+            </div>
             <div class="title-wrapper">
                 <div class="img-box" v-if="order.processStatus === 1">
                     <Donut class="donut" :percent="progressRate"></Donut>
@@ -28,7 +32,7 @@
                 <li>进厂日期：<span v-transDate="order.inTime"></span></li>
             </ul>
             <ul>
-                <li>完工日期：<span :class="`text-${themeColor}`" v-transDate="order.planCompletedTime"></span></li>
+                <li>计划完工：<span :class="`text-${themeColor}`" v-transDate="order.planCompletedTime"></span></li>
                 <li v-show="order.techName || order.techName2">施 工 人：<span>{{order.techName + (order.techName2 ? '、' + order.techName2 : '')}}</span></li>
             </ul>
         </div>
@@ -52,7 +56,7 @@
             },
             progressRate () {
                 const { processEnterTime, processPlanFinishedTime } = this.order;
-                const _rate = Math.ceil((this.currentTime - processEnterTime) * 100 / (processPlanFinishedTime - processEnterTime));
+                const _rate = Math.max(0, Math.ceil((this.currentTime - processEnterTime) * 100 / (processPlanFinishedTime - processEnterTime)));
                 return _rate > 999 ? 999 : _rate;
             }
         },
@@ -124,22 +128,45 @@
         margin-bottom 0.11rem
         shadow-box()
         border-top 0.06rem solid
-
         .top
             padding-bottom 0.06rem
             border-bottom 1px dashed co-grey
             background-color #f8f8f8
+            position relative
+            .tag-wrapper
+                position absolute
+                top 0
+                right 0
+            .tag-urgent, .tag-rework
+                width .3rem
+                height h = .16rem
+                line-height h
+                text-align center
+                font-size .1rem
+                display inline-block
+            .tag-urgent
+                color #ff3c56
+                background-color rgba(255,65,90,0.1)
+            .tag-rework
+                color #ff4901
+                background-color rgba(255,150,0,0.10)
             .title-wrapper
                 padding 0.02rem co-padding 0
                 co-flex(flex-start)
                 text-dark()
                 margin-bottom cp = 0.02rem
+                &>span
+                    height .18rem;
+                    overflow hidden;
+                    white-space nowrap;
+                    text-overflow ellipsis;
                 .img-box
                     transform translate3d(0,-0.04rem,0)
                 .img-waiting-box
                     co-flex()
                 .img-waiting-box, .img-box
-                    width w = 0.52rem
+                    min-width w = 0.52rem
+                    max-width w
                     height w
                     position relative
                     .progress
@@ -169,6 +196,7 @@
                     margin-left cp
                 .brand
                     text-light()
+                    margin-left .05rem
             .part-box
                 co-flex()
                 li

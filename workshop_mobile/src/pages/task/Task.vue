@@ -82,6 +82,7 @@
         },
         created () {
             const map = ['workingOrders', 'preOrders'];
+            Bu.setHeadline('我的任务');
             this.locked = this.locked.map((val, i) => {
                 if (PAGE_SIZE >= this[map[i]].length) {
                     return true;

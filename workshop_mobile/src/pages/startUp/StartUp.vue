@@ -52,6 +52,7 @@
             }
         },
         created () {
+            Bu.setHeadline('工单开工');
             getTechListByProcessId(this.pId)
                 .then(res => {
                     if (res.code == 10000) {
