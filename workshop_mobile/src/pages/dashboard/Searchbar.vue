@@ -42,7 +42,7 @@
         },
         watch: {
             tempQueryKey (key) {
-                this.modifyQueryKey({ queryKey: key });
+                this.modifyQueryKey({ queryKey: key.toLowerCase() });
             }
         },
     }
