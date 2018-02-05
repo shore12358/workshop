@@ -12,7 +12,7 @@ class Storage {
 
     setTechInfo (info) {
         this.techInfo = typeof info === 'object' ? info : JSON.parse(info);
-        if (this.techInfoCallback.length) {
+        if (this.techInfo && this.techInfoCallback.length) {
             for (let cb of this.techInfoCallback) {
                 cb(this.techInfo)
             }
@@ -31,12 +31,13 @@ class Storage {
         return this.techInfo ? this.techInfo : '';
     }
     fetchTechInfo () {
+        this.setTechInfo(null);
         bridge.go('getTechnicianInfo', { params: '' }, 'technicianBack');
     }
 
     setToken (token) {
         this.userToken = typeof token === 'string' ? token : token.toString();
-        if (this.tokenCallback.length) {
+        if (this.userToken && this.tokenCallback.length) {
             for (let cb of this.tokenCallback) {
                 cb(this.userToken)
             }
@@ -53,6 +54,7 @@ class Storage {
 
     }
     fetchToken () {
+        this.setToken('');
         bridge.go('getToken', { params: '' }, 'tokenBack');
     }
 

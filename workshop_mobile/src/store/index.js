@@ -186,37 +186,40 @@ export default new Vuex.Store({
                 });
         },
         updateFromPushAsync ({ commit }) {
-
-            const socket = io(`https://comet.tuhu.work/banpen?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd&channel=shop&ua=pc&module=tab&shopId=38&userId=WQ${Date.now()}`);
-            // const socket = io(`https://comet.tuhu.work/banpen?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd&channel=banpen&ua=h5&module=tab`);
-            socket.on('connect', () => {
-                console.log('connect socket');
-            });
-            socket.on('disconnect', () => {
-                console.log('disconnect');
-            });
-            socket.on('error',(msg) => {
-                console.log(`error ${msg}`);
-            });
-            socket.on('PushMessage', function(msg){
-                console.log("PushMessage", msg);
-                commit({
-                    type: 'updateFromPush',
-                    ...JSON.parse(msg).msg
+            Bu.st.getToken()
+                .then(token => {
+                    const socket = io(`https://comet.tuhu.work/banpen?token=Bearer ${token}&channel=banpen&ua=h5&module=tab`);
+                    socket.on('connect', () => {
+                        console.log('connect socket');
+                    });
+                    socket.on('disconnect', () => {
+                        console.log('disconnect');
+                    });
+                    socket.on('error',(msg) => {
+                        console.log(`error ${msg}`);
+                    });
+                    socket.on('PushMessage', function(msg){
+                        console.log("PushMessage", msg);
+                        commit({
+                            type: 'updateFromPush',
+                            ...JSON.parse(msg).msg
+                        });
+                    });
+                    // var socket = io('path', {
+                    //     polling: {
+                    //         extra: token
+                    //     }
+                    // })
+                    // fetch ({
+                    //     body:
+                    //      condition: ['定点推送']
+                    // })
+                    //  token 失效 客户端onError 重连
+                    //  client use series id to make sure push info completed,
+                    //  resend the request if doesn't meet the des above
                 });
-            });
-            // var socket = io('path', {
-            //     polling: {
-            //         extra: token
-            //     }
-            // })
-            // fetch ({
-            //     body:
-            //      condition: ['定点推送']
-            // })
-            //  token 失效 客户端onError 重连
-            //  client use series id to make sure push info completed,
-            //  resend the request if doesn't meet the des above
+            // const socket = io(`https://comet.tuhu.work/banpen?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd&channel=shop&ua=pc&module=tab&shopId=38&userId=WQ${Date.now()}`);    // mock data
+
         }
     }
 
