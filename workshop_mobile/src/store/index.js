@@ -188,7 +188,7 @@ export default new Vuex.Store({
         updateFromPushAsync ({ commit }) {
             Bu.st.getToken()
                 .then(token => {
-                    const socket = io(`https://comet.tuhu.work/banpen?token=Bearer f90deda7a84b429fbf0fbbf3992a4afd&channel=shop&ua=pc&module=tab&shopId=38&userId=WQ${Date.now()}`);    // mock data
+                    const socket = io(`https://comet.tuhu.work/banpen?token=${token}&channel=shop&ua=pc&module=tab&shopId=38&userId=WQ${Date.now()}`);    // mock data
                     // const socket = io(`https://comet.tuhu.work/banpen?token=${token}&channel=banpen&ua=h5&module=tab`);
                     socket.on('connect', () => {
                         console.log('connect socket');
