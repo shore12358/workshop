@@ -140,8 +140,6 @@ export default new Vuex.Store({
         initAsync ({ commit }) {
             R.getAllOrders()
                 .catch(err => {
-                    console.log('okssss');
-                    console.log('odksss');
                     commit({
                         type: 'init',
                         orders: JSON.parse(storage.getItem('orders')),
