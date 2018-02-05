@@ -12,7 +12,7 @@ let server_net, server_java;
 // }
 
 const API = {
-    getAllOrders: `http://172.16.21.105/rest/workshop/ro/getIndex`,
+    getAllOrders: `${server_java}/rest/workshop/ro/getIndex`,
     getOrderDetail: `${server_java}/rest/workshop/ro/getRoDetail`,
     getLineList: `${server_net}/api/LineProcess/GetLineProcessList`,
     getProcessListByTechId: `${server_net}/api/LineProcess/GetProcessListByEmployeeID`,

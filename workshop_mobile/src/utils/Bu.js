@@ -9,15 +9,15 @@ Bu.st = storage;
 Bu.fetch = fetch;
 Bu.setHeadline = setHeadline;
 
-window.technicianBack = data => {
-    Bu.st.setTechInfo(data);
-};
-
-window.tokenBack = data => {
-    Bu.st.setToken(data);
-};
-
-Bu.st.fetchTechInfo();
-Bu.st.fetchToken();
+// window.technicianBack = data => {
+//     Bu.st.setTechInfo(data);
+// };
+//
+// window.tokenBack = data => {
+//     Bu.st.setToken(data);
+// };
+//
+// Bu.st.fetchTechInfo();
+// Bu.st.fetchToken();
 
 window.Bu = Bu;
