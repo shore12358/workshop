@@ -1,6 +1,5 @@
 const __PRO__ = 'PRODUCTION';
-// const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
-const TEST_SERVER_JAVA = 'http://172.16.21.105';
+const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
 const TEST_SERVER_NET = 'https://shopapi.tuhu.work';
 let PRO_SERVER;
 let server_net, server_java;
@@ -13,7 +12,7 @@ let server_net, server_java;
 // }
 
 const API = {
-    getAllOrders: `/rest/workshop/ro/getIndex`,
+    getAllOrders: `http://172.16.21.105/rest/workshop/ro/getIndex`,
     getOrderDetail: `${server_java}/rest/workshop/ro/getRoDetail`,
     getLineList: `${server_net}/api/LineProcess/GetLineProcessList`,
     getProcessListByTechId: `${server_net}/api/LineProcess/GetProcessListByEmployeeID`,
