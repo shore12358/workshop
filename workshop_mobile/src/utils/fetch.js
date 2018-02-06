@@ -47,8 +47,7 @@ class Toast {
 
 }
 Toast.locked = false;
-// Toast.$root = document.getElementsByTagName('body')[0];
-Toast.$root = document.getElementById('app');
+Toast.$root = document.getElementsByTagName('body')[0];
 
 
 const myFetch = (url, data) => {
