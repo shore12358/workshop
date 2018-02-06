@@ -139,6 +139,13 @@ export default new Vuex.Store({
     actions: {
         initAsync ({ commit }) {
             R.getAllOrders()
+                .catch(err => {
+                    commit({
+                        type: 'init',
+                        orders: JSON.parse(storage.getItem('orders')),
+                        orderCounts: JSON.parse(storage.getItem('orderCounts')),
+                    });
+                })
                 .then(res => {
                     const { workshopRos, roStats, currentTime } = res.data;
                     const time_gap = currentTime - Date.now();
@@ -151,16 +158,16 @@ export default new Vuex.Store({
                     storage.setItem('orders', JSON.stringify(workshopRos));
                     storage.setItem('orderCounts', JSON.stringify(roStats));
                 })
-                .catch(err => {
-                    commit({
-                        type: 'init',
-                        orders: JSON.parse(storage.getItem('orders')),
-                        orderCounts: JSON.parse(storage.getItem('orderCounts')),
-                    });
-                })
+
         },
 	    fetchLineListAsync ({ commit }) {
             R.getLineList()
+                .catch(err => {
+                    commit({
+                        type: 'fetchLineList',
+                        lineList: JSON.parse(storage.getItem('lineList'))
+                    });
+                })
                 .then(res => {
                     const { data } = res;
                     if (data instanceof Array && data.length > 0 ) {
@@ -178,12 +185,7 @@ export default new Vuex.Store({
                         storage.setItem('lineList', JSON.stringify(data));
                     }
                 })
-                .catch(err => {
-                    commit({
-                        type: 'fetchLineList',
-                        lineList: JSON.parse(storage.getItem('lineList'))
-                    });
-                });
+
         },
         updateFromPushAsync ({ commit }) {
             Bu.st.getToken()

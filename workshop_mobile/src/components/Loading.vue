@@ -1,6 +1,6 @@
 <template>
     <div class="loading-container" v-show="loading">
-        <img src="https://img2.tuhu.org/PeccancyCheXingYi/700b/6b53/3b3884a8f2b32d8911e0c220_w200_h200.png@100Q.png"></img>
+        <img src="https://img1.tuhu.org/PeccancyCheXingYi/ccf7/5073/e7a4403388d97cf524419e32_w200_h200.png@100Q.png"></img>
     </div>
 </template>
 <script>
