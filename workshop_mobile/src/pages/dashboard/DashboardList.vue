@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Multiselect v-model="line" :options="lineOptions" placeholder="请选择" :searchable="false" :close-on-select="false" :show-labels="false" class="selectLine" :allow-empty="false"></Multiselect>
+        <Multiselect v-model="line" :options="lineOptions" placeholder="请选择" :searchable="false" :close-on-select="true" :show-labels="false" class="selectLine" :allow-empty="false"></Multiselect>
         <div class="card" v-for="(pi, index) in processList.ProcesseList" :key="pi.ProcessID" @click="orderListGo(pi.ProcessID, pi.ProcessName, index)">
             <div class="left">{{pi.ProcessName}}</div>
             <ul class="right">
