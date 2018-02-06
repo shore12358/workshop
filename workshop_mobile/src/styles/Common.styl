@@ -16,6 +16,10 @@ body
   font-size 0.14rem
   padding-bottom .5rem
 
+textarea {
+  -webkit-appearance: none;
+}
+
 ul
   list-style-type none
   margin 0
@@ -60,11 +64,11 @@ p, h1, h2, h3, h4, h5
 .f-loading-icon
   width fw = 70%
   height fw
-  animation: 1s rotate infinite;
+  animation 1s rotate infinite
 
 .multiselect__tags
   border 0!important
-  padding: 8px 40px 0 0px;
+  padding 8px 40px 0 0px
 
 .multiselect__single
   margin-top: .04rem;
@@ -77,11 +81,17 @@ p, h1, h2, h3, h4, h5
   .multiselect__select
     transform rotate(0)!important
 
+.multiselect__content-wrapper
+  border-top 1px rgb(232, 232, 232) solid
+
 .multiselect__option--highlight, .multiselect__option--selected.multiselect__option--highlight
   background #dae9fb
   color #333
+  font-weight normal
+.multiselect__option
+  font-weight normal
 
-/*page operations*/
+  /*page operations*/
   .selectReason, .selectReProcess
     border-bottom 1px solid #e1e1e1!important
     margin-bottom .2rem
