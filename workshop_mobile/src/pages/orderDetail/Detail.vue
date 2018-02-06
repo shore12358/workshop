@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="rework-title" v-if="detail.isRework">此工单为返工工单</div>
+        <div class="rework-title" v-if="detail.isReworkStep">此工单为返工工单</div>
         <div class="container">
             <div class="wrapper">
                 <p class="title">工单基本信息</p>

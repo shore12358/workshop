@@ -2,8 +2,8 @@
     <div :class="`orderCard border-${themeColor} ${order.processStatus === 2 ? 'card-opacity' : ''}`" @click="detailPageGo">
         <div class="top">
             <div class="tag-wrapper">
-                <span class="tag-urgent" v-if="!order.isEmergency">加急
-                </span><span class="tag-rework" v-if="!order.rework">返工</span>
+                <span class="tag-urgent" v-if="order.isEmergency">加急
+                </span><span class="tag-rework" v-if="order.isRework">返工</span>
             </div>
             <div class="title-wrapper">
                 <div class="img-box" v-if="order.processStatus === 1">
