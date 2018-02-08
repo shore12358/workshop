@@ -6,8 +6,8 @@ class Storage {
         // mock token
         this.tokenCallback = [];
         this.techInfoCallback = [];
-        this.setToken('some token in dev env');
-        this.setTechInfo({ techId: 9, techName: '测试员工姓名', shopId: 38, shopName: '途虎平湖店'});
+        // this.setToken('some token in dev env');
+        // this.setTechInfo({ techId: 9, techName: '测试员工姓名', shopId: 38, shopName: '途虎平湖店'});
     }
 
     setTechInfo (info) {

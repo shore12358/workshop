@@ -63,7 +63,7 @@ const myFetch = (url, data) => {
 
                 if (opts.showToast !== false) {
                     var travel_time = 2 * 1000;
-                    var over_time = 10 * 1000;
+                    var over_time = 8 * 1000;
                     var toast_loading = new Toast({ type: 1, text: opts.toastText }); // loading...
                     var showLoadingAsync = setTimeout(() => {
                         toast_loading.showToast();

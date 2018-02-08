@@ -190,7 +190,7 @@
                 .then(res => {
                     if (res.code === 10000) {
                         const data = res.data;
-                        const units = data.roPartses;
+                        const units = data.roPartses || [];
                         this.possessesFetch = data.processes;
                         this.unitsPlatmetal = units
                             .filter(unit => unit.partsType === 2)

@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import io from 'socket.io-client'
 import * as R from '../api/Api';
 
 let storage = window.localStorage;
@@ -14,10 +13,14 @@ export default new Vuex.Store({
         timeGap: 0,  // int(ms)
         queryKey: '',
         lineList: [],
+        pushInfo: {},
 	},
 	getters: {
         getCurrentTime (state) {
 	        return Date.now() + state.timeGap;
+        },
+        getPushInfo (state) {
+            return state.pushInfo;
         },
         getQueryKey (state) {
 	        return state.queryKey;
@@ -102,6 +105,9 @@ export default new Vuex.Store({
         fetchLineList (state, payload) {
             payload.lineList && (state.lineList = payload.lineList);
         },
+        updatePushInfo (state, payload) {
+            state.pushInfo = Object.assign({}, state.pushInfo, payload);
+        },
         updateFromPush (state, payload) {
             const { workshopRo, roStats } = payload.content;
             try {
@@ -112,6 +118,9 @@ export default new Vuex.Store({
                     case 3:
                         state.orders = state.orders.map(order => {
                             if (order.roId === workshopRo.roId) {
+                                if (workshopRo.roStatus === 2) {
+                                    return;
+                                }
                                 return workshopRo
                             }
                             return order;
@@ -187,42 +196,6 @@ export default new Vuex.Store({
                 })
 
         },
-        updateFromPushAsync ({ commit }) {
-            Bu.st.getToken()
-                .then(token => {
-                    const socket = io(`https://comet.tuhu.work/banpen?token=${token}&channel=shop&ua=pc&module=tab&shopId=38&userId=WQ${Date.now()}`);    // mock data
-                    // const socket = io(`https://comet.tuhu.work/banpen?token=${token}&channel=banpen&ua=h5&module=tab`);
-                    socket.on('connect', () => {
-                        console.log('connect socket');
-                    });
-                    socket.on('disconnect', () => {
-                        console.log('disconnect');
-                    });
-                    socket.on('error',(msg) => {
-                        console.log(`error ${msg}`);
-                    });
-                    socket.on('PushMessage', function(msg){
-                        console.log("PushMessage", msg);
-                        commit({
-                            type: 'updateFromPush',
-                            ...JSON.parse(msg).msg
-                        });
-                    });
-                    // var socket = io('path', {
-                    //     polling: {
-                    //         extra: token
-                    //     }
-                    // })
-                    // fetch ({
-                    //     body:
-                    //      condition: ['定点推送']
-                    // })
-                    //  token 失效 客户端onError 重连
-                    //  client use series id to make sure push info completed,
-                    //  resend the request if doesn't meet the des above
-                });
-
-        }
     }
 
 

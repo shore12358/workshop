@@ -69,7 +69,7 @@
         created () {
             this.techId = Bu.st.getTechInfoSync().techId;
             this.myProcessList = Bu.st.getKey('myProcessList');
-            Bu.setHeadline('工单详情');
+            Bu.setHeadline('工单详情')
             getOrderDetail(this.orderId)
                 .then(res => {
                     if (res.code === 10000) {

@@ -89,7 +89,7 @@
             },
             interrupt (reason) {
                 const postData = {
-                    optDescription: reason,
+                    remark: reason,
                     processId: this.pId,
                     roId: this.roId,
                 };
