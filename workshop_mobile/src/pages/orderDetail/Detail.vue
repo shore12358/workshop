@@ -27,7 +27,7 @@
                     </li>
                     <li>
                         <span class="label" >是否加急：</span>
-                        <span class="content" v-show="typeof detail.isEmergency === 'number'">{{detail.isEmergency === 0 ? '加急' : '不加急'}}</span>
+                        <span class="content" v-show="typeof detail.isEmergency === 'number'">{{detail.isEmergency === 1 ? '加急' : '不加急'}}</span>
                     </li>
                     <li>
                         <span class="label" >到厂日期：</span>
