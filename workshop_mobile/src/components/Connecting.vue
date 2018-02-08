@@ -1,5 +1,5 @@
 <template>
-    <div class="shadow-wrapper">
+    <div class="shadow-wrapper"  @touchmove="prevent($event)">
         <div class="connecting-wrapper">
             <h5>页面连接中...</h5>
             <p>稍等片刻，<br>连接成功后弹窗将自动关闭</p>
@@ -9,10 +9,17 @@
 <script>
     export default {
         name: 'connecting',
+        methods: {
+            prevent (e) {
+                e.preventDefault();
+            }
+        },
     };
 </script>
 
 <style lang="stylus" scoped>
+    @import "../styles/Util.styl"
+
     .shadow-wrapper
         position fixed
         width 100%
@@ -31,7 +38,7 @@
         radius(7)
         text-align center
         h5
-            margin-top .17rem
+            margin-top .2rem
             margin-bottom .12rem
             font-size .17rem
             color #000
