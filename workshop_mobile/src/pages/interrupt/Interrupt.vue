@@ -3,7 +3,7 @@
         <Multiselect v-model.trim="selectReason" :options="interruptOptions" placeholder="选择中断原因" :searchable="false" :close-on-select="true" :show-labels="false" class="selectReason" :allow-empty="false"></Multiselect>
         <div class="input-wrapper">
             <textarea id="reason-input" placeholder="请输入中断原因（限150字）" v-model.trim="inputReason" @keyup="keyup" :disabled="!selectReason"></textarea>
-            <div class="tip">{{inputReason.length}}/150</div>
+            <div class="tip"><span :class="`${inputReason.length === 150 ? 'tip-red' : ''}`">{{inputReason.length}}</span>/{{150 - inputReason.length}}</div>
         </div>
         <Toast :text="toast_conf.text" v-show="toast_conf.shown"></Toast>
         <div class="btn-group">
@@ -89,7 +89,7 @@
             },
             interrupt (reason) {
                 const postData = {
-                    optDescription: reason,
+                    remark: reason,
                     processId: this.pId,
                     roId: this.roId,
                 };
@@ -121,6 +121,8 @@
         bottom d = .1rem
         right d
         color #666
+    .tip-red
+        color co-red
     #reason-input
         border 1px solid bbc
         background-color #f9f9f9

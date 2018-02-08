@@ -63,10 +63,17 @@ const myFetch = (url, data) => {
 
                 if (opts.showToast !== false) {
                     var travel_time = 2 * 1000;
+                    var over_time = 8 * 1000;
                     var toast_loading = new Toast({ type: 1, text: opts.toastText }); // loading...
                     var showLoadingAsync = setTimeout(() => {
                         toast_loading.showToast();
                     }, travel_time);
+                    var overTimeAsync = setTimeout(() => {
+                        const toast_error = new Toast({ type: 2 });
+                        toast_loading.hideToast();
+                        toast_error.showToast();
+                        reject();
+                    }, over_time);
                 }
 
                 const req_obj = {};
@@ -92,11 +99,9 @@ const myFetch = (url, data) => {
                 fetch(url, req_obj)
                     .then(res => {
                         if (opts.showToast !== false) {
-                            try {
-                                clearTimeout(showLoadingAsync);
-                            } catch (e) {
+                            clearTimeout(showLoadingAsync);
+                            clearTimeout(overTimeAsync);
 
-                            }
                             toast_loading.hideToast();
                         }
                         switch (res.status) {
@@ -120,11 +125,9 @@ const myFetch = (url, data) => {
                     .catch(() => {
                         const toast_error = new Toast({ type: 2 }); // error
                         if (opts.showToast !== false) {
-                            try {
-                                clearTimeout(showLoadingAsync);
-                            } catch (e) {
+                            clearTimeout(showLoadingAsync);
+                            clearTimeout(overTimeAsync);
 
-                            }
                             toast_loading.hideToast();
                         }
                         toast_error.showToast();

@@ -94,6 +94,11 @@
                 <p class="des-note">{{detail.remark}}</p>
             </div>
 
+            <div class="wrapper" v-if="detail.reworkCause">
+                <p class="title">返工原因</p>
+                <p class="des-note">{{detail.reworkCause}}</p>
+            </div>
+
             <div class="wrapper" v-if="detail.roMaintenLogs instanceof Array && detail.roMaintenLogs.length > 0">
                 <p class="title">维修记录</p>
                 <div class="fix-record">

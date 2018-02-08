@@ -36,7 +36,7 @@
         </div>
         <div class="input-wrapper">
             <textarea id="reason-input" placeholder="请输入返工原因（限150字）" v-model.trim="inputReason" @keyup="keyup"></textarea>
-            <div class="tip">{{inputReason.length}}/150</div>
+            <div class="tip"><span :class="`${inputReason.length === 150 ? 'tip-red' : ''}`">{{inputReason.length}}</span>/{{150 - inputReason.length}}</div>
         </div>
 
         <div class="btn-group">
@@ -190,7 +190,7 @@
                 .then(res => {
                     if (res.code === 10000) {
                         const data = res.data;
-                        const units = data.roPartses;
+                        const units = data.roPartses || [];
                         this.possessesFetch = data.processes;
                         this.unitsPlatmetal = units
                             .filter(unit => unit.partsType === 2)
@@ -303,4 +303,6 @@
         bottom d = .1rem
         right d
         color #666
+    .tip-red
+        color co-red
 </style>
