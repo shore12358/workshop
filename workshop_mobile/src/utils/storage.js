@@ -7,11 +7,13 @@ class Storage {
         this.tokenCallback = [];
         this.techInfoCallback = [];
         // this.setToken('some token in dev env');
-        // this.setTechInfo({ techId: 11369, employeeId: 9, techName: '测试员工姓名', shopId: 38, shopName: '途虎平湖店'});
+        // this.setTechInfo({ techId: 11369, employeeId: 3455, techName: '测试员工姓名', shopId: 38, shopName: '途虎平湖店'});
     }
 
     setTechInfo (info) {
-        this.techInfo = typeof info === 'object' ? info : JSON.parse(info);
+        let _techInfo = typeof info === 'object' ? info : JSON.parse(info);
+        typeof _techInfo.employeeId === 'string' && (_techInfo.employeeId = Number(_techInfo.employeeId));
+        this.techInfo = _techInfo;
         if (this.techInfo && this.techInfoCallback.length) {
             for (let cb of this.techInfoCallback) {
                 cb(this.techInfo)
