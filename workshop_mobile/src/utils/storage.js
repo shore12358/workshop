@@ -12,7 +12,11 @@ class Storage {
 
     setTechInfo (info) {
         let _techInfo = typeof info === 'object' ? info : JSON.parse(info);
-        typeof _techInfo.employeeId === 'string' && (_techInfo.employeeId = Number(_techInfo.employeeId));
+        try {
+            typeof _techInfo.employeeId === 'string' && (_techInfo.employeeId = Number(_techInfo.employeeId));
+        } catch (e) {
+
+        }
         this.techInfo = _techInfo;
         if (this.techInfo && this.techInfoCallback.length) {
             for (let cb of this.techInfoCallback) {
