@@ -66,6 +66,7 @@
                             const _obj = { active: true };
                             _obj[versionKey] = version;
 
+                            this.getPushInfo[versionKey] + 1 < version && this.initAsync();
                             this.updatePushInfo(_obj);
                             console.log("PushMessage", msg);
 
