@@ -3,7 +3,7 @@
         <OrderCardTabs :tabs="tabs" @tabChange="tabChange"></OrderCardTabs>
         <div v-infinite-scroll="load" infinite-scroll-disabled="loading" infinite-scroll-distance="10" class="scroll-container">
             <div v-for="od in _orders[tabIndex]" :key="od.roId">
-                <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor" :techPic="techPic"></OrderCard>
+                <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor" :techPic="techPic" :showProcess="false"></OrderCard>
             </div>
             <Loading :loading="loading"></Loading>
         </div>

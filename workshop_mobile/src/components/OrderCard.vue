@@ -11,12 +11,12 @@
                     <div class="progress" :class="`text-${progressRate > 100 ? 'red' : 'blue'}`">{{progressRate}}%</div>
                 </div>
                 <div class="img-waiting-box" v-else>
-                    <div class="profile-wrapper" v-if="order.techId || order.techId">
+                    <div class="profile-wrapper" v-if="order.techId || order.techId2">
                         <img :src="profilePic" alt="">
                     </div>
                     <div class="circle" v-else>待派</div>
                 </div>
-                <span>{{order.carNumber}}</span>
+                <span class="carNumber">{{order.carNumber}}</span>
                 <span class="brand">{{order.carType}}</span>
             </div>
             <ul class="part-box">
@@ -28,12 +28,15 @@
         </div>
         <div class="bottom">
             <ul>
-                <li>工 单 号：<span>{{order.roNumber}}</span></li>
+                <li class="space-three">工 单 号：<span>{{order.roNumber}}</span></li>
                 <li>进厂日期：<span v-transDate="order.inTime"></span></li>
             </ul>
             <ul>
                 <li>计划完工：<span :class="`text-${themeColor}`" v-transDate="order.planCompletedTime"></span></li>
-                <li v-show="order.techName || order.techName2">施 工 人：<span>{{order.techName + (order.techName2 ? '、' + order.techName2 : '')}}</span></li>
+                <li v-show="order.techName || order.techName2" class="space-three">施 工 人：<span>{{order.techName + (order.techName2 ? '、' + order.techName2 : '')}}</span></li>
+            </ul>
+            <ul v-if="showProcess">
+                <li>当前工序：<span>{{order.processName}}</span></li>
             </ul>
         </div>
     </div>
@@ -60,7 +63,7 @@
                 return _rate > 999 ? 999 : _rate;
             }
         },
-        props: ['order', 'currentTime', 'getOrderColor', 'techPic'],
+        props: ['order', 'currentTime', 'getOrderColor', 'techPic', 'showProcess'],
         mounted () {
 
         },
@@ -197,6 +200,8 @@
                 .brand
                     text-light()
                     margin-left .05rem
+                .carNumber
+                    min-width .55rem
             .part-box
                 co-flex()
                 li
@@ -217,6 +222,10 @@
         .bottom
             padding co-padding co-padding 0.02rem
             text-light(0.12rem)
+            .space-three
+                letter-spacing .01rem
+                span
+                    letter-spacing 0
             ul
                 co-flex(flex-start)
                 li

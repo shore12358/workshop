@@ -12,7 +12,6 @@
         name: 'tabs',
         data() {
           return {
-              techId: 123,
               nav: [
                 {
                     key: 0,

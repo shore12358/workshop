@@ -80,11 +80,11 @@ const getOrderDetail = (id) => {
 const getProcessListByTechId = () => {
     return Bu.st.getTechInfo()
         .then(techInfo => {
-            const { techId } = techInfo;
+            const { employeeId } = techInfo;
             return Bu.fetch(API.getProcessListByTechId, {
                 method: 'post',
                 postData: {
-                    EmployeeID: techId
+                    EmployeeID: employeeId
                 }
             });
     });

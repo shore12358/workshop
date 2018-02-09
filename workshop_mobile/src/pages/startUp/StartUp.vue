@@ -49,7 +49,7 @@
             },
             techAssigned () {
                 const techIdFromOrder = new Array(this.order.techId, this.order.techId2);
-                return techIdFromOrder.filter(techId => techId !== null && techId !== this.me.techId).pop();
+                return techIdFromOrder.filter(techId => techId !== null && techId !== this.me.employeeId).pop();
             }
         },
         created () {
@@ -60,7 +60,7 @@
                         const _techList = [];
                         res.data.forEach(group => _techList.push(...group.Technicians));
                         this.techList = _techList
-                            .filter(tech => tech.EmployeeID !== this.me.techId)
+                            .filter(tech => tech.EmployeeID !== this.me.employeeId)
                             .map((tech, index) => {
                                 tech.choosen = tech.EmployeeID === this.techAssigned ? true : false;
                                 return tech;
@@ -87,7 +87,7 @@
                 const postData = {
                     processId: this.pId,
                     roId: this.roId,
-                    techId: this.me.techId,
+                    techId: this.me.employeeId,
                     techId2: anotherTech.EmployeeID,
                     techName: this.me.techName,
                     techName2: anotherTech.EmployeeName
