@@ -4,7 +4,7 @@
             <OrderCardTabs :tabs="tabs" @tabChange="tabChange"></OrderCardTabs>
             <div v-infinite-scroll="load" infinite-scroll-disabled="loading" infinite-scroll-distance="10" class="scroll-container">
                 <div v-for="od in _orders[tabIndex]" :key="od.roId">
-                    <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor" :techPic="techPic"></OrderCard>
+                    <OrderCard :order="od" :currentTime="getCurrentTime" :getOrderColor="getOrderColor" :techPic="techPic" :showProcess="true"></OrderCard>
                 </div>
                 <Loading :loading="loading"></Loading>
             </div>
@@ -13,8 +13,6 @@
             <img src="https://img3.tuhu.org/PeccancyCheXingYi/4ffe/b332/7a87bec61b47fbdb9f9eabf4_w324_h193.png@100Q.png" alt="">
             <p>您目前没有在做任务哦！</p>
         </div>
-
-
     </div>
 </template>
 
