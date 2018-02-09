@@ -28,6 +28,12 @@
             MainCard,
             DashboardList,
             Searchbar
+        },
+        created () {
+            Bu.st.getTechInfo()
+                .then(techInfo => {
+                    Bu.setHeadline(techInfo.shopName);
+                });
         }
     }
 </script>
