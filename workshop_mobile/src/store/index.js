@@ -38,7 +38,7 @@ export default new Vuex.Store({
             return JSON.parse(storage.getItem('orders')) || [];
         },
         getMyOrders (state) {
-            const _techId = Bu.st.getTechInfoSync().techId;
+            const _techId = Bu.st.getTechInfoSync().employeeId;
             const orders = state.orders.length ? state.orders : JSON.parse(storage.getItem('orders'));
             try {
                 const techId = Number(_techId);

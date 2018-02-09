@@ -11,7 +11,7 @@
                     <div class="progress" :class="`text-${progressRate > 100 ? 'red' : 'blue'}`">{{progressRate}}%</div>
                 </div>
                 <div class="img-waiting-box" v-else>
-                    <div class="profile-wrapper" v-if="order.techId || order.techId">
+                    <div class="profile-wrapper" v-if="order.techId || order.techId2">
                         <img :src="profilePic" alt="">
                     </div>
                     <div class="circle" v-else>待派</div>
