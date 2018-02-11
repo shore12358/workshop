@@ -29,17 +29,17 @@ export default new Vuex.Store({
 	        if (state.orderCounts) {
 	            return state.orderCounts;
             }
-	        return JSON.parse(storage.getItem('orderCounts')) || {};
+            return Bu.st.getKey('orderCounts') || {};
         },
         getAllOrders(state) {
             if (state.orders.length) {
                 return state.orders;
             }
-            return JSON.parse(storage.getItem('orders')) || [];
+            return Bu.st.getKey('orders') || [];
         },
         getMyOrders (state) {
             const _techId = Bu.st.getTechInfoSync().employeeId;
-            const orders = state.orders.length ? state.orders : JSON.parse(storage.getItem('orders'));
+            const orders = state.orders.length ? state.orders : Bu.st.getKey('orders');
             try {
                 const techId = Number(_techId);
                 return orders.filter(order => techId == order.techId || techId == order.techId2);
@@ -58,14 +58,14 @@ export default new Vuex.Store({
                 }
                 return state.orders;
             }
-            return JSON.parse(storage.getItem('orders')) || [];
+            return Bu.st.getKey('orders') || [];
 
         },
         getLineList (state) {
 	        if (state.lineList.length) {
 	            return state.lineList;
             }
-            return JSON.parse(storage.getItem('lineList')) || [];
+            return Bu.st.getKey('lineList') || [];
         },
         getWorkingZoneList: (state, getters) => (lineId) => {
             return getters.getLineList.find(line => line.LineID === Number(lineId)).ProcesseList.slice(1);
@@ -164,8 +164,8 @@ export default new Vuex.Store({
                         orderCounts: roStats,
                         timeGap: Math.abs(time_gap) < 10 * 1000 ? 0 : time_gap
                     });
-                    storage.setItem('orders', JSON.stringify(workshopRos));
-                    storage.setItem('orderCounts', JSON.stringify(roStats));
+                    Bu.st.setKey('orders', workshopRos);
+                    Bu.st.setKey('orderCounts', roStats);
                 })
 
         },
@@ -191,7 +191,7 @@ export default new Vuex.Store({
                             type: 'fetchLineList',
                             lineList: data
                         });
-                        storage.setItem('lineList', JSON.stringify(data));
+                        Bu.st.setKey('lineList', data);
                     }
                 })
 
