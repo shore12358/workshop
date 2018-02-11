@@ -122,7 +122,7 @@ const myFetch = (url, data) => {
 
                         }
                     })
-                    .catch(() => {
+                    .catch((e) => {
                         const toast_error = new Toast({ type: 2 }); // error
                         if (opts.showToast !== false) {
                             clearTimeout(showLoadingAsync);
@@ -131,6 +131,7 @@ const myFetch = (url, data) => {
                             toast_loading.hideToast();
                         }
                         toast_error.showToast();
+                        console.log('Fetch Error: ', e);
                         reject();
                     })
             })
