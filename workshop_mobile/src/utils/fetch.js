@@ -119,6 +119,9 @@ const myFetch = (url, data) => {
                                 resolve(res.json());
                                 break;
                             default:
+                                const toast_error = new Toast({ type: 2 }); // error
+                                toast_error.showToast();
+                                reject()
 
                         }
                     })
