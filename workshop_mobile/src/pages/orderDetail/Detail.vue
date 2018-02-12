@@ -52,14 +52,14 @@
                         <div class="units-suite" v-if="pu.partsDegree === -1">
                             <ul class="item">
                                 <li>{{pu.partsName}}<span class="rework-text" v-if="pu.reworked">(返)</span></li>
-                                <li>{{pu.partsCount}}</li>
+                                <li>{{pu.actPartsAmount}}</li>
                                 <li></li>
                             </ul>
                             <p class="des-note">{{pu.remark}}</p>
                         </div>
                         <ul class="units-item" v-else>
                             <li>{{pu.partsName}}<span class="rework-text" v-if="pu.reworked">(返)</span></li>
-                            <li>{{pu.partsCount}}</li>
+                            <li>{{pu.actPartsAmount}}</li>
                             <li>{{pu.partsDegreeName}}</li>
                         </ul>
                     </div>
@@ -75,14 +75,14 @@
                         <div class="units-suite" v-if="pu.partsDegree === -1">
                             <ul class="item">
                                 <li>{{pu.partsName}}<span class="rework-text" v-if="pu.reworked">(返)</span></li>
-                                <li>{{pu.partsCount}}</li>
+                                <li>{{pu.actPartsAmount}}</li>
                                 <li></li>
                             </ul>
                             <p class="des-note">{{pu.remark}}</p>
                         </div>
                         <ul class="units-item" v-else>
                             <li>{{pu.partsName}}<span class="rework-text" v-if="pu.reworked">(返)</span></li>
-                            <li>{{pu.partsCount}}</li>
+                            <li>{{pu.actPartsAmount}}</li>
                             <li>{{pu.partsDegreeName}}</li>
                         </ul>
                     </div>
