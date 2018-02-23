@@ -5,7 +5,6 @@ import router from './router';
 import infiniteScroll from 'vue-infinite-scroll';
 import store from './store/index';
 import 'isomorphic-fetch';
-require('es6-promise').polyfill();
 import Multiselect from 'vue-multiselect';
 import TransDate from './directives/date';
 import Popout from './components/Popout';
