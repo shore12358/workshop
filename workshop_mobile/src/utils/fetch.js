@@ -79,7 +79,6 @@ const myFetch = (url, data) => {
                 const req_obj = {};
                 req_obj.method = data.method.toUpperCase() || 'GET';
                 req_obj.headers = Object.assign({
-                    'Accept': 'application/json',
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }, data.headers);
