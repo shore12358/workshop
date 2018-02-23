@@ -68,6 +68,7 @@
 
                             this.getPushInfo[versionKey] + 1 < version && this.initAsync();
                             this.updatePushInfo(_obj);
+                            this.updateFromPush(message.msg);
                             console.log("PushMessage", msg);
 
                         });
