@@ -1,7 +1,6 @@
 const __PRO__ = 'PRODUCTION';
 const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
-// const TEST_SERVER_NET = 'https://shopapi-dev.tuhu.work';
-const TEST_SERVER_NET = 'http://172.16.24.110:9091';
+const TEST_SERVER_NET = 'https://shopapi-dev.tuhu.work';
 let PRO_SERVER;
 let server_net, server_java;
 
