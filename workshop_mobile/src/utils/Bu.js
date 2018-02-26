@@ -14,6 +14,7 @@ window.technicianBack = data => {
 };
 
 window.tokenBack = data => {
+    console.log('refresh token from app: ' + data);
     Bu.st.setToken(data);
 };
 
