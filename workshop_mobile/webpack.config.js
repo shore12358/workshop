@@ -10,7 +10,7 @@ const ENTRY_PATH = path.join(__dirname, './src/main.js');
 const config = {
     entry: {
         app: ENTRY_PATH,
-        vendor: ['vue-router', 'vue-multiselect', 'isomorphic-fetch', 'socket.io-client']
+        vendor: ['vue-router', 'vue-multiselect', 'socket.io-client']
     },
     output: {
         publicPath: '/WorkShopH5/',
