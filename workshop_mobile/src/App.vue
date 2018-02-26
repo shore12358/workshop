@@ -109,8 +109,7 @@
                             try {
                                 if (JSON.parse(msg).statusCode == 401) {
                                     Bu.st.fetchToken();
-                                    this.initSocket();
-                                    socket.close();
+                                    socket.open();
                                     console.log('invalid token, socket waiting to reopen...');
                                 }
                             } catch (e) {
