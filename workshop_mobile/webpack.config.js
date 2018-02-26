@@ -69,7 +69,7 @@ const config = {
             minChunks: 2
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, './src/_index.html'),
+            template: path.join(__dirname, './src/index.html'),
         }),
         new ExtractTextPlugin('[name].css')
     ]
