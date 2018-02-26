@@ -106,6 +106,17 @@
 
                         socket.on('error', msg => {
                             console.log(`error ${msg}`);
+                            try {
+                                if (JSON.parse(msg).statusCode == 401) {
+                                    Bu.st.fetchToken();
+                                    this.initSocket();
+                                    socket.close();
+                                    console.log('invalid token, socket waiting to reopen...');
+                                }
+                            } catch (e) {
+
+                            }
+
                         });
                     });
             },
