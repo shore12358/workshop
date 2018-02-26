@@ -1,15 +1,19 @@
 const __PRO__ = 'PRODUCTION';
 const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
 const TEST_SERVER_NET = 'https://shopapi.tuhu.work';
+const SERVER_JAVA = 'https://workshopapi.tuhu.cn';
+const SERVER_NET = 'https://shopapiut.tuhu.cn';
 let PRO_SERVER;
 let server_net, server_java;
 
-// if (process.env.NODE_ENV === __PRO__) {
-//
-// } else {
+if (process.env.NODE_ENV === __PRO__) {
+    server_net = SERVER_JAVA;
+    server_java = SERVER_NET;
+
+} else {
     server_net = TEST_SERVER_NET;
     server_java = TEST_SERVER_JAVA;
-// }
+}
 
 const API = {
     getAllOrders: `${server_java}/rest/workshop/ro/getIndex`,
