@@ -49,7 +49,14 @@
             initSocket () {
                 Bu.st.getToken()
                     .then(token => {
-                        const socket = io(`https://comet.tuhu.work/banpen?token=${token}&channel=banpen&ua=h5&module=tab`);
+                        const socket = io(`https://comet.tuhu.work/banpen`, {
+                            query: {
+                                token,
+                                channel: 'banpen',
+                                ua: 'h5',
+                                module: 'tab'
+                            }
+                        });
                         socket.on('connect', () => {
                             console.log('socket connected');
                         });
@@ -57,6 +64,11 @@
                             console.log('disconnect');
                             this.updatePushInfo({ active: false });
 
+                        });
+                        socket.on('reconnect_attempt', () => {
+                            const token = Bu.st.getTokenSync();
+                            socket.io.opts.query = { token };
+                            console.log('reconnect use token: ' + token);
                         });
                         socket.on('PushMessage', msg => {
 

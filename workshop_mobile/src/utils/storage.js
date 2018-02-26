@@ -6,7 +6,7 @@ class Storage {
         // mock token
         this.tokenCallback = [];
         this.techInfoCallback = [];
-        this.setToken('some token in dev env');
+        // this.setToken('some token in dev env');
         // this.setTechInfo({ techId: 11369, employeeId: 3455, techName: '测试员工姓名', shopId: 38, shopName: '途虎平湖店'});
     }
 
@@ -59,6 +59,9 @@ class Storage {
             this.tokenCallback.push(resolve);
         });
 
+    }
+    getTokenSync () {
+        return this.userToken;
     }
     fetchToken () {
         this.setToken('');
