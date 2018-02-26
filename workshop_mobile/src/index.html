@@ -15,17 +15,34 @@
             'https://img3.tuhu.org/PeccancyCheXingYi/9b1a/bb4e/04d21e7280b2370b33fa88bc_w200_h200.png@100Q.png',
             'https://img3.tuhu.org/PeccancyCheXingYi/4ffe/b332/7a87bec61b47fbdb9f9eabf4_w324_h193.png@100Q.png'
         ];
-        for (let imgUrl of imgUrls) {
+        imgUrls.forEach(function (imgUrl){
             const img = new Image();
             img.src = imgUrl;
-
-        }
+        });
     </script>
 </head>
 <body>
     <div id='app'></div>
     <script src="https://res.tuhu.org/vue/lib/js/vue.js"></script>
     <script src="https://res.tuhu.org/vue/lib/js/vuex.js"></script>
+    <script type="text/javascript">
+        fetch('https://shopapi-dev.tuhu.work/api/LineProcess/GetLineProcessList', {
+            method: 'post',
+            headers: {
+                'content-type': 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjkxM0ZBOEY1MTgzQzYwMkUwQjQxMjdFMEY0Q0JFOUQ1NjE1QjNERTIiLCJ0eXAiOiJKV1QifQ.eyJuYmYiOjE1MTkzODAzOTYsImV4cCI6MTUxOTM4Mzk5NiwiaXNzIjoiaHR0cHM6Ly9hY2Nlc3MudHVodS53b3JrIiwiYXVkIjpbImh0dHBzOi8vYWNjZXNzLnR1aHUud29yay9yZXNvdXJjZXMiLCJzaXRlX3NhcGkiLCJzaXRlX3Nob3BhcGkiLCJzaXRlX3dvcmtzaG9wYXBpIl0sImNsaWVudF9pZCI6InNhcGkudHVodS5jbiIsInN1YiI6IjA4ZDU2Yzc2NGNiMmMxNjg1N2MzNTEwNzY3NDJkNWVkIiwiYXV0aF90aW1lIjoxNTE5MzgwMzk2LCJpZHAiOiJUZWNobmljaWFuIiwiaWQiOjExODY5LCJuYW1lIjoiY2hlbmxpYW5nVGVzdCIsInNjb3BlIjpbInNpdGVfc2FwaSIsInNpdGVfc2hvcGFwaSIsInNpdGVfd29ya3Nob3BhcGkiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiVGVjaG5pY2lhbiJdfQ.H09RhmyLerdAJk3t-3cd8ChFLQRJ9dISon7urKlHZsaKs5NqnTzUHUnbATT05d-h7obXfRiInMSx2IqTKL6zB2ScMT0gLe-70mXIcEJn96A-m9dQSDFYSIY8q5vLlh8njiqdGvF558kT5y494e8jhQtHNIH6hJOhhN7zxOw_aLLbpNP3dLH--WuqcD-4huCw5WVMonB6wjaSaogGulbLfobavobyEGEUyTIbvaKHvnFcd3-Wvbiue4Y2UMUT_EOyOUn3cKBS89joWlqEosJoGS1bZRhXo-kB3vET4SA9p_d_ZhFySyLBfyxU-ik-kZS3klbNqerrzZ1xzuaQcuAhKw'
+            },
+            body: JSON.stringify({"apiVersion":"","blackBox":"","channel":"platemetal_h5","umengChannel":"","postData":{"ShopID":"38"}})
+        }).then(function(res){console.log('got list successfully')});
 
+        fetch('https://shopapi-dev.tuhu.work/api/LineProcess/GetProcessListByEmployeeID', {
+            method: 'post',
+            headers: {
+                'content-type': 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjkxM0ZBOEY1MTgzQzYwMkUwQjQxMjdFMEY0Q0JFOUQ1NjE1QjNERTIiLCJ0eXAiOiJKV1QifQ.eyJuYmYiOjE1MTkzODAzOTYsImV4cCI6MTUxOTM4Mzk5NiwiaXNzIjoiaHR0cHM6Ly9hY2Nlc3MudHVodS53b3JrIiwiYXVkIjpbImh0dHBzOi8vYWNjZXNzLnR1aHUud29yay9yZXNvdXJjZXMiLCJzaXRlX3NhcGkiLCJzaXRlX3Nob3BhcGkiLCJzaXRlX3dvcmtzaG9wYXBpIl0sImNsaWVudF9pZCI6InNhcGkudHVodS5jbiIsInN1YiI6IjA4ZDU2Yzc2NGNiMmMxNjg1N2MzNTEwNzY3NDJkNWVkIiwiYXV0aF90aW1lIjoxNTE5MzgwMzk2LCJpZHAiOiJUZWNobmljaWFuIiwiaWQiOjExODY5LCJuYW1lIjoiY2hlbmxpYW5nVGVzdCIsInNjb3BlIjpbInNpdGVfc2FwaSIsInNpdGVfc2hvcGFwaSIsInNpdGVfd29ya3Nob3BhcGkiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiVGVjaG5pY2lhbiJdfQ.H09RhmyLerdAJk3t-3cd8ChFLQRJ9dISon7urKlHZsaKs5NqnTzUHUnbATT05d-h7obXfRiInMSx2IqTKL6zB2ScMT0gLe-70mXIcEJn96A-m9dQSDFYSIY8q5vLlh8njiqdGvF558kT5y494e8jhQtHNIH6hJOhhN7zxOw_aLLbpNP3dLH--WuqcD-4huCw5WVMonB6wjaSaogGulbLfobavobyEGEUyTIbvaKHvnFcd3-Wvbiue4Y2UMUT_EOyOUn3cKBS89joWlqEosJoGS1bZRhXo-kB3vET4SA9p_d_ZhFySyLBfyxU-ik-kZS3klbNqerrzZ1xzuaQcuAhKw'
+            },
+            body: JSON.stringify({"apiVersion":"","blackBox":"","channel":"platemetal_h5","umengChannel":"","postData":{"EmployeeID":3455}})
+        }).then(function(res){console.log('got employeedId successfully')});
+    </script>
 </body>
 </html>
