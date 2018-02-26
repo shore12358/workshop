@@ -46,7 +46,6 @@ class Storage {
         if (this.userToken && this.tokenCallback.length) {
             for (let cb of this.tokenCallback) {
                 cb(this.userToken);
-                console.log('passed a new token' + this.userToken);
             }
             this.tokenCallback.length = 0;
         }
