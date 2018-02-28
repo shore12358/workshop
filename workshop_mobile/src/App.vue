@@ -68,7 +68,12 @@
                         });
                         socket.on('reconnect_attempt', () => {
                             const token = Bu.st.getTokenSync();
-                            socket.io.opts.query = { token };
+                            socket.io.opts.query = {
+                                token,
+                                channel: 'banpen',
+                                ua: 'h5',
+                                module: 'tab'
+                            };
                             console.log('reconnect use token: ' + token);
                         });
                         socket.on('PushMessage', msg => {
