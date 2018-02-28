@@ -87,7 +87,7 @@ const myFetch = (url, data) => {
                     const _body = {
                         apiVersion: '',
                         blackBox: '',
-                        channel: 'platemetal_h5',
+                        channel: 'banpen.h5',
                         umengChannel: '',
                         postData: data.postData
                     };
