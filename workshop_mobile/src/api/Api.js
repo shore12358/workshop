@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'PRODUCTION';
 const __PRO__ = 'PRODUCTION';
 const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
 const TEST_SERVER_NET = 'https://shopapi.tuhu.work';
