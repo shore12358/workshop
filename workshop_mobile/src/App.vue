@@ -49,8 +49,8 @@
             initSocket () {
                 Bu.st.getToken()
                     .then(token => {
-                        const socket = io(`https://comet.tuhu.cn/banpen`, {
-//                        const socket = io(`https://comet.tuhu.work/banpen`, {
+//                        const socket = io(`https://comet.tuhu.cn/banpen`, {
+                        const socket = io(`https://comet.tuhu.work/banpen`, {
                             query: {
                                 token,
                                 channel: 'banpen',
@@ -59,7 +59,7 @@
                             }
                         });
                         socket.on('connect', () => {
-                            console.log('socket connected');
+                            console.log('socket connected with sokcetId: ' + socket.id);
                         });
                         socket.on('disconnect', () => {
                             console.log('disconnect');
