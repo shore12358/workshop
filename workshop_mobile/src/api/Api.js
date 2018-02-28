@@ -1,4 +1,4 @@
-const __PRO__ = 'PRODUCTION';
+const __ENV__ = 'PRODUCTION';
 const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
 const TEST_SERVER_NET = 'https://shopapi.tuhu.work';
 const SERVER_JAVA = 'https://workshopapi.tuhu.cn';
@@ -6,8 +6,7 @@ const SERVER_NET = 'https://shopapiut.tuhu.cn';
 let PRO_SERVER;
 let server_net, server_java;
 
-//if (process.env.NODE_ENV === __PRO__) {
-if (1 === 1) {
+if (__ENV__ === 'PRODUCTION') {
     server_net = SERVER_NET;
     server_java = SERVER_JAVA;
 
