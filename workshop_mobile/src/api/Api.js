@@ -1,19 +1,30 @@
 const __ENV__ = 'PRODUCTION';
 // const __ENV__ = 'DEVELOPMENT';
-const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
-const TEST_SERVER_NET = 'https://shopapi.tuhu.work';
+// const __ENV__ = 'TEST';
+const DEV_SERVER_JAVA = 'https://workshopapi.tuhu.work';
+const DEV_SERVER_NET = 'https://shopapi.tuhu.work';
+const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.cn';
+const TEST_SERVER_NET = 'https://shopapiut.tuhu.cn';
 const SERVER_JAVA = 'https://workshopapi.tuhu.cn';
-const SERVER_NET = 'https://shopapiut.tuhu.cn';
+const SERVER_NET = 'https://shopapi.tuhu.cn';
 let PRO_SERVER;
 let server_net, server_java;
 
-if (__ENV__ === 'PRODUCTION') {
-    server_net = SERVER_NET;
-    server_java = SERVER_JAVA;
+switch (__ENV__) {
+    case 'PRODUCTION':
+        server_net = SERVER_NET;
+        server_java = SERVER_JAVA;
+        break;
 
-} else {
-    server_net = TEST_SERVER_NET;
-    server_java = TEST_SERVER_JAVA;
+    case 'TEST':
+        server_net = TEST_SERVER_NET;
+        server_java = TEST_SERVER_JAVA;
+        break;
+
+    default:
+        server_net = DEV_SERVER_NET;
+        server_java = DEV_SERVER_JAVA;
+
 }
 
 const API = {
