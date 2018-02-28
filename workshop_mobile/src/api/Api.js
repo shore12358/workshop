@@ -7,9 +7,8 @@ let PRO_SERVER;
 let server_net, server_java;
 
 if (process.env.NODE_ENV === __PRO__) {
-    server_net = SERVER_JAVA;
-    server_java = SERVER_NET;
-
+    server_net = SERVER_NET;
+    server_java = SERVER_JAVA;
 } else {
     server_net = TEST_SERVER_NET;
     server_java = TEST_SERVER_JAVA;
