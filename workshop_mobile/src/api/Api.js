@@ -1,5 +1,5 @@
-// const __ENV__ = 'PRODUCTION';
-const __ENV__ = 'DEVELOPMENT';
+const __ENV__ = 'PRODUCTION';
+// const __ENV__ = 'DEVELOPMENT';
 const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.work';
 const TEST_SERVER_NET = 'https://shopapi.tuhu.work';
 const SERVER_JAVA = 'https://workshopapi.tuhu.cn';
@@ -97,13 +97,18 @@ const getProcessListByTechId = () => {
 };
 
 const getTechListByProcessId = (pId) => {
-    return Bu.fetch(API.getTechListByProcessId, {
-        method: 'post',
-        postData: {
-            ShopID: 38,
-            ProcessID: pId
-        }
-    });
+    return Bu.st.getTechInfo()
+        .then(techInfo => {
+            const { shopId } = techInfo;
+            return Bu.fetch(API.getTechListByProcessId, {
+                method: 'post',
+                postData: {
+                    ShopID: shopId,
+                    ProcessID: pId
+                }
+            });
+        });
+
 };
 
 const processStartUp = (postData) => {
