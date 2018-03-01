@@ -264,6 +264,8 @@
                 span
                     font-weight normal
     .fix-label
+        display: inline-block;
+        transform: translate3d(0, -.02rem, 0);
         padding 0.01rem .04rem
         radius(2)
         border 1px solid co-blue-bright

@@ -42,6 +42,7 @@
         },
         created () {
             const REFRESH_TIME = 60 * 1000;
+            this.updateOvertimeCounts({ overTimeNum: this.getOverTimeNum });
             this.countInterval = setInterval(() => {
                 this.updateOvertimeCounts({ overTimeNum: this.getOverTimeNum });
             }, REFRESH_TIME)
