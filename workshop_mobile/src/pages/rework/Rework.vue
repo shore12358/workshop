@@ -62,6 +62,7 @@
                 unitsPlatmetal: [],
                 unitsPaint: [],
                 techList: [],
+                reworkProcessId: null,
                 toast_conf: {
                     text: '',
                     shown: false
@@ -129,6 +130,7 @@
                 const _techInfo = Object.assign({}, this.techList.find(tech => tech.choosen));
                 delete _techInfo.processName;
                 delete _techInfo.choosen;
+                delete _techInfo.processId;
                 return _techInfo;
             },
             checkReasonInfo () {
@@ -165,7 +167,7 @@
                     return;
                 }
 
-                const postData = Object.assign({ roId: this.roId }, techInfo, unitsInfo, reasonInfo);
+                const postData = Object.assign({ roId: this.roId, processId: this.reworkProcessId }, techInfo, unitsInfo, reasonInfo);
                 reworkProcess(postData)
                     .then(res => {
                         if (res.code === 10000) {
@@ -212,6 +214,7 @@
             reProcess (_reProcess) {
                 const start_rework_process = this.possessesFetch.find(process => process.processName.trim() === _reProcess);
                 if (_reProcess) {
+                    this.reworkProcessId = start_rework_process.processId;
                     this.techList = this.possessesFetch
                         .filter(possess => possess.processId >= start_rework_process.processId && possess.processId < this.pId)
                         .map(item => {
