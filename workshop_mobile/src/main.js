@@ -4,7 +4,7 @@ import App from './App';
 import router from './router';
 import infiniteScroll from 'vue-infinite-scroll';
 import store from './store/index';
-import 'es6-symbol/implement';
+var Symbol = require('es6-symbol');
 import Multiselect from 'vue-multiselect';
 import TransDate from './directives/date';
 import Popout from './components/Popout';
