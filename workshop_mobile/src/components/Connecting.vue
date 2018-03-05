@@ -1,8 +1,8 @@
 <template>
     <div class="shadow-wrapper"  @touchmove="prevent($event)">
         <div class="connecting-wrapper">
-            <h5>页面连接中...</h5>
-            <p>稍等片刻，<br>连接成功后弹窗将自动关闭</p>
+            <h5 v-html="title"></h5>
+            <p v-html="text"></p>
         </div>
     </div>
 </template>
@@ -14,6 +14,7 @@
                 e.preventDefault();
             }
         },
+        props: ['title', 'text'],
     };
 </script>
 

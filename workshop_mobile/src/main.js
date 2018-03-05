@@ -2,6 +2,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import 'isomorphic-fetch';
 import infiniteScroll from 'vue-infinite-scroll';
 import store from './store/index';
 import Multiselect from 'vue-multiselect';

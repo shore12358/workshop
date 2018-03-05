@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Connecting v-if="this.getPushInfo.active === false"></Connecting>
+    <Connecting v-if="this.getPushInfo.active === false" :title="connect_conf.title" :text="connect_conf.text"></Connecting>
     <router-view></router-view>
   </div>
 </template>
@@ -15,7 +15,10 @@
         name: 'app',
         data () {
             return {
-
+              connect_conf: {
+                  title: "页面连接中...",
+                  text: "稍等片刻，<br>连接成功后弹窗将自动关闭"
+              }
             }
         },
         computed: {
