@@ -10,6 +10,11 @@
 - vue: https://cn.vuejs.org/
 - vuex: https://vuex.vuejs.org/zh-cn/intro.html
 - vue-router: https://router.vuejs.org/zh-cn/
+- vue 插件
+    - vue-chartjs: http://vue-chartjs.org/#/
+    - vue-multiselect: https://github.com/shentao/vue-multiselect
+    - vue-infinite-scroll: https://github.com/ElemeFE/vue-infinite-scroll
+    - vue-awesome: https://github.com/Justineo/vue-awesome/blob/master/README.zh_CN.md, https://fontawesome.com/icons
 - websocket
     - https://socket.io/
     - https://github.com/tuhu/wiki/blob/master/nodejs%E6%9C%8D%E5%8A%A1/banpen.md

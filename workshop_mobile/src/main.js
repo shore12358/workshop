@@ -4,7 +4,7 @@ import App from './App';
 import router from './router';
 import infiniteScroll from 'vue-infinite-scroll';
 import store from './store/index';
-// import 'isomorphic-fetch';
+import 'es6-symbol/implement';
 import Multiselect from 'vue-multiselect';
 import TransDate from './directives/date';
 import Popout from './components/Popout';
