@@ -91,9 +91,10 @@ export default new Vuex.Store({
 
 	    // get all orders and counts
         init (state, payload) {
-            state.orders && (state.orders = payload.orders);
-            payload.orderCounts && (state.orderCounts = payload.orderCounts);
-            payload.timeGap && (state.timeGap = payload.timeGap);
+            'orders' in payload && (state.orders = payload.orders);
+            'orderCounts' in payload && (state.orderCounts = payload.orderCounts);
+            'timeGap' in payload && (state.timeGap = payload.timeGap);
+
         },
         updateOvertimeCounts (state, payload) {
             try {
@@ -103,7 +104,7 @@ export default new Vuex.Store({
             }
         },
         fetchLineList (state, payload) {
-            payload.lineList && (state.lineList = payload.lineList);
+            'lineList' in payload && (state.lineList = payload.lineList);
         },
         updatePushInfo (state, payload) {
             state.pushInfo = Object.assign({}, state.pushInfo, payload);
@@ -151,9 +152,11 @@ export default new Vuex.Store({
                 .catch(err => {
                     commit({
                         type: 'init',
-                        orders: JSON.parse(storage.getItem('orders')),
-                        orderCounts: JSON.parse(storage.getItem('orderCounts')),
+                        orders: [],
+                        orderCounts: null,
                     });
+                    Bu.st.setKey('orders', null);
+                    Bu.st.setKey('orderCounts', null);
                 })
                 .then(res => {
                     const { workshopRos, roStats, currentTime } = res.data;
@@ -174,8 +177,9 @@ export default new Vuex.Store({
                 .catch(err => {
                     commit({
                         type: 'fetchLineList',
-                        lineList: JSON.parse(storage.getItem('lineList'))
+                        lineList: []
                     });
+                    Bu.st.setKey('lineList', null);
                 })
                 .then(res => {
                     const { data } = res;
