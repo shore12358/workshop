@@ -19,10 +19,10 @@
                   title: "页面连接中...",
                   text: "稍等片刻，<br>连接成功后弹窗将自动关闭"
               },
-              reload_conf: {
-                  title: "已中断...",
-                  text: "您已使用<br>其他移动设备登录"
-              }
+//              reload_conf: {
+//                  title: "已中断...",
+//                  text: "您已使用<br>其他移动设备登录"
+//              }
             }
         },
         computed: {
