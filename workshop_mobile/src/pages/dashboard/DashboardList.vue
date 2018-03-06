@@ -90,7 +90,7 @@
     .container
         padding 0.05rem 0.16rem 0.16rem
     .selectLine
-        width 32%
+        width 33%
         margin-bottom 0.05rem
         font-weight bold
         color #333
