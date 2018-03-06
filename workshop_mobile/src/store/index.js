@@ -117,15 +117,16 @@ export default new Vuex.Store({
                         state.orders = [...state.orders, workshop];
                         break;
                     case 3:
-                        state.orders = state.orders.map(order => {
-                            if (order.roId === workshopRo.roId) {
-                                if (workshopRo.roStatus === 2) {
-                                    return;
+                        if (workshopRo.roStatus === 2) {
+                            state.orders = state.orders.filter(order => order.roId !== workshopRo.roId);
+                        } else {
+                            state.orders = state.orders.map(order => {
+                                if (order.roId === workshopRo.roId) {
+                                    return workshopRo
                                 }
-                                return workshopRo
-                            }
-                            return order;
-                        });
+                                return order;
+                            });
+                        }
                         break;
                     case 4:
                         state.orders = state.orders.filter(order => order.roId !== workshopRo.roId);
