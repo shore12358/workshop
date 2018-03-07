@@ -1,6 +1,6 @@
 <template>
     <ul class="nav">
-        <li v-for="(ot, index) in navText" :key="index" :class="`${permissionOk(index + 1) ? 'selectable': ''}`" @click="operationPageGo(index + 1)">{{ot}}</li>
+        <li v-for="(ot, index) in navText" :key="index" :class="`${permissionOk(index + 1) ? 'selectable': ''}`" @touchstart="operationPageGo(index + 1)">{{ot}}</li>
     </ul>
 </template>
 

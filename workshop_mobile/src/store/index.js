@@ -151,7 +151,7 @@ export default new Vuex.Store({
         initAsync ({ commit }) {
             R.getAllOrders()
                 .then(res => {
-                    alert('function getOrders is running into then block');
+                    // alert('function getOrders is running into then block');
                     try {
                         const { workshopRos, roStats, currentTime } = res.data;
                         const time_gap = currentTime - Date.now();
@@ -168,7 +168,7 @@ export default new Vuex.Store({
                     }
                 })
                 .catch(err => {
-                    alert('function getOrders is running into catch block');
+                    // alert('function getOrders is running into catch block');
                     commit({
                         type: 'init',
                         orders: [],
@@ -182,7 +182,7 @@ export default new Vuex.Store({
 	    fetchLineListAsync ({ commit }) {
             R.getLineList()
                 .then(res => {
-                    alert('function getLineList is running into then block');
+                    // alert('function getLineList is running into then block');
                     try {
                         const { data } = res;
                         if (data instanceof Array && data.length > 0 ) {
@@ -204,7 +204,7 @@ export default new Vuex.Store({
                     }
                 })
                 .catch(err => {
-                    alert('function getLineList is running into catch block');
+                    // alert('function getLineList is running into catch block');
                     commit({
                         type: 'fetchLineList',
                         lineList: []

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Multiselect v-model="line" :options="lineOptions" placeholder="请选择" :searchable="false" :close-on-select="true" :show-labels="false" class="selectLine" :allow-empty="false"></Multiselect>
-        <div class="card" v-for="(pi, index) in processList.ProcesseList" :key="pi.ProcessID" @click="orderListGo(pi.ProcessID, pi.ProcessName, index)">
+        <div class="card" v-for="(pi, index) in processList.ProcesseList" :key="pi.ProcessID" @touchstart="orderListGo(pi.ProcessID, pi.ProcessName, index)">
             <div class="left">{{pi.ProcessName}}</div>
             <ul class="right">
                 <li class="working" v-if="pi.ProcessID !== 0">
@@ -90,11 +90,15 @@
     .container
         padding 0.05rem 0.16rem 0.16rem
     .selectLine
-        width 33%
+        width 30%
         margin-bottom 0.05rem
         font-weight bold
         color #333
-
+    @media screen and (max-width: 350px) {
+        .selectLine {
+            width 33%
+        }
+    }
     .card
         height 0.44rem
         margin-bottom 0.1rem
