@@ -3,15 +3,15 @@
         <p class="title">开工工序：{{pName}}</p>
         <p class="note">协同技师：</p>
         <div class="technician-list">
-            <div :class="`technician-item ${tech.choosen ? 'item-checked' : ''}`" v-for="tech in techList" :key="tech.EmployeeID" @touchstart="handleItem(tech)">
+            <div :class="`technician-item ${tech.choosen ? 'item-checked' : ''}`" v-for="tech in techList" :key="tech.EmployeeID" @click="handleItem(tech)">
                 <div>{{tech.EmployeeName}}
                 </div>
                 <Icon name="check-circle" class="icon-check" ></Icon>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-default" @touchstart="detailGo">取消</div>
-            <div class="btn btn-confirm" @touchstart="startUp">确定</div>
+            <div class="btn btn-default" @click="detailGo">取消</div>
+            <div class="btn btn-confirm" @click="startUp">确定</div>
         </div>
 
     </div>

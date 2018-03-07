@@ -7,8 +7,8 @@
         </div>
         <Toast :text="toast_conf.text" v-show="toast_conf.shown"></Toast>
         <div class="btn-group">
-            <div class="btn btn-default" @touchstart="detailGo">取消</div>
-            <div class="btn btn-confirm" @touchstart="validate">确定</div>
+            <div class="btn btn-default" @click="detailGo">取消</div>
+            <div class="btn btn-confirm" @click="validate">确定</div>
         </div>
     </div>
 </template>
