@@ -1,6 +1,6 @@
 <template>
     <div class="tabs">
-        <div :class="`item ${focusIndex === n.key ? 'item-bright' : ''}`" v-for="n in nav" :key="n.key" @click="handleTab(n.key)">
+        <div :class="`item ${focusIndex === n.key ? 'item-bright' : ''}`" v-for="n in nav" :key="n.key" @touchstart="handleTab(n.key)">
             <Icon :name="n.icon" class="tab-icon" scale="1.5"></Icon>
             <p>{{n.text}}</p>
         </div>

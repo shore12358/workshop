@@ -1,6 +1,6 @@
 <template>
     <ul class="tabs">
-        <li v-for="(t, index) in tabs" :key="index" @click="handleTab(index)">
+        <li v-for="(t, index) in tabs" :key="index" @touchstart="handleTab(index)">
             {{t.text}} {{t.num}}
             <span :class="`color-block ${ index === focusIndex ? 'blue-block' : '' }`" ></span>
         </li>
