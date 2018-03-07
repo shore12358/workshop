@@ -163,6 +163,11 @@
     d-blue = #dae9fb
     d-orange = #f57c33
 
+    @keyframes move
+        from
+            transform translate3d(0, -0.32rem, 0)
+        to
+            transform translate3d(0, 0, 0)
     grid(bg)
         padding .05rem .1rem
         background-color bg
@@ -185,6 +190,7 @@
         font-size .14rem
         color d-orange
         background-color #fdffdf
+        animation: move .4s ease-in-out;
         line-height .32rem
     .basic-detail
         &>li
