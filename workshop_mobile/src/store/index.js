@@ -151,6 +151,7 @@ export default new Vuex.Store({
         initAsync ({ commit }) {
             R.getAllOrders()
                 .catch(err => {
+                    console.log('initAsync function run into catch block.');
                     commit({
                         type: 'init',
                         orders: [],
@@ -176,6 +177,7 @@ export default new Vuex.Store({
 	    fetchLineListAsync ({ commit }) {
             R.getLineList()
                 .catch(err => {
+                    console.log('fetchLineListAsync function run into catch block.');
                     commit({
                         type: 'fetchLineList',
                         lineList: []
