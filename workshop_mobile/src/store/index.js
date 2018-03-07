@@ -150,6 +150,23 @@ export default new Vuex.Store({
     actions: {
         initAsync ({ commit }) {
             R.getAllOrders()
+                .then(res => {
+                    alert('function getOrders is running into then block');
+                    try {
+                        const { workshopRos, roStats, currentTime } = res.data;
+                        const time_gap = currentTime - Date.now();
+                        commit({
+                            type: 'init',
+                            orders: workshopRos,
+                            orderCounts: roStats,
+                            timeGap: Math.abs(time_gap) < 10 * 1000 ? 0 : time_gap
+                        });
+                        Bu.st.setKey('orders', workshopRos);
+                        Bu.st.setKey('orderCounts', roStats);
+                    } catch (e) {
+
+                    }
+                })
                 .catch(err => {
                     alert('function getOrders is running into catch block');
                     commit({
@@ -160,23 +177,32 @@ export default new Vuex.Store({
                     Bu.st.setKey('orders', null);
                     Bu.st.setKey('orderCounts', null);
                 })
-                .then(res => {
-                    alert('function getOrders is running into then block');
-                    const { workshopRos, roStats, currentTime } = res.data;
-                    const time_gap = currentTime - Date.now();
-                    commit({
-                        type: 'init',
-                        orders: workshopRos,
-                        orderCounts: roStats,
-                        timeGap: Math.abs(time_gap) < 10 * 1000 ? 0 : time_gap
-                    });
-                    Bu.st.setKey('orders', workshopRos);
-                    Bu.st.setKey('orderCounts', roStats);
-                })
 
         },
 	    fetchLineListAsync ({ commit }) {
             R.getLineList()
+                .then(res => {
+                    alert('function getLineList is running into then block');
+                    try {
+                        const { data } = res;
+                        if (data instanceof Array && data.length > 0 ) {
+                            data.forEach(line => {
+                                line.ProcesseList.unshift({
+                                    ProcessID: 0,
+                                    ProcessName: '等待区'
+                                });
+                            });
+
+                            commit({
+                                type: 'fetchLineList',
+                                lineList: data
+                            });
+                            Bu.st.setKey('lineList', data);
+                        }
+                    } catch (e) {
+
+                    }
+                })
                 .catch(err => {
                     alert('function getLineList is running into catch block');
                     commit({
@@ -184,24 +210,6 @@ export default new Vuex.Store({
                         lineList: []
                     });
                     Bu.st.setKey('lineList', null);
-                })
-                .then(res => {
-                    alert('function getLineList is running into then block');
-                    const { data } = res;
-                    if (data instanceof Array && data.length > 0 ) {
-                        data.forEach(line => {
-                            line.ProcesseList.unshift({
-                                ProcessID: 0,
-                                ProcessName: '等待区'
-                            });
-                        });
-
-                        commit({
-                            type: 'fetchLineList',
-                            lineList: data
-                        });
-                        Bu.st.setKey('lineList', data);
-                    }
                 })
 
         },
