@@ -1,5 +1,5 @@
 <template>
-    <div :class="`orderCard border-${themeColor} ${order.processStatus === 2 ? 'card-opacity' : ''}`" @touchstart="detailPageGo">
+    <div :class="`orderCard border-${themeColor} ${order.processStatus === 2 ? 'card-opacity' : ''}`" @click="detailPageGo">
         <div class="top">
             <div class="tag-wrapper">
                 <span class="tag-urgent" v-if="order.isEmergency">加急

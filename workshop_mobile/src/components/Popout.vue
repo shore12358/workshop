@@ -1,14 +1,14 @@
 <template>
     <div @touchmove="prevent($event)">
-        <div class="shadow" @touchstart="cancel"></div>
+        <div class="shadow" @click="cancel"></div>
         <div class="popout-wrapper">
             <div class="w-top">
                 <h5>{{pod.title || ''}}</h5>
                 <p>{{pod.text || ''}}</p>
             </div>
             <ul class="w-btn">
-                <li @touchstart="cancel">取消</li>
-                <li :class="`text-${pod['confirm_color'] || 'blue'}`" @touchstart="confirm">确定</li>
+                <li @click="cancel">取消</li>
+                <li :class="`text-${pod['confirm_color'] || 'blue'}`" @click="confirm">确定</li>
             </ul>
 
         </div>

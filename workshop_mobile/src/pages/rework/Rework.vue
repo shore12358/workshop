@@ -3,7 +3,7 @@
         <Multiselect v-model.trim="reProcess" :options="reProcessOptions" placeholder="选择返工工序" :searchable="false" :close-on-select="true" :show-labels="false" class="selectReProcess" :allow-empty="false"></Multiselect>
         <div v-if="techList.length > 0">
             <h5 class="title">主要责任技师：</h5>
-            <div :class="`list-item ${tech.choosen ? 'item-checked' : ''}`" v-for="tech in techList" :key="tech.processId" @touchstart="handleTech(tech)">
+            <div :class="`list-item ${tech.choosen ? 'item-checked' : ''}`" v-for="tech in techList" :key="tech.processId" @click="handleTech(tech)">
                 {{tech.processName}}：{{tech.techName}}{{tech.techName2 ? `、${tech.techName2}` : ''}}
                 <Icon name="check-circle" class="icon-check" ></Icon>
             </div>
@@ -11,7 +11,7 @@
 
         <div v-if="unitsPlatmetal.length > 0 && reProcess">
             <h5 class="title">返工项目-钣金：</h5>
-            <div :class="`list-item ${unit.choosen ? 'item-checked' : ''}`" v-for="unit in unitsPlatmetal" :key="unit.partsId" @touchstart="handelMulti(unit)">
+            <div :class="`list-item ${unit.choosen ? 'item-checked' : ''}`" v-for="unit in unitsPlatmetal" :key="unit.partsId" @click="handelMulti(unit)">
                 <div class="list-box">
                     {{unit.partsName}}
                     <p v-if="unit.remark">{{unit.remark}}</p>
@@ -21,7 +21,7 @@
         </div>
         <div v-if="unitsPaint.length > 0 && reProcess">
             <h5 class="title">返工项目-油漆：</h5>
-            <div :class="`list-item ${unit.choosen ? 'item-checked' : ''}`" v-for="unit in unitsPaint" :key="unit.partsId" @touchstart="handelMulti(unit)">
+            <div :class="`list-item ${unit.choosen ? 'item-checked' : ''}`" v-for="unit in unitsPaint" :key="unit.partsId" @click="handelMulti(unit)">
                 <div class="list-box">
                     {{unit.partsName}}
                     <p v-if="unit.remark">{{unit.remark}}</p>
@@ -32,7 +32,7 @@
 
         <h5 class="title">选择返工原因（多选）</h5>
         <div>
-            <span :class="`reason-item ${it.choosen ? 'reason-item-picked' : ''}`" v-for="it in reasonOptions" :key="it.itemId" @touchstart="handelMulti(it)">{{it.itemName}}</span>
+            <span :class="`reason-item ${it.choosen ? 'reason-item-picked' : ''}`" v-for="it in reasonOptions" :key="it.itemId" @click="handelMulti(it)">{{it.itemName}}</span>
         </div>
         <div class="input-wrapper">
             <textarea id="reason-input" placeholder="请输入返工原因（限150字）" v-model.trim="inputReason" @keyup="keyup"></textarea>
@@ -40,8 +40,8 @@
         </div>
 
         <div class="btn-group">
-            <div class="btn btn-default" @touchstart="cancel">取消</div>
-            <div class="btn btn-confirm" @touchstart="rework">确定</div>
+            <div class="btn btn-default" @click="cancel">取消</div>
+            <div class="btn btn-confirm" @click="rework">确定</div>
         </div>
         <Toast :text="toast_conf.text" v-show="toast_conf.shown"></Toast>
 
