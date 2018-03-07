@@ -70,7 +70,7 @@ class Storage {
     setKey (key, val) {
         try {
             if (val !== undefined) {
-                localStorage.setItem(key, JSON.stringify(val));
+                localStorage.setItem(key, val === null ? null : JSON.stringify(val));
             }
         } catch (e) {
 
