@@ -1,6 +1,6 @@
 <template>
     <ul class="nav">
-        <li v-for="(ot, index) in navText" :key="index" :class="`${permissionOk(index + 1) ? 'selectable': ''}`" @click="operationPageGo(index + 1)">{{ot}}</li>
+        <li v-for="(ot, index) in navText" :key="index" :class="`${permissionOk(index + 1) ? 'selectable': 'disabled'}`" @click="operationPageGo(index + 1)">{{ot}}</li>
     </ul>
 </template>
 
@@ -58,6 +58,8 @@
             background-color co-blue-bright
             color white
             border-right 1px solid #dae9fb
+        .disabled
+            text-shadow: 0 1px 1px white
         li
             flex 1
             co-flex()

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="Object.keys(detail).length">
         <div class="rework-title" v-if="detail.isReworkStep">此工单为返工工单</div>
         <div class="container">
             <div class="wrapper">
