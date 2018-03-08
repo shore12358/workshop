@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: 'nav',
+        name: 'navBar',
         props: ['permission', 'isQualityProcess'],
         computed: {
             navText () {
