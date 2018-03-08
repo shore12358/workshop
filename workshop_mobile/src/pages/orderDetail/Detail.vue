@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="Object.keys(detail).length">
         <div class="rework-title" v-if="detail.isReworkStep">此工单为返工工单</div>
         <div class="container">
             <div class="wrapper">
@@ -136,6 +136,7 @@
                 try {
                     return this.detail.roPartses.filter(unit => unit.partsType === 2);
                 } catch (e) {
+                    console.warn(new TypeError('attr roPartes in detail obj'));
                     return [];
                 }
             },
@@ -143,6 +144,7 @@
                 try {
                     return this.detail.roPartses.filter(unit => unit.partsType === 1);
                 } catch (e) {
+                    console.warn(new TypeError('attr roPartes in detail obj'));
                     return [];
                 }
             }

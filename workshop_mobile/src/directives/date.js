@@ -8,6 +8,7 @@ const setDateString = (timeStamp) => {
         return `${year.toString().slice(-2)}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${time.toString().slice(0, 5)}`;
 
     } catch (e) {
+        console.warn(new TypeError('wrong received date format.'));
         return '--/--/--';
     }
 };

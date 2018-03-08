@@ -3,7 +3,7 @@ class Toast {
         const { type, animTime, text } = conf_obj;
         this.__locked__ = false;
         this.type = type;
-        this.text = text || '加载中';
+        this.text = text || '请稍候';
         this.animTime = type === 2 ? (animTime || 1000) : null;
         this.$el = document.createElement('div');
         this.$el.id = `toast_${Date.now()}`;

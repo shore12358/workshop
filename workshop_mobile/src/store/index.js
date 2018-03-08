@@ -44,6 +44,7 @@ export default new Vuex.Store({
                 const techId = Number(_techId);
                 return orders.filter(order => techId == order.techId || techId == order.techId2);
             } catch (e) {
+                console.warn(new TypeError('attr techId or attr orders'));
                 return [];
             }
         },
@@ -100,7 +101,7 @@ export default new Vuex.Store({
             try {
                 state.orderCounts.overtimeNum =  payload.overTimeNum;   //  update when req finished
             } catch (e) {
-
+                console.warn(new TypeError('state.orderCounts'));
             }
         },
         fetchLineList (state, payload) {
@@ -136,7 +137,7 @@ export default new Vuex.Store({
                 }
                 state.orderCounts = roStats;
             } catch (e) {
-
+                console.warn('mutation updateFromPush failed.');
             }
             Bu.st.setKey('orders', state.orders);
             Bu.st.setKey('orderCounts', state.orderCounts);
@@ -164,7 +165,7 @@ export default new Vuex.Store({
                         Bu.st.setKey('orders', workshopRos);
                         Bu.st.setKey('orderCounts', roStats);
                     } catch (e) {
-
+                        console.warn('action initAsync failed.');
                     }
                 })
                 .catch(err => {
@@ -200,7 +201,7 @@ export default new Vuex.Store({
                             Bu.st.setKey('lineList', data);
                         }
                     } catch (e) {
-
+                        console.warn('action fetchLineListAsync failed.');
                     }
                 })
                 .catch(err => {

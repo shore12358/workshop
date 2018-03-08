@@ -126,7 +126,7 @@
                                     console.log('invalid token, socket waiting to reopen...');
                                 }
                             } catch (e) {
-
+                                console.warn(new TypeError('socket msg passed from error is not obj'));
                             }
 
                         });
