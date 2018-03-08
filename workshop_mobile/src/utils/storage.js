@@ -15,7 +15,7 @@ class Storage {
         try {
             typeof _techInfo.employeeId === 'string' && (_techInfo.employeeId = Number(_techInfo.employeeId));
         } catch (e) {
-
+            console.warn(new TypeError('unexpected techInfo when setting.'));
         }
         this.techInfo = _techInfo;
         if (this.techInfo && this.techInfoCallback.length) {
@@ -73,7 +73,7 @@ class Storage {
                 localStorage.setItem(key, val === null ? null : JSON.stringify(val));
             }
         } catch (e) {
-
+            console.warn('set localStorage key:', key, 'failed');
         }
 
     }
@@ -81,6 +81,7 @@ class Storage {
         try {
             return JSON.parse(localStorage.getItem(key));
         } catch (e) {
+            console.warn('get localStorage key:', key, 'failed');
             return undefined;
         }
     }
