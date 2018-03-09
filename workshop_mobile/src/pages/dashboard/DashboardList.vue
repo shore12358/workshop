@@ -134,9 +134,5 @@
                 p
                     color co-blue-bright
                     font-weight 600
-
-
-
-
-
+    
 </style>
