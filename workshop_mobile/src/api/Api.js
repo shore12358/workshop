@@ -1,6 +1,6 @@
-// const __ENV__ = 'PRODUCTION';
+const __ENV__ = 'PRODUCTION';
 // const __ENV__ = 'DEVELOPMENT';
-const __ENV__ = 'TEST';
+// const __ENV__ = 'TEST';
 const DEV_SERVER_JAVA = 'https://workshopapi.tuhu.work';
 const DEV_SERVER_NET = 'https://shopapi.tuhu.work';
 const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.cn';
