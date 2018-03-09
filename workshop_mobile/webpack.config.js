@@ -11,7 +11,7 @@ const ENTRY_PATH = path.join(__dirname, './src/main.js');
 const config = {
     entry: {
         app: ENTRY_PATH,
-        vendor: ['vue-router', 'vue-multiselect', 'socket.io-client', 'isomorphic-fetch']
+        vendor: ['vue-router', 'vue-multiselect', 'socket.io-client', 'isomorphic-fetch', 'moment']
     },
     output: {
         publicPath: '/WorkShopH5/',
@@ -76,7 +76,6 @@ const config = {
     externals: {
         vue: 'Vue',
         vuex: 'Vuex',
-        'vue-chartjs': 'vue-chartjs'
 
     },
     plugins: [
@@ -91,17 +90,6 @@ const config = {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, './src/index.html'),
         }),
-        new CopyWebpackPlugin([
-            {
-                from: './src/static/chart.min.js',
-                to: 'chart.min.js'
-            },
-            {
-                from: './src/static/vue-chartjs.min.js',
-                to: 'vue-chartjs.min.js'
-            },
-
-        ])
     ]
 };
 if (process.env.NODE_ENV === __PRO__) {
