@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const __PRO__ = 'PRODUCTION';
 const PORT = 5626;
@@ -22,18 +23,31 @@ const config = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
+                // split css from .vue
+                // options: {
+                //     loaders: {
+                //         css: ExtractTextPlugin.extract({
+                //             use: 'css-loader',
+                //             fallback: 'vue-style-loader'
+                //         }),
+                //         stylus: ExtractTextPlugin.extract({
+                //             fallback: 'vue-style-loader',
+                //             use: ['css-loader', 'postcss-loader', 'stylus-loader']
+                //         }),
+                //     }
+                // },
             },
             {
                 test: /\.styl$/,
                 use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', 'stylus-loader', 'postcss-loader']
+                    fallback: 'vue-style-loader',
+                    use: ['css-loader', 'postcss-loader', 'stylus-loader']
                 })
             },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
+                loader: 'babel-loader'
             },
             {
                 test: /\.(png|jpg|gif)$/,
@@ -45,7 +59,7 @@ const config = {
                                 return '[name].[ext]?[hash]'
                             },
                             // publicPath: '/',
-                            outputPath: 'static/images/'
+                            outputPath: 'imgs/'
 
                         }
                     }
@@ -56,22 +70,38 @@ const config = {
     resolve: {
         extensions: ['.js', '.json', '.vue'],
         alias: {
-            vue: 'vue/dist/vue.js'
+            vue: 'vue/dist/vue.js',
         }
     },
     externals: {
         vue: 'Vue',
         vuex: 'Vuex',
+        'vue-chartjs': 'vue-chartjs'
+
     },
     plugins: [
+        new ExtractTextPlugin({
+            filename: 'css/[name].[hash].css',
+            allChunks: true
+        }),
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['common', 'vendor'],
-            minChunks: 2
+            name: 'vendor',
+            minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, './src/index.html'),
         }),
-        new ExtractTextPlugin('[name].css')
+        new CopyWebpackPlugin([
+            {
+                from: './src/static/chart.min.js',
+                to: 'chart.min.js'
+            },
+            {
+                from: './src/static/vue-chartjs.min.js',
+                to: 'vue-chartjs.min.js'
+            },
+
+        ])
     ]
 };
 if (process.env.NODE_ENV === __PRO__) {

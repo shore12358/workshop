@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Nav :permission="permission" :isQualityProcess="isQualityProcess" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo" @reworkGo="reworkGo"></Nav>
+        <NavBar :permission="permission" :isQualityProcess="isQualityProcess" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo" @reworkGo="reworkGo"></NavBar>
         <Detail :detail="detail"></Detail>
         <Popout @confirm="confirm" @cancel="cancel" :pod="popout_conf" v-show="showPopout"></Popout>
     </div>
 </template>
 
 <script>
-    import Nav from './Nav';
+    import NavBar from './Nav';
     import Detail from './Detail';
     import { mapGetters, mapMutations } from 'vuex';
     import { processCompleted, getOrderDetail } from '../../api/Api';
@@ -190,7 +190,7 @@
             },
         },
         components: {
-            Nav,
+            NavBar,
             Detail
         }
 
