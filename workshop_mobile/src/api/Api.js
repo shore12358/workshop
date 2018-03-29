@@ -29,21 +29,21 @@ switch (__ENV__) {
 }
 
 const API = {
-    getAllOrders: `${server_java}/test/workshop/ro/getIndex`,
-    getOrderDetail: `${server_java}/test/workshop/ro/getRoDetail`,
+    getAllOrders: `${server_java}/rest/workshop/ro/getIndex`,
+    getOrderDetail: `${server_java}/rest/workshop/ro/getRoDetail`,
     getLineList: `${server_net}/api/LineProcess/GetLineProcessList`,
     getProcessListByTechId: `${server_net}/api/LineProcess/GetProcessListByEmployeeID`,
     getTechListByProcessId: `${server_net}/api/TechnicianGroup/GetTechnicianListByProcessID`,
-    processStartUp: `${server_java}/test/workshop/ro/startProcess`,
-    processCompleted: `${server_java}/test/workshop/ro/completeProcess`,
-    queryItemMasters: `${server_java}/test/workshop/item/queryItemMasters`,
-    pauseProcess: `${server_java}/test/workshop/ro/pauseProcess`,
-    getReworkInfo: `${server_java}/test/workshop/ro/getRoReworkPage`,
-    reworkProcess: `${server_java}/test/workshop/ro/reworkProcess`,
+    processStartUp: `${server_java}/rest/workshop/ro/startProcess`,
+    processCompleted: `${server_java}/rest/workshop/ro/completeProcess`,
+    queryItemMasters: `${server_java}/rest/workshop/item/queryItemMasters`,
+    pauseProcess: `${server_java}/rest/workshop/ro/pauseProcess`,
+    getReworkInfo: `${server_java}/rest/workshop/ro/getRoReworkPage`,
+    reworkProcess: `${server_java}/rest/workshop/ro/reworkProcess`,
     getUserHeaderImg: `${server_net}/api/TechnicianGroup/GetUserHeaderImg`,
     postProcessPhoto: `${server_java}/rest/workshop/ro/postProcessPartsPhoto`,
-    getProcessPhoto: `${server_java}/test/workshop/ro/queryProcessPartsPhotos`,
-    getOrderPhoto: `${server_java}/test/workshop/ro/getRoPhotoDetail`,
+    getProcessPhoto: `${server_java}/rest/workshop/ro/queryProcessPartsPhotos`,
+    getOrderPhoto: `${server_java}/rest/workshop/ro/getRoPhotoDetail`,
 
 };
 
