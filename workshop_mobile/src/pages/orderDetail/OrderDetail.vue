@@ -1,8 +1,9 @@
 <template>
     <div>
-        <NavBar :permission="permission" :isQualityProcess="isQualityProcess" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo" @reworkGo="reworkGo"></NavBar>
-        <Detail :detail="detail"></Detail>
+        <NavBar :permission="permission" :isQualityProcess="isQualityProcess" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo" @reworkGo="reworkGo" @photographyGo="photographyGo"></NavBar>
+        <Detail :detail="detail" :orderId="orderId"></Detail>
         <Popout @confirm="confirm" @cancel="cancel" :pod="popout_conf" v-show="showPopout"></Popout>
+        <Toast :text="toast_conf.text" v-show="toast_conf.shown"></Toast>
     </div>
 </template>
 
@@ -10,7 +11,7 @@
     import NavBar from './Nav';
     import Detail from './Detail';
     import { mapGetters, mapMutations } from 'vuex';
-    import { processCompleted, getOrderDetail } from '../../api/Api';
+    import { processCompleted, getOrderDetail, getProcessPhoto, postProcessPhoto } from '../../api/Api';
 
     export default {
         name: 'orderDetail',
@@ -23,7 +24,12 @@
                     title: '工单完工',
                     text: '您确定此项工序完工了吗？',
                 },
-                showPopout: false
+                toast_conf: {
+                    text: '',
+                    shown: false
+                },
+                showPopout: false,
+                units_car: []
             }
         },
         computed: {
@@ -63,25 +69,39 @@
                 return this.getWorkingZoneList(this.order.lineId);
             },
             permission () {
-                return this.setPermission(this.processStatus, this.workingZoneList, this.processId);
+                return this.setPermission(this.processStatus, this.workingZoneList, this.processId, this.detail.needProcessPhoto);
             },
+            currentProcessLogId () {
+                try {
+                    return this.detail.roMaintenLogs[0].roMaintenanceLogId;
+                } catch (e) {
+                    return null;
+                }
+            }
         },
         created () {
             this.techId = Bu.st.getTechInfoSync().employeeId;
             this.myProcessList = Bu.st.getKey('myProcessList');
-            Bu.setHeadline('工单详情')
+            Bu.setHeadline('工单详情');
             getOrderDetail(this.orderId)
                 .then(res => {
                     if (res.code === 10000) {
                         this.detail = res.data;
+                        if (this.detail.needProcessPhoto) {
+                            getProcessPhoto(this.currentProcessLogId)
+                                .then(res => {
+                                    this.units_car = this.initUnitsCar(res.data);
+                                });
+                        }
+
                     }
 
                 })
+
         },
         methods: {
             ...mapMutations([
                 'updateFromPush',
-
             ]),
             responsibleForTheProcess (pId) {
                 const { ProcessName, ProcessID } = this.myProcessList.find(process => pId === process.ProcessID) || {};
@@ -100,7 +120,11 @@
              * @param pId {Number} processId of current order
              * @return {Array} represent for possessed permission: 1 start working  2 interrupt 3 finished
              */
-            setPermission (pStatus, pList, pId) {
+            setPermission (pStatus, pList, pId, photoFlag) {
+                const _permission = [];
+                if (photoFlag) {
+                    _permission.push(3);
+                }
                 if (pId === 0) {
                     let process, matched = false;
                     for (process of pList) {
@@ -128,37 +152,35 @@
                             break;
                         }
                     }
-
                     if (matched && this.responsibleForTheProcess(process.ProcessID)) {
-                        return [1]
+                        _permission.push(1);
                     }
-                    return [];
 
                 } else {
                     if (this.responsibleForTheProcess(pId)) {
                         switch (pStatus) {
                             case 0:
                                 if (this.technicianAssigned(this.order) || this.order.techId === null) {
-                                    return [1];
+                                    _permission.push(1);
                                 }
                                 break;
                             case 1:
                                 if (this.technicianAssigned(this.order)) {
-                                    return [2, 3];
+                                    _permission.push(2, 3, 4);
                                 }
                                 break;
                             case 2:
                                 if (this.technicianAssigned(this.order)) {
-                                    return [1];
+                                    _permission.push(1);
                                 }
                                 break;
                             default:
 
                         }
                     }
-                    return [];
 
                 }
+                return _permission;
             },
             confirm () {
                 this.completeWork();
@@ -173,10 +195,18 @@
             completeWork () {
                 processCompleted({ processId: this.processInChargeId, roId: this.orderId })
                     .then(res => {
-                        if (res.code === 10000) {
-                            this.updateFromPush({ content: res.data, crudType: 3 });
-                            this.$router.replace({ path: '/user/dashboard' });
+                        switch (res.code) {
+                            case 10000:
+                                this.updateFromPush({ content: res.data, crudType: 3 });
+                                this.$router.replace({ path: '/user/dashboard' });
+                                break;
+                            case 20109:
+                                this.showToast(res.message);
+                                break;
+                            default:
+
                         }
+
                     });
             },
             startUpGo () {
@@ -187,6 +217,89 @@
             },
             reworkGo () {
                 this.$router.push({ name: 'rework', params: { oId: this.orderId, pId: this.processInChargeId } });
+            },
+            showToast (text) {
+                this.toast_conf = Object.assign({}, { text, shown: true });
+                setTimeout(() => {
+                    this.toast_conf = Object.assign(this.toast_conf, { shown: false });
+                }, 1500);
+            },
+            photographyGo () {
+                const media = {
+                    photography: false,
+                    picPosition: [0, 0],
+                    onlyPreview: false,
+                    data: this.units_car,
+                };
+                console.log('fn photograph is running with params ', media);
+                Bu.st.fetchPhotoList(media);
+                Bu.st.getPhotoList()
+                    .then(pList => {
+                        this.units_car = pList;
+                        const carPartsPhotoMap = this.transferPhotoFormat(pList);
+                        postProcessPhoto({
+                            carPartsPhotoMap,
+                            roMaintenanceLogId: this.currentProcessLogId
+                        })
+                            .then(res => {
+                                if (res.code == 10000) {
+                                    getOrderDetail(this.orderId)
+                                        .then(res => {
+                                            if (res.code === 10000) {
+                                                this.detail = res.data;
+
+                                            }
+                                        });
+                                    return;
+                                }
+                                console.error('error when posting process photos: ', res.message);
+                            })
+
+                    })
+            },
+            transferPhotoFormat (pList) {
+                const general = {
+                    providerCode: 2,
+                    typeCode: 1,
+                };
+                const carPartsPhotoMap = {};
+                for (let unit of this.units_car) {
+                    if (unit.picUrls) {
+                        carPartsPhotoMap[unit.id] = unit.picUrls.map(picUrl => {
+                            return Object.assign({ id: picUrl.Url }, general);
+                        });
+                    } else {
+                        carPartsPhotoMap[unit.id] = null;
+                    }
+                }
+                return carPartsPhotoMap;
+            },
+            initUnitsCar (data) {
+                try {
+                    const units = data.map((unit, index) => {
+                        const s = {
+                            id: unit.partsCode.toString(),
+                            title: unit.partsName,
+                            maxLimit: 0,
+                        };
+                        try {
+                            s.picUrls = unit.partsPhotos.map(pic => {
+                                return {
+                                    DoMain: pic.domain,
+                                    Url: pic.id
+                                };
+                            });
+                        } catch (e) {
+                            s.picUrls = null;
+                        }
+                        return s;
+
+                    });
+                    console.log('unit', units);
+                    return units;
+                } catch (e) {
+                    return [];
+                }
             },
         },
         components: {

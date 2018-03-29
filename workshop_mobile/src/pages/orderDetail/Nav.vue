@@ -11,7 +11,7 @@
         computed: {
             navText () {
                 let _process = this.isQualityProcess ? '返工' : '中断';
-                return new Array('开工', _process, '完工');
+                return new Array('开工', _process, '拍照', '完工');
             },
 
         },
@@ -33,6 +33,9 @@
                             }
                             break;
                         case 3:
+                            this.$emit('photographyGo');
+                            break;
+                        case 4:
                             this.$emit('popoutGo');
                             break;
                         default:

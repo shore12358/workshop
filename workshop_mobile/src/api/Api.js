@@ -1,8 +1,9 @@
-const __ENV__ = 'PRODUCTION';
-// const __ENV__ = 'DEVELOPMENT';
+// const __ENV__ = 'PRODUCTION';
+const __ENV__ = 'DEVELOPMENT';
 // const __ENV__ = 'TEST';
 const DEV_SERVER_JAVA = 'https://workshopapi.tuhu.work';
-const DEV_SERVER_NET = 'https://shopapi.tuhu.work';
+// const DEV_SERVER_NET = 'https://shopapi.tuhu.work';
+const DEV_SERVER_NET = 'https://shopapi-dev.tuhu.work';
 const TEST_SERVER_JAVA = 'https://workshopapi.tuhu.cn';
 const TEST_SERVER_NET = 'https://shopapiut.tuhu.cn';
 const SERVER_JAVA = 'https://workshopapi.tuhu.cn';
@@ -28,18 +29,21 @@ switch (__ENV__) {
 }
 
 const API = {
-    getAllOrders: `${server_java}/rest/workshop/ro/getIndex`,
-    getOrderDetail: `${server_java}/rest/workshop/ro/getRoDetail`,
+    getAllOrders: `${server_java}/test/workshop/ro/getIndex`,
+    getOrderDetail: `${server_java}/test/workshop/ro/getRoDetail`,
     getLineList: `${server_net}/api/LineProcess/GetLineProcessList`,
     getProcessListByTechId: `${server_net}/api/LineProcess/GetProcessListByEmployeeID`,
     getTechListByProcessId: `${server_net}/api/TechnicianGroup/GetTechnicianListByProcessID`,
-    processStartUp: `${server_java}/rest/workshop/ro/startProcess`,
-    processCompleted: `${server_java}/rest/workshop/ro/completeProcess`,
-    queryItemMasters: `${server_java}/rest/workshop/item/queryItemMasters`,
-    pauseProcess: `${server_java}/rest/workshop/ro/pauseProcess`,
-    getReworkInfo: `${server_java}/rest/workshop/ro/getRoReworkPage`,
-    reworkProcess: `${server_java}/rest/workshop/ro/reworkProcess`,
+    processStartUp: `${server_java}/test/workshop/ro/startProcess`,
+    processCompleted: `${server_java}/test/workshop/ro/completeProcess`,
+    queryItemMasters: `${server_java}/test/workshop/item/queryItemMasters`,
+    pauseProcess: `${server_java}/test/workshop/ro/pauseProcess`,
+    getReworkInfo: `${server_java}/test/workshop/ro/getRoReworkPage`,
+    reworkProcess: `${server_java}/test/workshop/ro/reworkProcess`,
     getUserHeaderImg: `${server_net}/api/TechnicianGroup/GetUserHeaderImg`,
+    postProcessPhoto: `${server_java}/rest/workshop/ro/postProcessPartsPhoto`,
+    getProcessPhoto: `${server_java}/test/workshop/ro/queryProcessPartsPhotos`,
+    getOrderPhoto: `${server_java}/test/workshop/ro/getRoPhotoDetail`,
 
 };
 
@@ -60,8 +64,6 @@ const getAllOrders = () => {
                 }
             })
         });
-
-
 };
 
 const getLineList = () => {
@@ -185,6 +187,33 @@ const getUserHeaderImg = (TechnicianId) => {
     });
 };
 
+const postProcessPhoto = (postData) => {
+    return Bu.fetch(API.postProcessPhoto, {
+        method: 'post',
+        postData,
+        options: {
+            showToast: false,
+        }
+    });
+};
+
+const getProcessPhoto = (roMaintenanceLogId) => {
+    return Bu.fetch(API.getProcessPhoto, {
+        method: 'post',
+        postData: {
+            roMaintenanceLogId
+        }
+    });
+};
+
+const getOrderPhoto = (roId) => {
+    return Bu.fetch(API.getOrderPhoto, {
+        method: 'post',
+        postData: {
+            roId
+        }
+    });
+};
 
 export {
     getAllOrders,
@@ -198,6 +227,9 @@ export {
     pauseProcess,
     getReworkInfo,
     reworkProcess,
-    getUserHeaderImg
+    getUserHeaderImg,
+    postProcessPhoto,
+    getProcessPhoto,
+    getOrderPhoto
 }
 

@@ -4,6 +4,7 @@ co-red         = #ff3c56
 co-orange      = #ff9600
 co-blue-bright = #1b88ee
 co-grey        = #e8e8e8
+co-padding     = .15rem
 
 radius(n)
   border-radius (n / 100) rem
@@ -25,9 +26,32 @@ text-dark(font = 0.14rem, isBold = false)
 co-flex(justify = center, direction = row)
   display flex
   flex-direction direction
+  flex-wrap wrap
   align-items center
   justify-content justify
 
+.co-title-basic
+  text-dark(.16rem)
+  height .4rem
+  padding 0 co-padding
+  .text
+    padding-left sp = 0.06rem
+    &::before
+      content ''
+      display inline-block
+      width .04rem
+      height .16rem
+      background-color co-blue
+      position relative
+      top .02rem
+      left - sp
+      radius(5)
+
+.co-title
+  @extend .co-title-basic
+  co-flex(flex-start)
+
+
 shadow-box()
-  radius(3)
+  radius(4)
   box-shadow 0 0 0.04rem rgba(0, 0, 0, 0.2)

@@ -41,7 +41,10 @@
             </div>
 
             <div class="wrapper" v-if="detail.roPartses instanceof Array && detail.roPartses.length > 0">
-                <p class="title">部件定损</p>
+                <p class="title title-justify">
+                    <span>部件定损</span>
+                    <span class="seePhoto" @click="orderPhotoGo">查看照片</span>
+                </p>
                 <div class="units-box" v-if="plateMetalUnits.length > 0">
                     <ul class="units-title">
                         <li>钣金项目</li>
@@ -110,6 +113,9 @@
                             <li class="tl-process">工序：<span>{{l.processName}}</span></li>
                             <li class="tl-tech">施工人：<span>{{l.techName}}{{l.techName2 ? `, ${l.techName2}`:``}}</span></li>
                         </ul>
+                        <ul class="process-preview" v-if="l.needPhoto" @click="processPhotoGo(index, l.roMaintenanceLogId, l.processName, l.photoSum)">
+                            照片详情·{{l.photoSum}}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -128,7 +134,7 @@
 
             }
         },
-        props: ['detail'],
+        props: ['detail', 'orderId'],
         computed: {
             plateMetalUnits () {
                 try {
@@ -152,7 +158,12 @@
 
         },
         methods: {
-
+            orderPhotoGo () {
+                this.$router.push({ name: 'orderPhoto', params: { oId: this.orderId } });
+            },
+            processPhotoGo (index, logId, pName, photoNum) {
+                this.$router.push({ name: 'processPhoto', params: { oId: this.orderId, logId }, query: { processName: pName, photoNum, logIndex: index } });
+            },
         }
     }
 </script>
@@ -185,6 +196,11 @@
     .title
         margin .1rem 0
         text-dark(.16rem)
+    .title-justify
+        co-flex(space-between)
+    .seePhoto
+        color co-blue-bright
+        font-size .14rem
     .rework-title
         text-align center
         font-size .14rem
@@ -269,6 +285,10 @@
                     flex 3
                 span
                     font-weight normal
+            .process-preview
+                color co-blue-bright
+                margin .08rem 0
+
     .fix-label
         display: inline-block;
         transform: translate3d(0, -.02rem, 0);

@@ -9,6 +9,9 @@ const path = require('path');
 const app = new Koa();
 const complier = webpack(webpackConf);
 const __PRO__ = 'PRODUCTION';
+
+const CF = require('./src/config/config.js');
+
 // const API_SITE = 'http://172.16.21.105/';
 
 if (process.env.NODE_ENV === __PRO__) {
@@ -37,6 +40,6 @@ if (process.env.NODE_ENV === __PRO__) {
 //     match: /^\/api\//i
 // }));
 
-app.listen(5626, () => {
-    console.log('listening at port: 5626');
+app.listen(CF.PORT, () => {
+    console.log(`listening at port: ${CF.PORT}`);
 });

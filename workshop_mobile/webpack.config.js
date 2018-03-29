@@ -2,21 +2,20 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CF = require('./src/config/config.js');
 
 const __PRO__ = 'PRODUCTION';
-const PORT = 5626;
 const ENTRY_PATH = path.join(__dirname, './src/main.js');
 
 const config = {
     entry: {
         app: ENTRY_PATH,
-        vendor: ['vue-router', 'vue-multiselect', 'socket.io-client', 'isomorphic-fetch', 'moment']
+        vendor: ['vue-router', 'vue-multiselect', 'socket.io-client', 'isomorphic-fetch', 'moment', 'vue', 'vuex'],
     },
     output: {
         publicPath: '/WorkShopH5/',
         path: path.join(__dirname, 'dist'),
-        filename: '[name].[hash].js'
+        filename: '[name].[hash].js',
     },
     module: {
         rules: [
@@ -73,11 +72,11 @@ const config = {
             vue: 'vue/dist/vue.js',
         }
     },
-    externals: {
-        vue: 'Vue',
-        vuex: 'Vuex',
-
-    },
+    // externals: {
+    //     vue: 'Vue',
+    //     vuex: 'Vuex',
+    //
+    // },
     plugins: [
         new ExtractTextPlugin({
             filename: 'css/[name].[hash].css',
@@ -92,7 +91,7 @@ const config = {
         }),
     ]
 };
-if (process.env.NODE_ENV === __PRO__) {
+if (process.env.NODE_ENV === CF.__PRO__) {
     config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
@@ -102,7 +101,7 @@ if (process.env.NODE_ENV === __PRO__) {
     )
 } else {
     config.output.publicPath = '/';
-    config.entry.app = [`webpack-hot-middleware/client?path=http://localhost:${PORT}/__webpack_hmr&reload=true`, ENTRY_PATH];
+    config.entry.app = [`webpack-hot-middleware/client?path=http://localhost:${CF.PORT}/__webpack_hmr&reload=true`, ENTRY_PATH];
     config.plugins.push(
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()

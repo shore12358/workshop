@@ -6,6 +6,7 @@ class Storage {
         // mock token
         this.tokenCallback = [];
         this.techInfoCallback = [];
+        this.photoListCallback = [];
         // this.setToken('some token in dev env');
         // this.setTechInfo({ techId: 11369, employeeId: 3455, techName: '测试员工姓名', shopId: 38, shopName: '途虎平湖店'});
     }
@@ -66,23 +67,54 @@ class Storage {
         this.setToken('');
         bridge.go('getToken', { params: '' }, 'tokenBack');
     }
-
-    setKey (key, val) {
-        try {
-            if (val !== undefined) {
-                localStorage.setItem(key, val === null ? null : JSON.stringify(val));
+    setPhotoList (list) {
+        let plist = typeof list === 'object' ? list : JSON.parse(list);
+        this.photoList = plist;
+        if (this.photoList && this.photoListCallback.length) {
+            for (let cb of this.photoListCallback) {
+                cb(this.photoList)
             }
-        } catch (e) {
-            console.warn('set localStorage key:', key, 'failed');
+            this.photoListCallback.length = 0;
         }
 
     }
-    getKey (key) {
+    getPhotoList () {
+        return new Promise ((resolve, reject) => {
+            if (this.photoList) {
+                return resolve(this.photoList);
+            }
+            this.photoListCallback.push(resolve);
+        });
+    }
+    fetchPhotoList (params) {
+        this.setPhotoList(null);
+        bridge.go('photographInPhoto', typeof params === 'object' ? params : JSON.parse(params), 'photographBackInPhoto');
+    }
+
+    setKey (key, val, permanent = 1) {
         try {
-            return JSON.parse(localStorage.getItem(key));
+            if (val !== undefined) {
+                if (permanent) {
+                    localStorage.setItem(key, val === null ? null : JSON.stringify(val));
+                } else {
+                    sessionStorage.setItem(key, val === null ? null : JSON.stringify(val));
+                }
+            }
         } catch (e) {
-            console.warn('get localStorage key:', key, 'failed');
-            return undefined;
+            console.warn(`set ${permanent ? 'localStorage' : 'sessionStorage'} key:`, key, 'failed');
+        }
+
+    }
+    getKey (key, permanent = 1) {
+        try {
+            if (permanent) {
+                return JSON.parse(localStorage.getItem(key));
+            } else {
+                return JSON.parse(sessionStorage.getItem(key));
+            }
+        } catch (e) {
+            console.warn(`get ${permanent ? 'localStorage' : 'sessionStorage'} key:`, key, 'failed');
+            return null;
         }
     }
 }

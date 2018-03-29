@@ -16,6 +16,9 @@ import 'vue-awesome/icons/search';
 import 'vue-awesome/icons/home';
 import 'vue-awesome/icons/user';
 import 'vue-awesome/icons/check-circle';
+import 'vue-awesome/icons/angle-right';
+import 'vue-awesome/icons/plus-circle';
+import 'vue-awesome/icons/times-circle';
 import './utils/Bu';
 
 

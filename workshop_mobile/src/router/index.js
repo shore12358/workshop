@@ -8,6 +8,8 @@ import StartUp from '../pages/startUp/StartUp';
 import Interrupt from '../pages/interrupt/Interrupt';
 import Rework from '../pages/rework/Rework';
 import Init from '../pages/Init';
+import OrderPhoto from '../pages/orderPhoto/OrderPhoto';
+import ProcessPhoto from '../pages/processPhoto/ProcessPhoto';
 
 Vue.use(Router);
 
@@ -57,6 +59,16 @@ export default new Router({
             path: '/order/:oId/process/:pId/rework',
             name: 'rework',
             component: Rework
+        },
+		{
+            path: '/order/:oId/orderPhotos',
+            name: 'orderPhoto',
+            component: OrderPhoto
+		},
+        {
+            path: '/order/:oId/mendRecord/:logId/unitsPhotos',
+            name: 'processPhoto',
+            component: ProcessPhoto
         },
 	],
 	// mode: 'history'

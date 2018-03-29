@@ -33,7 +33,7 @@
         created () {
             this.initAsync();
             this.fetchLineListAsync();
-            this.initSocket();
+            // this.initSocket();
 
             getProcessListByTechId()
                 .then(res => {

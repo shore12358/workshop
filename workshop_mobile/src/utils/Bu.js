@@ -18,6 +18,10 @@ window.tokenBack = data => {
     Bu.st.setToken(data);
 };
 
+window.photographBackInPhoto = data => {
+    console.log('window.photographBack: ' + data);
+    Bu.st.setPhotoList(data);
+};
 Bu.st.fetchTechInfo();
 Bu.st.fetchToken();
 
