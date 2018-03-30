@@ -1,6 +1,6 @@
 // const __ENV__ = 'PRODUCTION';
-const __ENV__ = 'DEVELOPMENT';
-// const __ENV__ = 'TEST';
+// const __ENV__ = 'DEVELOPMENT';
+const __ENV__ = 'TEST';
 const DEV_SERVER_JAVA = 'https://workshopapi.tuhu.work';
 const DEV_SERVER_NET = 'https://shopapi.tuhu.work';
 // const DEV_SERVER_NET = 'https://shopapi-dev.tuhu.work';
@@ -44,6 +44,7 @@ const API = {
     postProcessPhoto: `${server_java}/rest/workshop/ro/postProcessPartsPhoto`,
     getProcessPhoto: `${server_java}/rest/workshop/ro/queryProcessPartsPhotos`,
     getOrderPhoto: `${server_java}/rest/workshop/ro/getRoPhotoDetail`,
+    getPaintsStatus: `${server_java}/rest/workshop/ro/getIndexRoPaintStats`
 
 };
 
@@ -215,6 +216,22 @@ const getOrderPhoto = (roId) => {
     });
 };
 
+const getPaintsStatus = () => {
+    return Bu.st.getTechInfo()
+        .then(techInfo => {
+            const { shopId } = techInfo;
+            return Bu.fetch(API.getPaintsStatus, {
+                method: 'post',
+                postData: {
+                    shopId
+                },
+                options: {
+                    toastText: '更新中'
+                }
+            });
+        });
+};
+
 export {
     getAllOrders,
     getLineList,
@@ -230,6 +247,7 @@ export {
     getUserHeaderImg,
     postProcessPhoto,
     getProcessPhoto,
-    getOrderPhoto
+    getOrderPhoto,
+    getPaintsStatus
 }
 

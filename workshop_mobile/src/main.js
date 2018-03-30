@@ -19,6 +19,7 @@ import 'vue-awesome/icons/check-circle';
 import 'vue-awesome/icons/angle-right';
 import 'vue-awesome/icons/plus-circle';
 import 'vue-awesome/icons/times-circle';
+import 'vue-awesome/icons/caret-down';
 import './utils/Bu';
 
 

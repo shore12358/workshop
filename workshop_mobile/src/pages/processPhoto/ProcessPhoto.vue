@@ -43,7 +43,7 @@
         </div>
         <div class="btn-wrapper" v-if="editable">
             <div class="btn btn-photo" @touchstart="photograph([0, 0], true)">批量拍照</div>
-            <div :class="`btn ${submitPermission ? 'btn-active' : ''} `" @click="submit()" >提交</div>
+            <div :class="`btn ${submitPermission ? 'btn-active' : ''} `" @click="submit()" >保存</div>
         </div>
 
 
@@ -80,10 +80,7 @@
                 return Number(this.$route.params.logId);
             },
             editable () {
-                if (!Number(this.$route.query.logIndex)) {
-                    return true;
-                }
-                return false;
+                return Boolean(this.$route.query.editable);
             },
             processName () {
                 return this.$route.query.processName;
@@ -119,12 +116,14 @@
                         try {
                             console.log('final data: ' + pList);
                             this.units_car = pList;
+                            if (JSON.stringify(this.units_car) !== JSON.stringify(pList)) {
+                                this.edited = true;
+                            }
                             console.log('ready', this.units_car)
                         } catch (e) {
                             console.warn(new TypeError('data format PLIST fectched is wrong!'));
                         }
                     });
-                this.edited = true;
             },
             initUnitsCar (data) {
                 try {

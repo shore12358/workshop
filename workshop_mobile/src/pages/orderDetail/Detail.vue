@@ -134,7 +134,7 @@
 
             }
         },
-        props: ['detail', 'orderId'],
+        props: ['detail', 'orderId', 'permission'],
         computed: {
             plateMetalUnits () {
                 try {
@@ -162,7 +162,8 @@
                 this.$router.push({ name: 'orderPhoto', params: { oId: this.orderId } });
             },
             processPhotoGo (index, logId, pName, photoNum) {
-                this.$router.push({ name: 'processPhoto', params: { oId: this.orderId, logId }, query: { processName: pName, photoNum, logIndex: index } });
+                const editable = !Number(index) && this.permission.indexOf(3) > -1;
+                this.$router.push({ name: 'processPhoto', params: { oId: this.orderId, logId }, query: { processName: pName, photoNum, editable } });
             },
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <NavBar :permission="permission" :isQualityProcess="isQualityProcess" @popoutGo="popoutGo" @startUpGo="startUpGo" @interruptGo="interruptGo" @reworkGo="reworkGo" @photographyGo="photographyGo"></NavBar>
-        <Detail :detail="detail" :orderId="orderId"></Detail>
+        <Detail :detail="detail" :orderId="orderId" :permission="permission"></Detail>
         <Popout @confirm="confirm" @cancel="cancel" :pod="popout_conf" v-show="showPopout"></Popout>
         <Toast :text="toast_conf.text" v-show="toast_conf.shown"></Toast>
     </div>
@@ -69,7 +69,7 @@
                 return this.getWorkingZoneList(this.order.lineId);
             },
             permission () {
-                return this.setPermission(this.processStatus, this.workingZoneList, this.processId, this.detail.needProcessPhoto);
+                return this.setPermission(this.processStatus, this.workingZoneList, this.processId, this.detail.needProcessPhoto, this.detail.evidenceStatus);
             },
             currentProcessLogId () {
                 try {
@@ -120,65 +120,67 @@
              * @param pId {Number} processId of current order
              * @return {Array} represent for possessed permission: 1 start working  2 interrupt 3 finished
              */
-            setPermission (pStatus, pList, pId, photoFlag) {
+            setPermission (pStatus, pList, pId, photoFlag, eStatus) {
                 const _permission = [];
-                if (photoFlag) {
-                    _permission.push(3);
-                }
-                if (pId === 0) {
-                    let process, matched = false;
-                    for (process of pList) {
-                        switch (process.ProcessNature) {
-                            case 1: // platemetal
-                                if (this.order.panelRates > 0) {
+                if (eStatus != 2) {
+                    if (photoFlag) {
+                        _permission.push(3);
+                    }
+                    if (pId === 0) {
+                        let process, matched = false;
+                        for (process of pList) {
+                            switch (process.ProcessNature) {
+                                case 1: // platemetal
+                                    if (this.order.panelRates > 0) {
+                                        matched = true;
+                                        break;
+                                    }
+                                    continue;
+                                case 2: // paint
+                                    if (this.order.paintRates > 0) {
+                                        matched = true;
+                                        break;
+                                    }
+                                    continue;
+                                case 3: // general
                                     matched = true;
                                     break;
-                                }
-                                continue;
-                            case 2: // paint
-                                if (this.order.paintRates > 0) {
-                                    matched = true;
+                                default:
+                                    continue;
+
+                            }
+                            if (matched) {
+                                break;
+                            }
+                        }
+                        if (matched && this.responsibleForTheProcess(process.ProcessID)) {
+                            _permission.push(1);
+                        }
+
+                    } else {
+                        if (this.responsibleForTheProcess(pId)) {
+                            switch (pStatus) {
+                                case 0:
+                                    if (this.technicianAssigned(this.order) || this.order.techId === null) {
+                                        _permission.push(1);
+                                    }
                                     break;
-                                }
-                                continue;
-                            case 3: // general
-                                matched = true;
-                                break;
-                            default:
-                                continue;
+                                case 1:
+                                    if (this.technicianAssigned(this.order)) {
+                                        _permission.push(2, 3, 4);
+                                    }
+                                    break;
+                                case 2:
+                                    if (this.technicianAssigned(this.order)) {
+                                        _permission.push(1);
+                                    }
+                                    break;
+                                default:
 
+                            }
                         }
-                        if (matched) {
-                            break;
-                        }
-                    }
-                    if (matched && this.responsibleForTheProcess(process.ProcessID)) {
-                        _permission.push(1);
-                    }
 
-                } else {
-                    if (this.responsibleForTheProcess(pId)) {
-                        switch (pStatus) {
-                            case 0:
-                                if (this.technicianAssigned(this.order) || this.order.techId === null) {
-                                    _permission.push(1);
-                                }
-                                break;
-                            case 1:
-                                if (this.technicianAssigned(this.order)) {
-                                    _permission.push(2, 3, 4);
-                                }
-                                break;
-                            case 2:
-                                if (this.technicianAssigned(this.order)) {
-                                    _permission.push(1);
-                                }
-                                break;
-                            default:
-
-                        }
                     }
-
                 }
                 return _permission;
             },

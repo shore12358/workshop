@@ -1,22 +1,48 @@
 <template>
-    <div class='mainCard' >
-        <div class='mainCard-box'>
-            <ul class='left'>
-                <li>钣喷车辆<span>{{oCs.carsNum}}</span></li>
-                <li>施工车辆<span>{{oCs.processNum}}</span></li>
-                <li>待修车辆<span>{{oCs.waitingNum}}</span></li>
-            </ul>
-            <ul class='middle'>
-                <li>今天接车<span>{{oCs.todayEnterNum}}</span></li>
-                <li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>
-                <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
-            </ul>
-            <ul class='right'>
-                <li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
-                <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
-                <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
-            </ul>
+    <div>
+        <div class='mainCard'>
+            <div class='mainCard-box'>
+                <ul class='left'>
+                    <li>钣喷车辆<span>{{oCs.carsNum}}</span></li>
+                    <li>施工车辆<span>{{oCs.processNum}}</span></li>
+                    <li>待修车辆<span>{{oCs.waitingNum}}</span></li>
+                </ul>
+                <ul class='middle'>
+                    <li>今天接车<span>{{oCs.todayEnterNum}}</span></li>
+                    <li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>
+                    <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
+                </ul>
+                <ul class='right'>
+                    <li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
+                    <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
+                    <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
+                </ul>
+            </div>
+            <!--<div class="paint-box">-->
+                <!--油漆面数-->
+                <!--<Icon name="caret-down" scale="1" class="icon-caret-down"></Icon>-->
+            <!--</div>-->
+            <!--<div class="paint-popout">-->
+                <!--<div class='mainCard-box'>-->
+                    <!--<ul class='left'>-->
+                        <!--<li>钣喷车辆<span>{{oCs.carsNum}}</span></li>-->
+                        <!--<li>施工车辆<span>{{oCs.processNum}}</span></li>-->
+                        <!--<li>待修车辆<span>{{oCs.waitingNum}}</span></li>-->
+                    <!--</ul>-->
+                    <!--<ul class='middle'>-->
+                        <!--<li>今天接车<span>{{oCs.todayEnterNum}}</span></li>-->
+                        <!--<li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>-->
+                        <!--<li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>-->
+                    <!--</ul>-->
+                    <!--<ul class='right'>-->
+                        <!--<li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>-->
+                        <!--<li>完工超时<span>{{oCs.overtimeNum}}</span></li>-->
+                        <!--<li>中断车辆<span>{{oCs.pauseNum}}</span></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
+
     </div>
 </template>
 
@@ -57,15 +83,43 @@
     @import "../../styles/Util.styl"
 
     bg-color = #f2f2f2
+    self-pad = .05rem
 
     .mainCard
         padding 0.1rem
         background-color bg-color
+        position relative
 
+    .paint-popout
+        position absolute
+        padding 0.1rem
+        top 100%
+        margin-top -.18rem
+        left 0
+        z-index 100
+        width 100%
+        box-sizing border-box
+        .mainCard-box
+            radius(0)
+            box-shadow 0 0 0.05rem rgba(0, 0, 0, 0.2)
+
+    .paint-box
+        background-color bg-color
+        padding self-pad
+        radius(4)
+        border-top-right-radius 0
+        border-top-left-radius 0
+        box-shadow 0 0 0.04rem rgba(0, 0, 0, 0.1)
+        co-flex()
+        text-light(, true)
+        .icon-caret-down
+            margin-left self-pad
     .mainCard-box
         background-color white
         padding 0.13rem 0.17rem
         radius(4)
+        border-bottom-right-radius 0
+        border-bottom-left-radius 0
         box-shadow 0 0 0.04rem rgba(0, 0, 0, 0.1)
         co-flex(space-between)
 

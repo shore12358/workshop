@@ -2,8 +2,9 @@
     <div :class="`orderCard border-${themeColor} ${order.processStatus === 2 ? 'card-opacity' : ''}`" @click="detailPageGo">
         <div class="top">
             <div class="tag-wrapper">
-                <span class="tag-urgent" v-if="order.isEmergency">加急
-                </span><span class="tag-rework" v-if="order.isRework">返工</span>
+                <span class="tag-urgent" v-if="order.isEmergency">加急</span>
+                <span class="tag-rework" v-if="order.isRework">返工</span>
+                <span class="tag-addUp" v-if="order.evidenceStatus == 2">待拍</span>
             </div>
             <div class="title-wrapper">
                 <div class="img-box" v-if="order.processStatus === 1">
@@ -140,7 +141,7 @@
                 position absolute
                 top 0
                 right 0
-            .tag-urgent, .tag-rework
+            .tag-urgent, .tag-rework, .tag-addUp
                 width .3rem
                 height h = .16rem
                 line-height h
@@ -153,6 +154,9 @@
             .tag-rework
                 color #ff4901
                 background-color rgba(255,150,0,0.10)
+            .tag-addUp
+                color #00AE88
+                background-color #E5F6F3
             .title-wrapper
                 padding 0.02rem co-padding 0
                 co-flex(flex-start)

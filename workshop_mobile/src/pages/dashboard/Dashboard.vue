@@ -1,7 +1,7 @@
 <template>
     <div>
         <Searchbar></Searchbar>
-        <MainCard :oCs="getOrderCounts"></MainCard>
+        <MainCard :oCs="getOrderCounts" :paintData="paintData"></MainCard>
         <DashboardList></DashboardList>
     </div>
 </template>
@@ -11,12 +11,13 @@
     import DashboardList from './DashboardList'
     import Searchbar from './Searchbar'
     import { mapGetters } from 'vuex'
+    import { getPaintsStatus } from '../../api/Api';
 
     export default {
         name: 'dashboard',
         data () {
             return {
-
+                paintData: '',
             }
         },
         computed: {
@@ -33,7 +34,14 @@
             Bu.st.getTechInfo()
                 .then(techInfo => {
                     Bu.setHeadline(techInfo.shopName);
+
                 });
+            getPaintsStatus()
+                .then(res => {
+                    // if (res.code == 10000) {
+                    //     debugger
+                    // }
+                })
         }
     }
 </script>
