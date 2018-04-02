@@ -43,7 +43,10 @@
             <div class="wrapper" v-if="detail.roPartses instanceof Array && detail.roPartses.length > 0">
                 <p class="title title-justify">
                     <span>部件定损</span>
-                    <span class="seePhoto" @click="orderPhotoGo">查看照片</span>
+                    <span class="seePhoto" @click="orderPhotoGo">
+                        查看照片
+                        <Icon name="angle-right" class="icon-angle-right" scale="1"></Icon>
+                    </span>
                 </p>
                 <div class="units-box" v-if="plateMetalUnits.length > 0">
                     <ul class="units-title">
@@ -106,7 +109,7 @@
                 <p class="title">维修记录</p>
                 <div class="fix-record">
                     <div class="item-box" v-for="(l, index) in detail.roMaintenLogs" :key="index">
-                        <p><span v-transDate="l.enterTime"></span> ~ <span v-transDate="l.leaveTime"></span>
+                        <p class="time-label"><span v-transDate="l.enterTime"></span> ~ <span v-transDate="l.leaveTime"></span>
                             <span class="fix-label" v-if="l.tag">{{l.tag}}</span>
                         </p>
                         <ul class="text-line">
@@ -115,6 +118,7 @@
                         </ul>
                         <ul class="process-preview" v-if="l.needPhoto" @click="processPhotoGo(index, l.roMaintenanceLogId, l.processName, l.photoSum)">
                             照片详情·{{l.photoSum}}
+                            <Icon name="angle-right" class="icon-angle-right" scale="1"></Icon>
                         </ul>
                     </div>
                 </div>
@@ -202,6 +206,7 @@
     .seePhoto
         color co-blue-bright
         font-size .14rem
+        co-flex()
     .rework-title
         text-align center
         font-size .14rem
@@ -268,6 +273,7 @@
             border-left 1px dashed #ccc
             padding-left .15rem
             padding-bottom .1rem
+            text-dark()
             &::before
                 content ''
                 width fw = .09rem
@@ -276,6 +282,8 @@
                 transform translate3D(-0.2rem, 0.05rem, 0)
                 background-color #90cdff
                 radius(fw * 100)
+            /*.time-label*/
+
             .text-line
                 co-flex()
                 text-dark(, true)
@@ -288,6 +296,7 @@
                     font-weight normal
             .process-preview
                 color co-blue-bright
+                co-flex(flex-start)
                 margin .08rem 0
 
     .fix-label
@@ -302,5 +311,7 @@
     .rework-text
         color d-orange
         padding-left .03rem
+    .icon-angle-right
+        margin-left .02rem
 
 </style>

@@ -1,58 +1,59 @@
 <template>
-    <div>
-        <div class='mainCard'>
-            <div class='mainCard-box'>
-                <ul class='left'>
-                    <li>钣喷车辆<span>{{oCs.carsNum}}</span></li>
-                    <li>施工车辆<span>{{oCs.processNum}}</span></li>
-                    <li>待修车辆<span>{{oCs.waitingNum}}</span></li>
-                </ul>
-                <ul class='middle'>
-                    <li>今天接车<span>{{oCs.todayEnterNum}}</span></li>
-                    <li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>
-                    <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
-                </ul>
-                <ul class='right'>
-                    <li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
-                    <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
-                    <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
-                </ul>
-            </div>
-            <!--<div class="paint-box">-->
-                <!--油漆面数-->
-                <!--<Icon name="caret-down" scale="1" class="icon-caret-down"></Icon>-->
-            <!--</div>-->
-            <!--<div class="paint-popout">-->
-                <!--<div class='mainCard-box'>-->
-                    <!--<ul class='left'>-->
-                        <!--<li>钣喷车辆<span>{{oCs.carsNum}}</span></li>-->
-                        <!--<li>施工车辆<span>{{oCs.processNum}}</span></li>-->
-                        <!--<li>待修车辆<span>{{oCs.waitingNum}}</span></li>-->
-                    <!--</ul>-->
-                    <!--<ul class='middle'>-->
-                        <!--<li>今天接车<span>{{oCs.todayEnterNum}}</span></li>-->
-                        <!--<li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>-->
-                        <!--<li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>-->
-                    <!--</ul>-->
-                    <!--<ul class='right'>-->
-                        <!--<li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>-->
-                        <!--<li>完工超时<span>{{oCs.overtimeNum}}</span></li>-->
-                        <!--<li>中断车辆<span>{{oCs.pauseNum}}</span></li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-            <!--</div>-->
+    <div class='mainCard'>
+        <div class='mainCard-box'>
+            <ul class='left'>
+                <li>钣喷车辆<span>{{oCs.carsNum}}</span></li>
+                <li>施工车辆<span>{{oCs.processNum}}</span></li>
+                <li>待修车辆<span>{{oCs.waitingNum}}</span></li>
+            </ul>
+            <ul class='middle'>
+                <li>今天接车<span>{{oCs.todayEnterNum}}</span></li>
+                <li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>
+                <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
+            </ul>
+            <ul class='right'>
+                <li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
+                <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
+                <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
+            </ul>
         </div>
-
+        <div class="paint-box">
+            油漆面数
+            <Icon name="caret-down" scale=".9" class="icon-caret-down"></Icon>
+        </div>
+        <transition name="fade">
+            <div class="paint-popout" v-show="show_paint_box">
+                <div class='mainCard-box'>
+                    <ul class='left popCard-left'>
+                        <li>钣喷车辆<br><span>{{fixedNumber(pD.carsPaintSum)}}</span></li>
+                        <li>施工车辆<br><span>{{fixedNumber(pD.processPaintSum)}}</span></li>
+                        <li>待修车辆<br><span>{{fixedNumber(pD.waitingPaintSum)}}</span></li>
+                    </ul>
+                    <ul class='middle'>
+                        <li>今天接车<br><span>{{fixedNumber(pD.todayEnterPaintSum)}}</span></li>
+                        <li>明天目标<br><span>{{fixedNumber(pD.tomorrowTargetPaintSum)}}</span></li>
+                        <li>返工车辆<br><span>{{fixedNumber(pD.reworkCarsPaintSum)}}</span></li>
+                    </ul>
+                    <ul class='right'>
+                        <li>今天完工<br><span v-if="pD.todayFinishedPaintSum !== undefined && pD.todayPlanFinishPaintSum !== undefined">{{fixedNumber(pD.todayFinishedPaintSum)}}/{{fixedNumber(pD.todayPlanFinishPaintSum)}}</span></li>
+                        <li>完工超时<br><span>{{fixedNumber(pD.overtimePaintSum)}}</span></li>
+                        <li>中断车辆<br><span>{{fixedNumber(pD.pausePaintSum)}}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
 <script>
     import { mapGetters, mapMutations } from 'vuex';
+    import { ElePosi } from '../../utils/domEvents';
     export default {
         name: 'mainCard',
         data() {
             return {
-
+                ele: null,
+                show_paint_box: false,
             }
         },
         computed: {
@@ -60,11 +61,26 @@
                 'getOverTimeNum',
             ])
         },
-        props: ['oCs'],
+        props: ['oCs', 'pD'],
         methods: {
             ...mapMutations([
                 'updateOvertimeCounts'
             ]),
+            fixedNumber (val) {
+                if (val !== undefined) {
+                    return val.toFixed(1);
+                }
+            },
+            popoutHandler (e) {
+                let tem = { x: e.x, y: e.y };
+                if (this.ele) {
+                    if (this.ele.judgeInArea(tem)) {
+                        this.show_paint_box = true;
+                    } else {
+                        this.show_paint_box = false;
+                    }
+                }
+            }
         },
         created () {
             const REFRESH_TIME = 60 * 1000;
@@ -73,8 +89,14 @@
                 this.updateOvertimeCounts({ overTimeNum: this.getOverTimeNum });
             }, REFRESH_TIME)
         },
+        mounted () {
+            const p_b = document.querySelector('.paint-box');
+            this.ele = new ElePosi(p_b);
+            window.addEventListener('click', this.popoutHandler);
+        },
         beforeDestroy () {
             clearInterval(this.countInterval);
+            window.removeEventListener('click', this.popoutHandler);
         }
     }
 </script>
@@ -89,7 +111,6 @@
         padding 0.1rem
         background-color bg-color
         position relative
-
     .paint-popout
         position absolute
         padding 0.1rem
@@ -141,12 +162,16 @@
                     font-size 0.18rem
                     color co-blue-bright
                     font-weight bold
-
+        .popCard-left
+            li
+                span
+                    margin-top .02rem
+                    display inline-block
+                    font-size 0.14rem
         .middle, .right
             text-light()
             span
                 text-dark()
-
 
 
 </style>

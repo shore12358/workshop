@@ -127,7 +127,6 @@
                 return false;
             });
             this.techPic = Bu.st.getKey('techPic');
-
         },
     }
 </script>

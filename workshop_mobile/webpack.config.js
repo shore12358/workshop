@@ -10,7 +10,8 @@ const ENTRY_PATH = path.join(__dirname, './src/main.js');
 const config = {
     entry: {
         app: ENTRY_PATH,
-        vendor: ['vue-router', 'vue-multiselect', 'socket.io-client', 'isomorphic-fetch', 'moment', 'vue', 'vuex'],
+        // vendor: ['vue-router', 'vue-multiselect', 'socket.io-client', 'isomorphic-fetch', 'moment', 'vue', 'vuex'],
+        vendor: ['vue-router', 'vue-multiselect', 'socket.io-client', 'isomorphic-fetch', 'moment'],
     },
     output: {
         publicPath: '/WorkShopH5/',
@@ -72,11 +73,11 @@ const config = {
             vue: 'vue/dist/vue.js',
         }
     },
-    // externals: {
-    //     vue: 'Vue',
-    //     vuex: 'Vuex',
-    //
-    // },
+    externals: {
+        vue: 'Vue',
+        vuex: 'Vuex',
+
+    },
     plugins: [
         new ExtractTextPlugin({
             filename: 'css/[name].[hash].css',

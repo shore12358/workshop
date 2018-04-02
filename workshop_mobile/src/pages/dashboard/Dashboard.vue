@@ -1,7 +1,7 @@
 <template>
     <div>
         <Searchbar></Searchbar>
-        <MainCard :oCs="getOrderCounts" :paintData="paintData"></MainCard>
+        <MainCard :oCs="getOrderCounts" :pD="paintData"></MainCard>
         <DashboardList></DashboardList>
     </div>
 </template>
@@ -17,7 +17,7 @@
         name: 'dashboard',
         data () {
             return {
-                paintData: '',
+                paintData: {},
             }
         },
         computed: {
@@ -38,9 +38,9 @@
                 });
             getPaintsStatus()
                 .then(res => {
-                    // if (res.code == 10000) {
-                    //     debugger
-                    // }
+                    if (res.code == 10000) {
+                        this.paintData = res.data;
+                    }
                 })
         }
     }
