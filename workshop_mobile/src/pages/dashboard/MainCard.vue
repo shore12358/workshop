@@ -105,7 +105,7 @@
     @import "../../styles/Util.styl"
 
     bg-color = #f2f2f2
-    self-pad = .05rem
+    self-pad = .07rem
 
     .mainCard
         padding 0.1rem

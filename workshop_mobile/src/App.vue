@@ -56,8 +56,8 @@
             initSocket () {
                 Bu.st.getToken()
                     .then(token => {
-                        const socket = io(`https://comet.tuhu.cn/banpen`, {
-                       // const socket = io(`https://comet.tuhu.work/banpen`, {
+                        // const socket = io(`https://comet.tuhu.cn/banpen`, {
+                       const socket = io(`https://comet.tuhu.work/banpen`, {
                             query: {
                                 token,
                                 channel: 'banpen',
