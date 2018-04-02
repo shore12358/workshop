@@ -92,11 +92,11 @@
         mounted () {
             const p_b = document.querySelector('.paint-box');
             this.ele = new ElePosi(p_b);
-            window.addEventListener('click', this.popoutHandler);
+            window.addEventListener('touchend', this.popoutHandler);
         },
         beforeDestroy () {
             clearInterval(this.countInterval);
-            window.removeEventListener('click', this.popoutHandler);
+            window.removeEventListener('touchend', this.popoutHandler);
         }
     }
 </script>
