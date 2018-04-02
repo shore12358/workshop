@@ -167,7 +167,7 @@
                                     break;
                                 case 1:
                                     if (this.technicianAssigned(this.order)) {
-                                        _permission.push(2, 3, 4);
+                                        _permission.push(2, 4);
                                     }
                                     break;
                                 case 2:
