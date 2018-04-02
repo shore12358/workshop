@@ -13,8 +13,11 @@ class ElePosi {
         }
         // console.log(ele);
         const p_node = ele.parentNode;
-        this.posi.x.push(ele.offsetLeft);
-        this.posi.y.push(ele.offsetTop);
+        const { offsetLeft, offsetTop } = ele;
+        if (this.posi.x[this.posi.x.length - 1] !== offsetLeft && this.posi.y[this.posi.y.length - 1] !== offsetTop) {
+            this.posi.x.push(ele.offsetLeft);
+            this.posi.y.push(ele.offsetTop);
+        }
         return this.elePosiInit(p_node);
     }
     getElePosi () {
@@ -25,6 +28,7 @@ class ElePosi {
         const x = this.posi.x.reduce((result, item) => result + item, 0);
         const y = this.posi.y.reduce((result, item) => result + item, 0);
         this.elePosi = { x, y };
+        console.log(this.elePosi);
         return this.elePosi;
     }
     judgeInArea (dotPosi) {

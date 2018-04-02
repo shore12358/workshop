@@ -1,25 +1,27 @@
 <template>
     <div class='mainCard'>
-        <div class='mainCard-box'>
-            <ul class='left'>
-                <li>钣喷车辆<span>{{oCs.carsNum}}</span></li>
-                <li>施工车辆<span>{{oCs.processNum}}</span></li>
-                <li>待修车辆<span>{{oCs.waitingNum}}</span></li>
-            </ul>
-            <ul class='middle'>
-                <li>今天接车<span>{{oCs.todayEnterNum}}</span></li>
-                <li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>
-                <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
-            </ul>
-            <ul class='right'>
-                <li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
-                <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
-                <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
-            </ul>
-        </div>
-        <div class="paint-box">
-            油漆面数
-            <Icon name="caret-down" scale=".9" class="icon-caret-down"></Icon>
+        <div class="mainCard-wrapper">
+            <div class='mainCard-box'>
+                <ul class='left'>
+                    <li>钣喷车辆<span>{{oCs.carsNum}}</span></li>
+                    <li>施工车辆<span>{{oCs.processNum}}</span></li>
+                    <li>待修车辆<span>{{oCs.waitingNum}}</span></li>
+                </ul>
+                <ul class='middle'>
+                    <li>今天接车<span>{{oCs.todayEnterNum}}</span></li>
+                    <li>明天目标<span>{{oCs.tomorrowTargetNum}}</span></li>
+                    <li>返工车辆<span>{{oCs.reworkCarsNum}}</span></li>
+                </ul>
+                <ul class='right'>
+                    <li>今天完工<span v-if="oCs.todayFinishedNum !== undefined && oCs.todayPlanFinishNum !== undefined">{{oCs.todayFinishedNum}}/{{oCs.todayPlanFinishNum}}</span></li>
+                    <li>完工超时<span>{{oCs.overtimeNum}}</span></li>
+                    <li>中断车辆<span>{{oCs.pauseNum}}</span></li>
+                </ul>
+            </div>
+            <div class="paint-box">
+                油漆面数
+                <Icon name="caret-down" scale=".9" class="icon-caret-down"></Icon>
+            </div>
         </div>
         <transition name="fade">
             <div class="paint-popout" v-show="show_paint_box">
@@ -35,7 +37,7 @@
                         <li>返工车辆<br><span>{{fixedNumber(pD.reworkCarsPaintSum)}}</span></li>
                     </ul>
                     <ul class='right'>
-                        <li>今天完工<br><span v-if="pD.todayFinishedPaintSum !== undefined && pD.todayPlanFinishPaintSum !== undefined">{{fixedNumber(pD.todayFinishedPaintSum)}}/{{fixedNumber(pD.todayPlanFinishPaintSum)}}</span></li>
+                        <li>今天完工<br><span>{{fixedNumber(pD.todayFinishedPaintSum)}} <span v-if="pD.todayFinishedPaintSum !== undefined && pD.todayPlanFinishPaintSum !== undefined">/</span> {{fixedNumber(pD.todayPlanFinishPaintSum)}}</span></li>
                         <li>完工超时<br><span>{{fixedNumber(pD.overtimePaintSum)}}</span></li>
                         <li>中断车辆<br><span>{{fixedNumber(pD.pausePaintSum)}}</span></li>
                     </ul>
@@ -72,7 +74,8 @@
                 }
             },
             popoutHandler (e) {
-                let tem = { x: e.x, y: e.y };
+                let tem = { x: e.x || e.pageX, y: e.y || e.pageY };
+                // console.log(e, tem);
                 if (this.ele) {
                     if (this.ele.judgeInArea(tem)) {
                         this.show_paint_box = true;
@@ -93,10 +96,12 @@
             const p_b = document.querySelector('.paint-box');
             this.ele = new ElePosi(p_b);
             window.addEventListener('touchend', this.popoutHandler);
+            // window.addEventListener('click', this.popoutHandler);
         },
         beforeDestroy () {
             clearInterval(this.countInterval);
             window.removeEventListener('touchend', this.popoutHandler);
+            // window.removeEventListener('click', this.popoutHandler);
         }
     }
 </script>
@@ -127,21 +132,18 @@
     .paint-box
         background-color bg-color
         padding self-pad
-        radius(4)
-        border-top-right-radius 0
-        border-top-left-radius 0
-        box-shadow 0 0 0.04rem rgba(0, 0, 0, 0.1)
         co-flex()
         text-light(, true)
         .icon-caret-down
             margin-left self-pad
+    .mainCard-wrapper
+        radius(4)
+        overflow hidden
+        box-shadow 0 0 0.04rem rgba(0, 0, 0, 0.1)
+
     .mainCard-box
         background-color white
         padding 0.13rem 0.17rem
-        radius(4)
-        border-bottom-right-radius 0
-        border-bottom-left-radius 0
-        box-shadow 0 0 0.04rem rgba(0, 0, 0, 0.1)
         co-flex(space-between)
 
         .left, .middle, .right
