@@ -122,7 +122,7 @@
              */
             setPermission (pStatus, pList, pId, photoFlag, eStatus) {
                 const _permission = [];
-                if (eStatus != 2) { // when waiting for adding photos one can not execute any operation
+                if ([0, 1].indexOf(eStatus) > -1) { // when waiting for adding photos one can not execute any operation
                     if (pId === 0) {
                         let process, matched = false;
                         for (process of pList) {
