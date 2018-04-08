@@ -122,10 +122,7 @@
              */
             setPermission (pStatus, pList, pId, photoFlag, eStatus) {
                 const _permission = [];
-                if (eStatus != 2) {
-                    if (photoFlag) {
-                        _permission.push(3);
-                    }
+                if (eStatus != 2) { // when waiting for adding photos one can not execute any operation
                     if (pId === 0) {
                         let process, matched = false;
                         for (process of pList) {
@@ -168,6 +165,9 @@
                                 case 1:
                                     if (this.technicianAssigned(this.order)) {
                                         _permission.push(2, 4);
+                                        if (photoFlag) {
+                                            _permission.push(3);
+                                        }
                                     }
                                     break;
                                 case 2:
