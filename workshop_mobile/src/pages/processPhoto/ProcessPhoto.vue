@@ -115,10 +115,10 @@
                     .then(pList => {
                         try {
                             console.log('final data: ' + pList);
-                            this.units_car = pList;
                             if (JSON.stringify(this.units_car) !== JSON.stringify(pList)) {
                                 this.edited = true;
                             }
+                            this.units_car = pList;
                             console.log('ready', this.units_car)
                         } catch (e) {
                             console.warn(new TypeError('data format PLIST fectched is wrong!'));

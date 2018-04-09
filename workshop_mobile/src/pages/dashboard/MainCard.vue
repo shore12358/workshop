@@ -74,8 +74,9 @@
                 }
             },
             popoutHandler (e) {
-                let tem = { x: e.x || e.pageX, y: e.y || e.pageY };
+                let tem = { x: e.x || e.pageX || e.target.changedTouches[0].pageX, y: e.y || e.pageY || e.target.changedTouches[0].pageY };
                 // console.log(e, tem);
+
                 if (this.ele) {
                     if (this.ele.judgeInArea(tem)) {
                         this.show_paint_box = true;
