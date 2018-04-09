@@ -102,6 +102,28 @@
 
         },
         methods: {
+            comparePhotoData (originD, nowD) {
+                let _changed;
+                for (let originItem of originD) {
+                    const nowPics = nowD.find(_nowItem => _nowItem.id == originItem.id).picUrls;
+                    const originPics = originItem.picUrls;
+                    if (nowPics.length !== originPics.length) {
+                        _changed = true;
+                        break;
+                    }
+                    for (let i = 0; i < originPics.length; i++) {
+                        if (originPics[i].DoMain != nowPics[i].DoMain || originPics[i].Url != nowPics[i].Url) {
+                            _changed = true;
+                            break;
+                        }
+                    }
+                    if (_changed !== undefined) {
+                        break;
+                    }
+                }
+                _changed === undefined && (_changed = false);
+                return _changed;
+            },
             photograph (picPosition, photography) {
                 const media = {
                     photography,
@@ -115,7 +137,9 @@
                     .then(pList => {
                         try {
                             console.log('final data: ' + pList);
-                            if (JSON.stringify(this.units_car) !== JSON.stringify(pList)) {
+
+                            //  compare origin and new data
+                            if (this.comparePhotoData(this.units_car, pList)) {
                                 this.edited = true;
                             }
                             this.units_car = pList;
