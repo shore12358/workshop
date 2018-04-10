@@ -7,7 +7,7 @@ class Storage {
         this.tokenCallback = [];
         this.techInfoCallback = [];
         this.photoListCallback = [];
-        // this.setToken('some token in dev env');
+        // this.setToken('eyJhbGciOiJSUzI1NiIsImtpZCI6IjkxM0ZBOEY1MTgzQzYwMkUwQjQxMjdFMEY0Q0JFOUQ1NjE1QjNERTIiLCJ0eXAiOiJKV1QifQ.eyJuYmYiOjE1MjMzNTc0NDgsImV4cCI6MTUyMzM2MTA0OCwiaXNzIjoiaHR0cHM6Ly9hY2Nlc3MudHVodS53b3JrIiwiYXVkIjpbImh0dHBzOi8vYWNjZXNzLnR1aHUud29yay9yZXNvdXJjZXMiLCJzaXRlX3NhcGkiLCJzaXRlX3Nob3BhcGkiLCJzaXRlX3dvcmtzaG9wYXBpIl0sImNsaWVudF9pZCI6InNhcGkudHVodS5jbiIsInN1YiI6IjA4ZDU2Yzc2NGNiMmMxNjg1N2MzNTEwNzY3NDJkNWVkIiwiYXV0aF90aW1lIjoxNTIzMzU3NDQ4LCJpZHAiOiJTaG9wIiwiaWQiOjkwNiwibmFtZSI6IumAlOiZjuWFu-i9puW3peWcuuW6lyjku5npnJ7lsI_lkagpIiwiZW1haWwiOiJkbTAwMDM4Iiwic2NvcGUiOlsic2l0ZV9zYXBpIiwic2l0ZV9zaG9wYXBpIiwic2l0ZV93b3Jrc2hvcGFwaSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJTaG9wIl19.mWtxLgh8rnZwHqZJvB4lydQIxWaExeh9tLZMmcW7AdgjAXLZbvT4t7901NZSvRHh5q3cqXtU1lhdgynxR9sbX30zH-mIT0icJ3DhRO_-SmYYWtNOKOytRpHCtoWLMYYYdCghOT8qjr7-_O5ANEiCLOL69BKbISmmVlxx_-v6jbkVp1Isp53O9Ejx0n_aP_O9pfupriUlH464r7G4YGV8Otkm9-HF-X-uWSTWK7FVj_veIkFYKtxan7tfc2FYWlSP1t7AI6lOT8BAJNO-YgJFyCzC-dKfQHriHmlq_0e0plmZ5vG3mMhwGvrcz8fpY5TupEmSIqUK_ttRKB_jrRJ3ng');
         // this.setTechInfo({ techId: 11369, employeeId: 3455, techName: '测试员工姓名', shopId: 38, shopName: '途虎平湖店'});
     }
 

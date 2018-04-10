@@ -18,13 +18,14 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
+    import { mapGetters, mapMutations } from 'vuex'
 
     export default {
         name: 'dashboardList',
         computed: {
             ...mapGetters([
                 'getOrdersByLineId',
+                'getLineIndex',
             ]),
             ...mapGetters({
                lineList: 'getLineList'
@@ -51,8 +52,6 @@
                     }
                 });
             },
-
-
         },
         data () {
             return {
@@ -60,6 +59,9 @@
             }
         },
         methods: {
+            ...mapMutations([
+                'modifyLineIndex'
+            ]),
             orderListGo(processId, processName, index) {
                 if (this.processListNum[index].wa_num || this.processListNum[index].wo_num) {
                     this.$router.push({ name: 'orderList', params: { processId }, query: { lineId: this.processList.LineID, processName } });
@@ -74,12 +76,18 @@
 
         },
         created () {
-            this.line = this.lineOptions[0];
+            this.line = this.getLineIndex !== null ? this.lineOptions[this.getLineIndex] : this.lineOptions[0];
         },
         watch: {
-            lineOptions (newLineOptions) {
-                this.line = newLineOptions[0];
-            }
+            lineOptions (newLineOptions, oldLineOptions) {
+                this.line =  this.getLineIndex !== null ? newLineOptions[this.getLineIndex] : newLineOptions[0];
+            },
+            line (newLine, oldLine) {
+                // debugger
+                if (newLine !== oldLine) {
+                    this.modifyLineIndex({ lineIndex: this.lineOptions.indexOf(newLine) });
+                }
+            },
         }
     }
 </script>
@@ -90,7 +98,7 @@
     .container
         padding 0.05rem 0.16rem 0.16rem
     .selectLine
-        width 30%
+        width 100%
         margin-bottom 0.05rem
         font-weight bold
         color #333

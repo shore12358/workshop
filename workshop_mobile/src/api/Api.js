@@ -1,11 +1,12 @@
 // const __ENV__ = 'PRODUCTION';
-const __ENV__ = 'DEVELOPMENT';
-// const __ENV__ = 'TEST';
+// const __ENV__ = 'DEVELOPMENT';
+const __ENV__ = 'TEST';
 const DEV_SERVER_JAVA = 'https://workshopapi.tuhu.work';
-const DEV_SERVER_NET = 'https://shopapi.tuhu.work';
-// const DEV_SERVER_NET = 'https://shopapi-dev.tuhu.work';
+// const DEV_SERVER_NET = 'https://shopapi.tuhu.work';
+const DEV_SERVER_NET = 'https://shopapi-dev.tuhu.work';
 const TEST_SERVER_JAVA = 'https://workshopapiut.tuhu.cn';
-const TEST_SERVER_NET = 'https://shopapiut.tuhu.cn';
+// const TEST_SERVER_NET = 'https://shopapiut.tuhu.cn';
+const TEST_SERVER_NET = 'https:// shopapidevut.tuhu.cn';
 const SERVER_JAVA = 'https://workshopapi.tuhu.cn';
 const SERVER_NET = 'https://shopapi.tuhu.cn';
 let PRO_SERVER;

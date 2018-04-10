@@ -22,7 +22,7 @@
         },
         computed: {
             ...mapGetters([
-                'getQueryKey'
+                'getQueryKey',
             ]),
         },
         methods: {
@@ -36,6 +36,7 @@
             ...mapMutations([
                 'modifyQueryKey'
             ]),
+
         },
         created () {
             this.holderValue = this.getQueryKey || HOLDER;

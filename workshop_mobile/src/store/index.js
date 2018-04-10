@@ -14,6 +14,7 @@ export default new Vuex.Store({
         queryKey: '',
         lineList: [],
         pushInfo: {},
+        lineIndex: null
 	},
 	getters: {
         getCurrentTime (state) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
         },
         getQueryKey (state) {
 	        return state.queryKey;
+        },
+        getLineIndex (state) {
+            return state.lineIndex;
         },
 	    getOrderCounts (state) {
 	        if (state.orderCounts) {
@@ -145,6 +149,10 @@ export default new Vuex.Store({
         modifyQueryKey (state, payload) {
             const { queryKey } = payload;
             state.queryKey = queryKey;
+        },
+        modifyLineIndex (state, payload) {
+            const { lineIndex } = payload;
+            state.lineIndex = lineIndex;
         },
 
     },
