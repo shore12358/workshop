@@ -105,9 +105,18 @@
             comparePhotoData (originD, nowD) {
                 let _changed;
                 for (let originItem of originD) {
-                    const nowPics = nowD.find(_nowItem => _nowItem.id == originItem.id).picUrls;
+                    let nowItem = nowD.find(_nowItem => _nowItem.id == originItem.id);
                     const originPics = originItem.picUrls;
-                    if (nowPics.length !== originPics.length) {
+                    const nowPics = nowItem.picUrls ? nowItem.picUrls : (nowItem.picUrls = null);
+
+                    if (!(nowPics && originPics)) { // at least one of the two 's value is null
+                        if (nowPics === originPics) {
+                            continue;
+                        }
+                        _changed = true;
+                        break;
+                    }
+                    if (nowPics.length !== originPics.length) { // deal with array type
                         _changed = true;
                         break;
                     }
