@@ -1,0 +1,110 @@
+@import './Util.styl'
+
+html
+  font-size 100px
+  -webkit-tap-highlight-color:transparent;
+
+@media screen and (max-width: 350px) {
+  html {
+    font-size 84px
+  }
+}
+body
+  margin 0
+  height 100%
+  font-family -apple-system,SF UI Text,Helvetica Neue,Helvetica,Arial,sans-serif
+  font-size 0.14rem
+  padding-bottom .5rem
+
+textarea {
+  -webkit-appearance: none;
+}
+
+ul
+  list-style-type none
+  margin 0
+  padding 0
+
+p, h1, h2, h3, h4, h5
+  margin 0
+  font-weight normal
+
+/* toast */
+.f-toast
+  box-sizing border-box
+  width fw = 1rem
+  height fw
+  position fixed
+  top 50%
+  left 50%
+  margin-left -(fw/2)
+  margin-top -(fw)
+  z-index 1100
+  radius(5)
+  background-color #34323d
+  color white
+  text-align center
+  padding .1rem
+
+.f-network-error
+  height 0.5rem
+.f-toast-tip
+  width 1.2rem
+  height auto
+
+.f-network-error, .f-toast-tip
+  margin-top -0.5rem
+  padding .15rem
+
+@keyframes rotate {
+  0% { transform:rotate(0deg); }
+  100% { transform:rotate(360deg); }
+}
+
+.f-loading-icon
+  width fw = 70%
+  height fw
+  animation 1s rotate infinite
+
+.multiselect__tags
+  border 0!important
+  padding 8px 40px 0 0px
+
+.multiselect__single
+  margin-top: .04rem;
+  letter-spacing .01rem
+
+.multiselect__select
+  padding: 4px 20px 4px 0;
+
+.multiselect--active
+  .multiselect__select
+    transform rotate(0)!important
+
+.multiselect__content-wrapper
+  border-top 1px rgb(232, 232, 232) solid
+
+.multiselect__option--highlight, .multiselect__option--selected.multiselect__option--highlight
+  background #dae9fb
+  color #333
+  font-weight normal
+.multiselect__option
+  font-weight normal
+
+  /*page operations*/
+  .selectReason, .selectReProcess
+    border-bottom 1px solid #e1e1e1!important
+    margin-bottom .2rem
+    .multiselect__single
+      letter-spacing 0rem
+      font-size .16rem
+    .multiselect__select
+      padding-right 0!important
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
